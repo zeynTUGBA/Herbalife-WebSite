@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Zeyn Luxury - Sepetim</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+    /* Stil kısmında değişiklik yapılmadı, mevcut CSS'iniz korunuyor */
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body{background:#0f0f0f;color:#eee;}
+    header{display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(0,0,0,0.75);border-bottom:2px solid rgba(212,175,55,0.3);}
+    .logo{font-size:28px;color:#D4AF37;}
+    .menu-btn{font-size:26px;color:#D4AF37;cursor:pointer;}
+    nav{display:flex;align-items:center;gap:15px;}
+    nav a{text-decoration:none;color:#ddd;}
+    nav a:hover{color:#D4AF37;}
+    .cart-phone{display:flex;align-items:center;gap:10px;}
+    .cart-icon{position:relative;color:#D4AF37;cursor:pointer;}
+    #cartCount{position:absolute;top:-8px;right:-12px;background:red;color:#fff;border-radius:50%;padding:3px 7px;font-size:12px;}
+    .side-menu{position:fixed;top:0;right:-300px;width:260px;height:100%;background:#111;padding:30px;transition:0.4s;z-index:1000;display:flex;flex-direction:column;gap:20px;}
+    .side-menu.active{right:0;}
+    .side-menu a{color:#ddd;text-decoration:none;font-size:18px;}
+    .side-menu a:hover{color:#D4AF37;}
+    .close-btn{font-size:20px;cursor:pointer;}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;}
+    .overlay.active{display:block;}
+    .banner{position:relative;width:90%;margin:40px auto;height:260px;border-radius:20px;overflow:hidden;}
+    .slider img{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0;transition:1s;}
+    .slider img.active{opacity:1;}
+    .banner::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.5);}
+    .banner-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:36px;color:#fff;z-index:2;white-space:nowrap;}
+    .banner span{color:#D4AF37;}
+    .container{width:88%;max-width:900px;margin:40px auto 60px;}
+    h1{text-align:center;color:#D4AF37;margin-bottom:28px;font-size:30px;}
+
+    .cart-item{
+        display:flex; align-items:center; gap:16px; padding:14px 18px;
+        background:#111; border:1px solid rgba(212,175,55,0.12);
+        border-radius:14px; margin-bottom:12px;
+    }
+    .cart-item img{ width:70px;height:70px;object-fit:cover;border-radius:10px;background:#1a1a1a;flex-shrink:0; }
+    .cart-item-img-placeholder{ width:70px;height:70px;border-radius:10px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0; }
+    .cart-item-info{flex:1;min-width:0;}
+    .cart-item-info .name{font-weight:600;font-size:15px;color:#fff;}
+    .cart-item-info .price{color:#D4AF37;font-size:14px;margin-top:3px;}
+    .cart-item-info .barcode{font-family:'Courier New',monospace;font-size:11px;color:#888;letter-spacing:1.5px;margin-top:3px;}
+    .cart-item-info .color-info{font-size:12px;color:#aaa;margin-top:3px;display:flex;align-items:center;gap:6px;}
+    .color-dot-small{width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);display:inline-block;}
+    .remove-item-btn{background:#E24B4A;color:#fff;border:none;padding:7px 12px;border-radius:10px;cursor:pointer;font-size:12px;flex-shrink:0;}
+
+    .total{text-align:right;margin:20px 0;font-size:22px;color:#D4AF37;font-weight:700;}
+
+    .checkout-card{background:#111;border:1px solid rgba(212,175,55,0.14);border-radius:18px;padding:28px;margin-top:28px;}
+    .checkout-card .section-title{font-size:17px;font-weight:600;color:#fff;margin-bottom:18px;}
+    .field{margin-bottom:16px;}
+    .field-label{display:block;margin-bottom:8px;font-size:13px;color:#bbb;}
+    input,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #333;background:#121212;color:#eee;font-size:14px;}
+    textarea{resize:vertical;min-height:90px;}
+    button{cursor:pointer;border:none;border-radius:12px;font-size:14px;padding:12px 20px;}
+    .btn-gold{background:#D4AF37;color:#0f0f0f;width:100%;font-weight:600;font-size:15px;}
+    .btn-red{background:#E24B4A;color:#fff;margin-top:14px;}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+    .remember-bar{
+        display:flex;align-items:center;gap:10px;margin-bottom:18px;
+        background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.2);
+        border-radius:10px;padding:10px 14px;font-size:13px;color:#ccc;
+    }
+    .remember-bar strong{color:#D4AF37;}
+    .remember-bar button{padding:6px 14px;font-size:12px;background:#333;color:#eee;border-radius:8px;margin-left:auto;}
+
+    #toast{position:fixed;top:20px;right:20px;background:rgba(0,0,0,0.88);color:#fff;padding:12px 18px;border-radius:14px;opacity:0;transform:translateY(-10px);transition:opacity 0.25s,transform 0.25s;z-index:10000;}
+    #toast.show{opacity:1;transform:translateY(0);}
+
+    footer{margin-top:60px;padding:20px;text-align:center;background:#080808;color:#555;}
+
+    @media(max-width:680px){
+        header,.container{padding:16px;}
+        .grid2{grid-template-columns:1fr;}
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="menu-btn" onclick="openMenu()">☰</div>
+    <div class="logo">Zeyn Luxury</div>
+    <nav>
+        <a href="index.html">Ana Sayfa</a>
+        <a href="urunler.html">Ürünler</a>
+        <a href="kampanyalar.html">Kampanyalar</a>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="iletisim.html">İletişim</a>
+        <a href="satici-paneli.html">Satıcı Panelim</a>
+        <div class="cart-phone">
+            <a href="sepetim.html" class="cart-icon">🛒 <span id="cartCount">0</span></a>
+            <span style="color:#D4AF37;font-weight:600;">📞 0 555 123 45 67</span>
+        </div>
+    </nav>
+</header>
+
+<div class="side-menu" id="sideMenu">
+    <div class="close-btn" onclick="closeMenu()">✖</div>
+    <a href="index.html">Ana Sayfa</a>
+    <a href="urunler.html">Ürünler</a>
+    <a href="kampanyalar.html">Kampanyalar</a>
+    <a href="hakkimizda.html">Hakkımızda</a>
+    <a href="iletisim.html">İletişim</a>
+    <a href="satici-paneli.html">Satıcı Panelim</a>
+    <a href="sepetim.html">🛒 Sepetim</a>
+</div>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="banner">
+    <div class="slider">
+        <img src="https://picsum.photos/900/300?41" class="active">
+        <img src="https://picsum.photos/900/300?42">
+        <img src="https://picsum.photos/900/300?43">
+    </div>
+    <div class="banner-text">Senin <span>Sepetin</span></div>
+</div>
+
+<div class="container">
+    <h1>Sepetim</h1>
+    <div id="cartItems"></div>
+    <div class="total" id="totalPrice"></div>
+
+    <div class="checkout-card">
+        <div class="section-title">Teslimat Bilgileri</div>
+        <div id="remember-bar" class="remember-bar" style="display:none;"></div>
+        <div class="grid2">
+            <div class="field">
+                <div class="field-label">Ad Soyad</div>
+                <input id="checkoutName" type="text" placeholder="Adınız Soyadınız">
+            </div>
+            <div class="field">
+                <div class="field-label">Telefon</div>
+                <input id="checkoutPhone" type="text" placeholder="05XX XXX XX XX">
+            </div>
+        </div>
+        <div class="field">
+            <div class="field-label">Adres</div>
+            <textarea id="checkoutAddress" placeholder="Teslimat adresinizi girin"></textarea>
+        </div>
+        <div class="field" style="display:flex;align-items:center;gap:10px;">
+            <input type="checkbox" id="rememberMe" style="width:auto;padding:0;" checked>
+            <label for="rememberMe" style="font-size:13px;color:#bbb;cursor:pointer;">Bilgilerimi hatırla (bir sonraki siparişte otomatik doldur)</label>
+        </div>
+        <button class="btn-gold" onclick="checkout()">Satın Al</button>
+        <button class="btn-red" onclick="clearCart()">Sepeti Temizle</button>
+    </div>
+</div>
+
+<footer>© 2026 Zeyn Luxury Shop</footer>
+<div id="toast"></div>
+
+<script>
+const AUTH_EMAIL = 'ornek@mail.com';
+const AUTH_PASSWORD = 'sifre123';
+const AUTH_STORAGE_KEY = 'sp_seller_auth';
+const USER_INFO_KEY = 'zl_user_info';
+
+function safeParse(key, fallback) {
+    try { 
+        const v = localStorage.getItem(key); 
+        return v ? JSON.parse(v) : fallback; 
+    } catch(e) { 
+        return fallback; 
+    }
+}
+
+function openMenu(){ document.getElementById('sideMenu').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
+function closeMenu(){ document.getElementById('sideMenu').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+
+function showToast(text){
+    let t = document.getElementById('toast');
+    t.innerText = text; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+function updateCartCount(){
+    let cart = safeParse('cart', []);
+    let el = document.getElementById('cartCount');
+    if(el) el.innerText = cart.length;
+}
+
+// Slider
+let slides = document.querySelectorAll('.slider img');
+let idx = 0;
+if(slides.length) {
+    setInterval(() => {
+        slides[idx].classList.remove('active');
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add('active');
+    }, 3000);
+}
+
+// Kayıtlı kullanıcı bilgisi yükleme
+function loadSavedUserInfo() {
+    const saved = safeParse(USER_INFO_KEY, null);
+    const bar = document.getElementById('remember-bar');
+    if (saved && saved.name) {
+        document.getElementById('checkoutName').value = saved.name || '';
+        document.getElementById('checkoutPhone').value = saved.phone || '';
+        document.getElementById('checkoutAddress').value = saved.address || '';
+        bar.style.display = 'flex';
+        bar.innerHTML = `<span>Merhaba, <strong>${saved.name}</strong>! Bilgileriniz otomatik dolduruldu.</span><button onclick="clearSavedInfo()">Değiştir</button>`;
+    }
+}
+
+function clearSavedInfo() {
+    localStorage.removeItem(USER_INFO_KEY);
+    document.getElementById('checkoutName').value = '';
+    document.getElementById('checkoutPhone').value = '';
+    document.getElementById('checkoutAddress').value = '';
+    document.getElementById('remember-bar').style.display = 'none';
+}
+
+function loadCart(){
+    const cart = safeParse('cart', []);
+    const cartItems = document.getElementById('cartItems');
+    let total = 0;
+    if (!cart.length) {
+        cartItems.innerHTML = '<p style="color:#bbb;text-align:center;padding:40px 0;">Sepetiniz boş.</p>';
+        document.getElementById('totalPrice').innerText = '';
+        return;
+    }
+    cartItems.innerHTML = cart.map((item, i) => {
+        total += Number(item.price) || 0;
+        const imgHtml = item.img
+            ? `<img src="${item.img}" alt="${item.name}" onerror="this.style.display='none'">`
+            : `<div class="cart-item-img-placeholder">📦</div>`;
+        const barcodeHtml = item.barcode
+            ? `<div class="barcode">🔢 ${item.barcode}</div>` : '';
+        const colorHtml = (item.selectedColor)
+            ? `<div class="color-info"><span class="color-dot-small" style="background:${item.selectedColor.hex};"></span>${item.selectedColor.name}</div>` : '';
+        
+        return `
+            <div class="cart-item">
+                ${imgHtml}
+                <div class="cart-item-info">
+                    <div class="name">${item.name}</div>
+                    <div class="price">₺${Number(item.price).toLocaleString('tr-TR')}</div>
+                    ${barcodeHtml}
+                    ${colorHtml}
+                </div>
+                <button class="remove-item-btn" onclick="removeItem(${i})">Kaldır</button>
+            </div>`;
+    }).join('');
+    document.getElementById('totalPrice').innerText = 'Toplam: ₺' + total.toLocaleString('tr-TR');
+}
+
+function removeItem(i) {
+    let cart = safeParse('cart', []);
+    cart.splice(i, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    loadCart();
+}
+
+function clearCart(){
+    if(confirm("Sepeti temizlemek istediğinize emin misiniz?")) {
+        localStorage.removeItem('cart');
+        updateCartCount();
+        loadCart();
+    }
+}
+
+async function checkout(){
+    const cart = safeParse('cart', []);
+    if (!cart.length) { showToast('Sepetiniz boş!'); return; }
+
+    const name = document.getElementById('checkoutName').value.trim();
+    const phone = document.getElementById('checkoutPhone').value.trim();
+    const address = document.getElementById('checkoutAddress').value.trim();
+
+    // PAYTR VE BANKA KURALLARI GEREĞİ ZORUNLU ALANLAR
+    if (!name || name.length < 3) { 
+        showToast('Lütfen geçerli bir isim girin.'); 
+        return; 
+    }
+    if (!phone || phone.length < 10) { 
+        showToast('Lütfen geçerli bir telefon numarası girin.'); 
+        return; 
+    }
+    if (!address || address.length < 10) { 
+        showToast('Lütfen detaylı bir teslimat adresi girin.'); 
+        return; 
+    }
+
+    // Bilgileri yerel hafızada hatırla
+    if (document.getElementById('rememberMe').checked) {
+        localStorage.setItem(USER_INFO_KEY, JSON.stringify({ name, phone, address }));
+    }
+
+    // Müşteri Kaydı ve Loglama (Yerel Hafıza Paneli İçin)
+    let customers = safeParse('sp_customers', []);
+    const existingIdx = customers.findIndex(c => c.phone === phone);
+    const totalVal = cart.reduce((s, item) => s + (Number(item.price)||0), 0);
+    const orderNote = `Sipariş: ${cart.map(i=>i.name).join(', ')} | Toplam: ₺${totalVal.toLocaleString('tr-TR')} | Adres: ${address}`;
+    
+    if (existingIdx >= 0) {
+        customers[existingIdx].note = (customers[existingIdx].note ? customers[existingIdx].note + '\n' : '') + orderNote;
+        customers[existingIdx].lastOrder = new Date().toLocaleDateString('tr-TR');
+        if (!customers[existingIdx].orderImages) customers[existingIdx].orderImages = [];
+        cart.forEach(item => { if(item.img) customers[existingIdx].orderImages.push({img:item.img, name:item.name, date:new Date().toLocaleDateString('tr-TR')}); });
+    } else {
+        const orderImages = cart.filter(i=>i.img).map(i=>({img:i.img, name:i.name, date:new Date().toLocaleDateString('tr-TR')}));
+        customers.push({ name: name, phone: phone, email:'test@test.com', city:'İstanbul', note: orderNote, date: new Date().toLocaleDateString('tr-TR'), orderImages });
+    }
+    localStorage.setItem('sp_customers', JSON.stringify(customers));
+
+    // PAYTR Ödeme Entegrasyonu
+    try {
+        const res = await fetch("http://localhost:3000/pay", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({ 
+                cart,
+                customer: { name, phone, address }
+            })
+        });
+
+        const data = await res.json();
+        
+        // Backend'den hata dönerse kullanıcıya göster
+        if (data.error) {
+            showToast("Hata: " + data.error);
+            return;
+        }
+
+        // Otomatik PayTR Formu Oluşturma ve Gönderme
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "https://www.paytr.com/odeme";
+
+        for (let key in data) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = data[key];
+            form.appendChild(input);
+        }
+        document.body.appendChild(form);
+        form.submit();
+
+    } catch (err) {
+        console.error(err);
+        showToast("Sunucuya bağlanılamadı. Backend'in çalıştığından emin olun!");
+    }
+}
+
+function checkSellerLinkAuth() {
+    document.querySelectorAll('a[href="satici-paneli.html"]').forEach(link => {
+        link.addEventListener('click', function(evt) {
+            if (localStorage.getItem(AUTH_STORAGE_KEY) === 'true') return;
+            evt.preventDefault();
+            const email = prompt('Satıcı girişi için e-posta girin:');
+            const password = prompt('Şifre girin:');
+            if (email === AUTH_EMAIL && password === AUTH_PASSWORD) {
+                localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+                window.location.href = 'satici-paneli.html';
+            } else { 
+                alert('Hatalı giriş.'); 
+            }
+        });
+    });
+}
+
+// Sayfa yüklendiğinde çalıştır
+window.onload = () => {
+    loadSavedUserInfo();
+    loadCart();
+    updateCartCount();
+    checkSellerLinkAuth();
+};
+</script>
+</body>
+</html>

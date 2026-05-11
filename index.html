@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Zeyn Luxury Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0f0f0f;color:#eee;}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(0,0,0,0.75);border-bottom:2px solid rgba(212,175,55,0.3);}
+.logo{font-size:28px;color:#D4AF37;}
+.menu-btn{font-size:26px;color:#D4AF37;cursor:pointer;}
+nav{display:flex;align-items:center;gap:15px;}
+nav a{text-decoration:none;color:#ddd;}
+nav a:hover{color:#D4AF37;}
+.cart-phone{display:flex;align-items:center;gap:10px;}
+.cart-icon{position:relative;color:#D4AF37;cursor:pointer;text-decoration:none;}
+#cartCount{position:absolute;top:-8px;right:-12px;background:red;color:#fff;border-radius:50%;padding:3px 7px;font-size:12px;}
+#cartCount.bump{transform:scale(1.4);transition:0.2s;}
+.search{display:block;margin:20px auto;padding:10px 20px;border-radius:25px;border:1px solid #444;background:#000;color:#fff;width:60%;}
+.side-menu{position:fixed;top:0;right:-300px;width:260px;height:100%;background:#111;padding:30px;transition:0.4s;z-index:1000;display:flex;flex-direction:column;gap:20px;}
+.side-menu.active{right:0;}
+.side-menu a{color:#ddd;text-decoration:none;font-size:18px;}
+.side-menu a:hover{color:#D4AF37;}
+.close-btn{font-size:20px;cursor:pointer;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;}
+.overlay.active{display:block;}
+.banner{width:90%;margin:40px auto;height:300px;border-radius:20px;overflow:hidden;position:relative;}
+.slider img{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0;transition:1s;}
+.slider img.active{opacity:1;}
+.banner::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.45);}
+.banner-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:38px;color:#fff;z-index:2;white-space:nowrap;}
+.banner span{color:#D4AF37;}
+
+/* ÜRÜN GRID */
+.section-title{width:90%;margin:32px auto 16px;font-size:22px;font-weight:600;color:#D4AF37;}
+.products{width:90%;margin:0 auto 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+
+.card{background:#1a1a1a;padding:16px;border-radius:15px;text-align:center;position:relative;border:1px solid rgba(212,175,55,0.1);}
+.card img{width:100%;height:180px;object-fit:cover;border-radius:10px;}
+.card-img-placeholder{width:100%;height:180px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:48px;}
+.card h3{margin:10px 0 4px;font-size:15px;color:#fff;}
+.card .desc{font-size:12px;color:#888;margin-bottom:6px;}
+.price{color:#D4AF37;margin:6px 0 4px;font-weight:600;}
+.card .barcode-tag{font-family:'Courier New',monospace;font-size:10px;color:#666;letter-spacing:1px;margin-bottom:6px;}
+.card .colors-row{display:flex;justify-content:center;gap:5px;margin-bottom:8px;flex-wrap:wrap;}
+.color-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);display:inline-block;cursor:default;}
+
+.add-cart-btn{background:#D4AF37;border:none;padding:9px 20px;border-radius:20px;cursor:pointer;transition:0.3s;color:#000;font-size:13px;font-weight:600;width:100%;margin-top:4px;}
+
+#toast{position:fixed;top:20px;right:20px;background:#111;color:#fff;padding:12px 20px;border-radius:10px;opacity:0;transform:translateY(-20px);transition:0.4s;border:1px solid rgba(212,175,55,0.3);z-index:9999;}
+#toast.show{opacity:1;transform:translateY(0);}
+footer{margin-top:60px;padding:20px;text-align:center;background:#080808;color:#555;}
+@media(max-width:680px){header,.products{padding:16px;width:100%;}.search{width:90%;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="menu-btn" onclick="openMenu()">☰</div>
+  <div class="logo">Zeyn Luxury</div>
+  <nav>
+    <a href="index.html">Ana Sayfa</a>
+    <a href="urunler.html">Ürünler</a>
+    <a href="kampanyalar.html">Kampanyalar</a>
+    <a href="hakkimizda.html">Hakkımızda</a>
+    <a href="iletisim.html">İletişim</a>
+    <a href="satici-paneli.html">Satıcı Panelim</a>
+    <div class="cart-phone">
+      <a href="sepetim.html" class="cart-icon">🛒 <span id="cartCount">0</span></a>
+      <span style="color:#D4AF37;font-weight:600;">📞 0 555 123 45 67</span>
+    </div>
+  </nav>
+</header>
+
+<div class="side-menu" id="sideMenu">
+  <div class="close-btn" onclick="closeMenu()">✖</div>
+  <a href="index.html">Ana Sayfa</a>
+  <a href="urunler.html">Ürünler</a>
+  <a href="kampanyalar.html">Kampanyalar</a>
+  <a href="hakkimizda.html">Hakkımızda</a>
+  <a href="iletisim.html">İletişim</a>
+  <a href="satici-paneli.html">Satıcı Panelim</a>
+  <a href="sepetim.html">🛒 Sepetim</a>
+</div>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<input class="search" type="text" placeholder="Ürün ara..." oninput="filterProducts(this.value)">
+
+<div class="banner">
+  <div class="slider">
+    <img src="https://picsum.photos/900/400?1" class="active">
+    <img src="https://picsum.photos/900/400?2">
+    <img src="https://picsum.photos/900/400?3">
+  </div>
+  <div class="banner-text">%30 <span>Luxury İndirim</span></div>
+</div>
+
+<div class="section-title" id="homeProductsTitle" style="display:none;">Öne Çıkan Ürünler</div>
+<div class="products" id="productsGrid"></div>
+
+<footer>© 2026 Zeyn Luxury Shop</footer>
+<div id="toast"></div>
+
+<script>
+const AUTH_EMAIL = 'ornek@mail.com';
+const AUTH_PASSWORD = 'sifre123';
+const AUTH_STORAGE_KEY = 'sp_seller_auth';
+
+function safeParse(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e) { localStorage.removeItem(key); return fallback; }
+}
+
+function openMenu(){ document.getElementById('sideMenu').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
+function closeMenu(){ document.getElementById('sideMenu').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+
+function showToast(text){ let t=document.getElementById('toast'); t.innerText=text; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+
+function updateCartCount(){
+  let cart = safeParse('cart',[]);
+  let el = document.getElementById('cartCount');
+  if(el){ el.innerText=cart.length; el.classList.add('bump'); setTimeout(()=>el.classList.remove('bump'),200); }
+}
+
+let slides = document.querySelectorAll('.slider img');
+let sidx = 0;
+if(slides.length) setInterval(()=>{ slides[sidx].classList.remove('active'); sidx=(sidx+1)%slides.length; slides[sidx].classList.add('active'); },3000);
+
+const allProducts = safeParse('sp_products', []);
+// Anasayfada sadece "hepsi" olanları göster
+const homeProducts = allProducts.filter(p => p.target === 'hepsi');
+
+function getCatEmoji(cat){ return {'Takı':'💍','Giyim':'👕','Elektronik':'📱','Aksesuar':'👜'}[cat]||'📦'; }
+
+function buildCard(p, i) {
+  const imgHtml = p.img
+    ? `<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">`
+    : `<div class="card-img-placeholder">${getCatEmoji(p.cat)}</div>`;
+  const colorsHtml = (p.colors && p.colors.length)
+    ? `<div class="colors-row">${p.colors.map(c=>`<span class="color-dot" style="background:${c.hex};" title="${c.name}"></span>`).join('')}</div>` : '';
+  const barcodeHtml = p.barcode ? `<div class="barcode-tag">🔢 ${p.barcode}</div>` : '';
+  return `
+    <div class="card" data-index="${i}">
+      ${imgHtml}
+      <h3>${p.name}</h3>
+      ${p.desc ? `<div class="desc">${p.desc.slice(0,60)}</div>` : ''}
+      <div class="price">₺${Number(p.price).toLocaleString('tr-TR')}</div>
+      ${barcodeHtml}
+      ${colorsHtml}
+      <button class="add-cart-btn" onclick="addToCart(${i}, this)">Sepete Ekle</button>
+    </div>`;
+}
+
+function renderProductGrid(list) {
+  const grid = document.getElementById('productsGrid');
+  const title = document.getElementById('homeProductsTitle');
+  if (!list.length) {
+    grid.innerHTML = '';
+    title.style.display = 'none';
+    return;
+  }
+  title.style.display = 'block';
+  grid.innerHTML = list.map((p,i) => buildCard(p, i)).join('');
+}
+
+function filterProducts(q) {
+  const filtered = homeProducts.filter(p => p.name.toLowerCase().includes(q.toLowerCase()));
+  renderProductGrid(filtered);
+}
+
+function addToCart(idx, btn) {
+  const p = homeProducts[idx];
+  if (!p) return;
+  let cart = safeParse('cart', []);
+  cart.push({ name: p.name, price: p.price, img: p.img || '', barcode: p.barcode || null, colors: p.colors || [], cat: p.cat });
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+
+  // Uçan görsel animasyonu
+  const card = btn.closest('.card');
+  const imgEl = card.querySelector('img');
+  if (imgEl) {
+    let flyingImg = imgEl.cloneNode(true);
+    let rect = imgEl.getBoundingClientRect();
+    flyingImg.style.cssText = `position:fixed;left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px;z-index:9999;border-radius:10px;transition:all 0.7s cubic-bezier(.65,-0.3,.35,1.5);pointer-events:none;`;
+    document.body.appendChild(flyingImg);
+    let cartIcon = document.querySelector('.cart-icon');
+    let cartRect = cartIcon.getBoundingClientRect();
+    setTimeout(()=>{ flyingImg.style.left=cartRect.left+'px'; flyingImg.style.top=cartRect.top+'px'; flyingImg.style.width='30px'; flyingImg.style.height='30px'; flyingImg.style.opacity=0; },10);
+    setTimeout(()=>flyingImg.remove(),750);
+  }
+
+  btn.innerText = '✓ Eklendi';
+  btn.style.background = '#4CAF50';
+  setTimeout(()=>{ btn.innerText='Sepete Ekle'; btn.style.background='#D4AF37'; },1200);
+  showToast(p.name + ' sepete eklendi');
+}
+
+function checkSellerLinkAuth() {
+  document.querySelectorAll('a[href="satici-paneli.html"]').forEach(link => {
+    link.addEventListener('click', function(evt) {
+      if (localStorage.getItem(AUTH_STORAGE_KEY) === 'true') return;
+      evt.preventDefault();
+      const email = prompt('Satıcı girişi için e-posta girin:');
+      const password = prompt('Şifre girin:');
+      if (email === AUTH_EMAIL && password === AUTH_PASSWORD) {
+        localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+        window.location.href = 'satici-paneli.html';
+      } else { alert('Hatalı giriş.'); }
+    });
+  });
+}
+
+renderProductGrid(homeProducts);
+updateCartCount();
+checkSellerLinkAuth();
+</script>
+</body>
+</html>
