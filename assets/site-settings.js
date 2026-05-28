@@ -2,24 +2,51 @@
   const STORAGE_KEY = 'site_settings';
   const DEFAULTS = {
     logoText: 'Herbalife',
-    phoneText: '� 0 555 123 45 67',
+    phoneText: '📞 0 555 123 45 67',
     footerText: '© 2026 Herbalife',
     searchPlaceholder: 'Ürün ara...',
     bannerText: '%30 <span>Luxury İndirim</span>',
     bannerAccentText: 'Luxury İndirim',
+    homeBannerText: '%30 <span>Luxury İndirim</span>',
+    homeBannerAccentText: 'Luxury İndirim',
+    productsBannerText: 'Tüm <span>Ürünler</span>',
+    productsBannerAccentText: 'Ürünler',
+    campaignBannerText: '%30 <span>Luxury İndirim</span>',
+    campaignBannerAccentText: 'Luxury İndirim',
+    aboutBannerText: 'Biz <span>Kimiz?</span>',
+    aboutBannerAccentText: 'Kimiz?',
+    contactBannerText: 'Bizimle <span>İletişime Geç</span>',
+    contactBannerAccentText: 'İletişime Geç',
+    cartBannerText: 'Sepetim',
+    successTitle: 'Ödeme Başarılı',
+    productsSectionTitle: 'Öne Çıkan Ürünler',
+    addToCartText: 'Sepete Ekle',
+    productEmptyText: 'Ürün bulunamadı.',
+    campaignEmptyText: 'Kampanya ürünü bulunamadı.',
+    cartTitle: '🛒 Sepetim',
+    clearCartText: '🗑️ Sepeti Temizle',
+    emptyCartText: 'Sepetiniz boş',
+    checkoutText: '💳 ÖDEMEYE GİT',
     aboutTitle: 'Hakkımızda',
     aboutContent: '',
     contactTitle: 'İletişim',
     contactAddress: 'Bursa, Türkiye',
     contactPhone: '+90 555 123 45 67',
     contactEmail: 'sezzginakdemir@gmail.com',
+    contactNamePlaceholder: 'Adınız Soyadınız',
+    contactEmailPlaceholder: 'Email Adresiniz',
+    contactPhonePlaceholder: 'Telefon (opsiyonel)',
+    contactProductPlaceholder: 'Ürün adı (opsiyonel)',
+    contactBarcodePlaceholder: 'Ürün barkodu (opsiyonel)',
+    contactMessagePlaceholder: 'Mesajınız...',
+    contactSubmitText: 'Gönder',
     navHomeText: 'Ana Sayfa',
     navProductsText: 'Ürünler',
     navCampaignText: 'Kampanyalar',
     navAboutText: 'Hakkımızda',
     navContactText: 'İletişim',
     navSellerText: 'Satıcı Panelim',
-    navCartText: 'Sepetim',
+    navCartText: '🛒 Sepetim',
     primaryColor: '#D4AF37',
     accentColor: '#f0d77b',
     textColor: '#eee',
@@ -41,7 +68,27 @@
 
   function getSiteSettings() {
     const stored = safeParse(localStorage.getItem(STORAGE_KEY), {});
-    return Object.assign({}, DEFAULTS, stored);
+    const settings = Object.assign({}, DEFAULTS, stored);
+    if (!stored.homeBannerText && stored.bannerText) settings.homeBannerText = stored.bannerText;
+    if (!stored.homeBannerAccentText && stored.bannerAccentText) settings.homeBannerAccentText = stored.bannerAccentText;
+    return preserveEmojiSettings(settings);
+  }
+
+  function keepLeadingEmoji(value, fallback) {
+    const text = (value || '').trim();
+    const prefix = Array.from(fallback || '')[0] || '';
+    if (!prefix || /^[A-Za-z0-9ÇĞİÖŞÜçğıöşü]/.test(prefix)) return text;
+    if (!text) return fallback;
+    return text.startsWith(prefix) ? text : (prefix + ' ' + text).replace(/\s+/g, ' ');
+  }
+
+  function preserveEmojiSettings(settings) {
+    settings.phoneText = keepLeadingEmoji(settings.phoneText, DEFAULTS.phoneText);
+    settings.navCartText = keepLeadingEmoji(settings.navCartText, DEFAULTS.navCartText);
+    settings.cartTitle = keepLeadingEmoji(settings.cartTitle, DEFAULTS.cartTitle);
+    settings.clearCartText = keepLeadingEmoji(settings.clearCartText, DEFAULTS.clearCartText);
+    settings.checkoutText = keepLeadingEmoji(settings.checkoutText, DEFAULTS.checkoutText);
+    return settings;
   }
 
   function injectThemeStyles() {
@@ -103,6 +150,12 @@
       }
       .banner-text {
         color: var(--site-text) !important;
+      }
+      .cart-phone > span,
+      .cart-icon,
+      .banner-text,
+      .menu-btn {
+        font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif !important;
       }
       .search {
         color: var(--site-text) !important;
@@ -176,8 +229,75 @@
     };
     document.querySelectorAll('nav a').forEach(a => {
       const href = a.getAttribute('href');
+      if (a.classList.contains('cart-icon')) return;
       if (mapping[href]) a.textContent = mapping[href];
     });
+    document.querySelectorAll('.side-menu a').forEach(a => {
+      const href = a.getAttribute('href');
+      if (mapping[href]) a.textContent = mapping[href];
+    });
+  }
+
+  function getPageKey() {
+    const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    if (page === '' || page === 'index.html') return 'home';
+    if (page === 'urunler.html') return 'products';
+    if (page === 'kampanyalar.html') return 'campaign';
+    if (page === 'hakkimizda.html') return 'about';
+    if (page === 'iletisim.html') return 'contact';
+    if (page === 'sepetim.html') return 'cart';
+    if (page === 'success.html') return 'success';
+    return '';
+  }
+
+  function applyBanner(settings) {
+    const pageKey = getPageKey();
+    const banner = document.querySelector('.banner-text');
+    if (!banner) return;
+    const textKey = pageKey ? pageKey + 'BannerText' : 'bannerText';
+    const accentKey = pageKey ? pageKey + 'BannerAccentText' : 'bannerAccentText';
+    const text = settings[textKey] || settings.bannerText;
+    const accent = settings[accentKey] || settings.bannerAccentText;
+    if (text) banner.innerHTML = text;
+    if (accent) {
+      const span = banner.querySelector('span');
+      if (span) span.textContent = accent;
+    }
+  }
+
+  function setPlaceholder(id, value) {
+    const el = document.getElementById(id);
+    if (el && value) el.placeholder = value;
+  }
+
+  function applyContactForm(settings) {
+    setPlaceholder('contact_name', settings.contactNamePlaceholder);
+    setPlaceholder('contact_email', settings.contactEmailPlaceholder);
+    setPlaceholder('contact_phone', settings.contactPhonePlaceholder);
+    setPlaceholder('contact_product', settings.contactProductPlaceholder);
+    setPlaceholder('contact_product_barcode', settings.contactBarcodePlaceholder);
+    setPlaceholder('contact_message', settings.contactMessagePlaceholder);
+    applyText('contact_submit', settings.contactSubmitText);
+  }
+
+  function applyDynamicText(settings) {
+    document.querySelectorAll('.add-cart-btn').forEach(btn => {
+      if (!btn.dataset.defaultText) btn.dataset.defaultText = btn.textContent.trim();
+      if (!btn.classList.contains('is-added')) btn.textContent = settings.addToCartText || DEFAULTS.addToCartText;
+    });
+    const productsGrid = document.getElementById('productsGrid');
+    if (productsGrid && productsGrid.children.length === 1 && productsGrid.querySelector('p')) {
+      const emptyText = getPageKey() === 'campaign' ? settings.campaignEmptyText : settings.productEmptyText;
+      productsGrid.querySelector('p').textContent = emptyText || DEFAULTS.productEmptyText;
+    }
+    if (getPageKey() === 'cart') {
+      applyTextSelector('h1', settings.cartTitle);
+      applyTextSelector('.btn-clear', settings.clearCartText);
+      applyTextSelector('.btn-pay, .checkout-btn, .pay-btn, button[onclick*="checkout"]', settings.checkoutText);
+      document.querySelectorAll('p').forEach(p => {
+        if (/Sepetiniz boş|Sepetiniz bo/i.test(p.textContent)) p.textContent = settings.emptyCartText || DEFAULTS.emptyCartText;
+      });
+    }
   }
 
   function applySiteSettingsToPage(settings) {
@@ -186,15 +306,10 @@
     const search = document.querySelector('.search');
     if (search && settings.searchPlaceholder) search.placeholder = settings.searchPlaceholder;
     const phoneLabel = document.querySelector('.cart-phone > span:last-child');
-    if (phoneLabel && settings.phoneText) phoneLabel.textContent = settings.phoneText;
+    if (phoneLabel && settings.phoneText) phoneLabel.innerHTML = settings.phoneText;
     const footer = document.querySelector('footer');
     if (footer && settings.footerText) footer.textContent = settings.footerText;
-    const banner = document.querySelector('.banner-text');
-    if (banner && settings.bannerText) banner.innerHTML = settings.bannerText;
-    if (banner && settings.bannerAccentText) {
-      const span = banner.querySelector('span');
-      if (span) span.textContent = settings.bannerAccentText;
-    }
+    applyBanner(settings);
     if (settings.headerBg) {
       const header = document.querySelector('header');
       if (header) header.style.background = settings.headerBg;
@@ -207,6 +322,10 @@
     if (settings.contactEmail) applyText('contactEmail', `<strong>Email:</strong> ${settings.contactEmail}`, true);
     const sectionTitle = document.getElementById('homeProductsTitle');
     if (sectionTitle && settings.productsSectionTitle) sectionTitle.textContent = settings.productsSectionTitle;
+    applyText('order-title', settings.successTitle);
+    if (getPageKey() === 'success') applyTextSelector('h1', settings.successTitle);
+    applyContactForm(settings);
+    applyDynamicText(settings);
   }
 
   function applySiteSettings() {
@@ -217,5 +336,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', applySiteSettings);
+  window.getSiteSettings = getSiteSettings;
   window.applySiteSettings = applySiteSettings;
 })();
+

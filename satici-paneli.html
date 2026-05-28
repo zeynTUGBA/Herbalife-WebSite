@@ -22,7 +22,7 @@ body{
 header{
   display:flex;
   align-items:center;
-  justify-content:space-between;<
+  justify-content:space-between;
   padding:20px 60px;
   background:rgba(0,0,0,0.75);
   border-bottom:2px solid rgba(212,175,55,0.3);
@@ -201,6 +201,45 @@ nav a.active{
   border-radius:18px;
   padding:24px;
   margin-bottom:18px;
+}
+
+.seller-card.panel-section{
+  padding:0;
+  overflow:hidden;
+}
+
+.accordion-toggle{
+  width:100%;
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:16px 20px;
+  border-radius:0;
+  background:#0b0b0b;
+  color:#D4AF37;
+  border-bottom:1px solid rgba(212,175,55,0.12);
+  font-weight:700;
+  text-align:left;
+}
+
+.accordion-toggle::after{
+  content:'⌄';
+  font-size:18px;
+  transition:transform .2s ease;
+}
+
+.seller-card.panel-section.collapsed .accordion-toggle::after{
+  transform:rotate(-90deg);
+}
+
+.accordion-body{
+  padding:24px;
+}
+
+.seller-card.panel-section.collapsed .accordion-body{
+  display:none;
 }
 
 .grid2{
@@ -547,7 +586,7 @@ button:hover{opacity:0.95;}
     </div>
   </div>
 
-  <div class="seller-card">
+  <div class="seller-card" data-accordion-title="Yeni Ürün Ekle">
     <div style="font-size:18px;font-weight:600;margin-bottom:18px;color:#fff;">Yeni Ürün Ekle</div>
 
     <div class="grid2">
@@ -633,7 +672,7 @@ button:hover{opacity:0.95;}
   <div id="prod-list"></div>
   <p id="no-prod" style="color:#bbb; padding:28px 0; text-align:center; display:none;">Henüz ürün eklenmedi.</p>
 
-  <div class="seller-card" style="margin-top:24px;">
+  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Müşteriler">
     <div style="font-size:18px;font-weight:600;margin-bottom:18px;color:#fff;">Müşteriler</div>
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
       <input id="cust-search" style="flex:1;min-width:220px;" placeholder="İsim veya telefon ara..." oninput="renderCustomers()">
@@ -679,13 +718,13 @@ button:hover{opacity:0.95;}
     </div>
   </div>
 
-  <div class="seller-card" style="margin-top:24px;">
+  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Slider Resimleri Yönet">
     <div style="font-size:18px;font-weight:600;margin-bottom:18px;color:#fff;">Slider Resimleri Yönet</div>
     <p style="color:#aaa;margin-bottom:20px;">Sayfa başlarındaki slider resimlerini düzenleyin</p>
     <div id="sliders-container"></div>
   </div>
 
-  <div class="seller-card" style="margin-top:24px;">
+  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Site Ayarları">
     <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Site Ayarları</div>
     <p style="color:#aaa;margin-bottom:12px;">Hakkımızda içeriği, iletişim bilgileri, metin ve tema renklerini buradan düzenleyin.</p>
     <div class="field">
@@ -703,17 +742,108 @@ button:hover{opacity:0.95;}
       </div>
       <div class="field">
         <div class="field-label">Telefon Metni</div>
-        <input id="site_phone_text" placeholder="� 0 555 123 45 67">
+        <input id="site_phone_text" placeholder="📞 0 555 123 45 67">
       </div>
     </div>
-    <div class="field">
-      <div class="field-label">Banner Başlığı</div>
-      <input id="site_banner_text" placeholder="%30 Luxury İndirim">
+
+    <div class="field" style="margin-top:20px;">
+      <div class="field-label">Sayfa Banner Metinleri</div>
     </div>
-    <div class="field">
-      <div class="field-label">Banner Vurgu Metni</div>
-      <input id="site_banner_accent_text" placeholder="Luxury İndirim">
+    <div class="grid2">
+      <div class="field">
+        <div class="field-label">Ana Sayfa Banner</div>
+        <input id="site_home_banner_text" placeholder="%30 Luxury İndirim">
+      </div>
+      <div class="field">
+        <div class="field-label">Ana Sayfa Vurgu</div>
+        <input id="site_home_banner_accent_text" placeholder="Luxury İndirim">
+      </div>
+      <div class="field">
+        <div class="field-label">Ürünler Banner</div>
+        <input id="site_products_banner_text" placeholder="Tüm Ürünler">
+      </div>
+      <div class="field">
+        <div class="field-label">Ürünler Vurgu</div>
+        <input id="site_products_banner_accent_text" placeholder="Ürünler">
+      </div>
+      <div class="field">
+        <div class="field-label">Kampanyalar Banner</div>
+        <input id="site_campaign_banner_text" placeholder="%30 Luxury İndirim">
+      </div>
+      <div class="field">
+        <div class="field-label">Kampanyalar Vurgu</div>
+        <input id="site_campaign_banner_accent_text" placeholder="Luxury İndirim">
+      </div>
+      <div class="field">
+        <div class="field-label">Hakkımızda Banner</div>
+        <input id="site_about_banner_text" placeholder="Biz Kimiz?">
+      </div>
+      <div class="field">
+        <div class="field-label">Hakkımızda Vurgu</div>
+        <input id="site_about_banner_accent_text" placeholder="Kimiz?">
+      </div>
+      <div class="field">
+        <div class="field-label">İletişim Banner</div>
+        <input id="site_contact_banner_text" placeholder="Bizimle İletişime Geç">
+      </div>
+      <div class="field">
+        <div class="field-label">İletişim Vurgu</div>
+        <input id="site_contact_banner_accent_text" placeholder="İletişime Geç">
+      </div>
+      <div class="field">
+        <div class="field-label">Sepet Banner</div>
+        <input id="site_cart_banner_text" placeholder="Sepetim">
+      </div>
+      <div class="field">
+        <div class="field-label">Başarılı Ödeme Başlığı</div>
+        <input id="site_success_title" placeholder="Ödeme Başarılı">
+      </div>
     </div>
+
+    <div class="field" style="margin-top:20px;">
+      <div class="field-label">Ürün Liste Metinleri</div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <div class="field-label">Ana Sayfa Ürün Başlığı</div>
+        <input id="site_products_section_title" placeholder="Öne Çıkan Ürünler">
+      </div>
+      <div class="field">
+        <div class="field-label">Sepete Ekle Butonu</div>
+        <input id="site_add_to_cart_text" placeholder="Sepete Ekle">
+      </div>
+      <div class="field">
+        <div class="field-label">Ürün Yok Metni</div>
+        <input id="site_product_empty_text" placeholder="Ürün bulunamadı.">
+      </div>
+      <div class="field">
+        <div class="field-label">Kampanya Yok Metni</div>
+        <input id="site_campaign_empty_text" placeholder="Kampanya ürünü bulunamadı.">
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:20px;">
+      <div class="field-label">Sepet Metinleri</div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <div class="field-label">Sepet Başlığı</div>
+        <input id="site_cart_title" placeholder="🛒 Sepetim">
+      </div>
+      <div class="field">
+        <div class="field-label">Sepeti Temizle Butonu</div>
+        <input id="site_clear_cart_text" placeholder="🗑️ Sepeti Temizle">
+      </div>
+      <div class="field">
+        <div class="field-label">Boş Sepet Metni</div>
+        <input id="site_empty_cart_text" placeholder="Sepetiniz boş">
+      </div>
+      <div class="field">
+        <div class="field-label">Ödeme Butonu</div>
+        <input id="site_checkout_text" placeholder="💳 ÖDEMEYE GİT">
+      </div>
+    </div>
+
     <div class="field">
       <div class="field-label">Hakkımızda Başlığı</div>
       <input id="site_about_title" placeholder="Hakkımızda başlığı">
@@ -739,6 +869,39 @@ button:hover{opacity:0.95;}
         <div class="field-label">İletişim - E-posta</div>
         <input id="site_contact_email" placeholder="sezzginakdemir@gmail.com">
       </div>
+    </div>
+    <div class="field" style="margin-top:20px;">
+      <div class="field-label">İletişim Formu Metinleri</div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <div class="field-label">Ad Soyad Placeholder</div>
+        <input id="site_contact_name_placeholder" placeholder="Adınız Soyadınız">
+      </div>
+      <div class="field">
+        <div class="field-label">Email Placeholder</div>
+        <input id="site_contact_email_placeholder" placeholder="Email Adresiniz">
+      </div>
+      <div class="field">
+        <div class="field-label">Telefon Placeholder</div>
+        <input id="site_contact_phone_placeholder" placeholder="Telefon (opsiyonel)">
+      </div>
+      <div class="field">
+        <div class="field-label">Ürün Placeholder</div>
+        <input id="site_contact_product_placeholder" placeholder="Ürün adı (opsiyonel)">
+      </div>
+      <div class="field">
+        <div class="field-label">Barkod Placeholder</div>
+        <input id="site_contact_barcode_placeholder" placeholder="Ürün barkodu (opsiyonel)">
+      </div>
+      <div class="field">
+        <div class="field-label">Gönder Butonu</div>
+        <input id="site_contact_submit_text" placeholder="Gönder">
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Mesaj Placeholder</div>
+      <input id="site_contact_message_placeholder" placeholder="Mesajınız...">
     </div>
 
     <div class="field" style="margin-top:20px;">
@@ -811,7 +974,7 @@ button:hover{opacity:0.95;}
     </div>
   </div>
 
-  <div class="seller-card" style="margin-top:24px;">
+  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Satıcı Şifre Yönetimi">
     <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Satıcı Şifre Yönetimi</div>
     <p style="color:#aaa;margin-bottom:12px;">Satıcı paneli giriş şifresini buradan değiştirebilirsiniz.</p>
     <div class="field">
@@ -829,7 +992,7 @@ button:hover{opacity:0.95;}
     <button class="save-btn-blue" onclick="changeSellerPassword()">Şifreyi Güncelle</button>
   </div>
 
-  <div class="seller-card" style="margin-top:24px;">
+  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Mesajlar">
     <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Mesajlar</div>
     <p style="color:#aaa;margin-bottom:12px;">Ziyaretçilerin gönderdiği mesajlar burada listelenecek. Her mesaja cevap yazabilirsiniz; cevap kaydedildiğinde ürünle ilişkilendirildiyse ürün kartında görünecektir.</p>
     <div id="messages-container">Yükleniyor...</div>
@@ -926,6 +1089,7 @@ function submitLogin() {
         renderCustomers();
         updateDashboard();
         loadMysqlCustomers();
+        loadSiteSettings();
         showToast('Giriş başarılı!');
       } else {
         error.innerText = data.error || 'E-posta veya şifre hatalı.';
@@ -1423,22 +1587,108 @@ async function saveSlider(page) {
 initAuth();
 updateCartCount();
 
-// --- SITE AYARLARI (Hakkimizda + Iletisim) ---
+// --- SITE AYARLARI (Tum site metinleri + tema) ---
+const DEFAULT_SITE_SETTINGS = {
+  logoText: 'Herbalife',
+  phoneText: '📞 0 555 123 45 67',
+  footerText: '© 2026 Herbalife',
+  searchPlaceholder: 'Ürün ara...',
+  homeBannerText: '%30 <span>Luxury İndirim</span>',
+  homeBannerAccentText: 'Luxury İndirim',
+  productsBannerText: 'Tüm <span>Ürünler</span>',
+  productsBannerAccentText: 'Ürünler',
+  campaignBannerText: '%30 <span>Luxury İndirim</span>',
+  campaignBannerAccentText: 'Luxury İndirim',
+  aboutBannerText: 'Biz <span>Kimiz?</span>',
+  aboutBannerAccentText: 'Kimiz?',
+  contactBannerText: 'Bizimle <span>İletişime Geç</span>',
+  contactBannerAccentText: 'İletişime Geç',
+  cartBannerText: 'Sepetim',
+  successTitle: 'Ödeme Başarılı',
+  productsSectionTitle: 'Öne Çıkan Ürünler',
+  addToCartText: 'Sepete Ekle',
+  productEmptyText: 'Ürün bulunamadı.',
+  campaignEmptyText: 'Kampanya ürünü bulunamadı.',
+  cartTitle: '🛒 Sepetim',
+  clearCartText: '🗑️ Sepeti Temizle',
+  emptyCartText: 'Sepetiniz boş',
+  checkoutText: '💳 ÖDEMEYE GİT',
+  aboutTitle: 'Hakkımızda',
+  aboutContent: '',
+  contactTitle: 'İletişim',
+  contactAddress: 'Bursa, Türkiye',
+  contactPhone: '+90 555 123 45 67',
+  contactEmail: 'sezzginakdemir@gmail.com',
+  contactNamePlaceholder: 'Adınız Soyadınız',
+  contactEmailPlaceholder: 'Email Adresiniz',
+  contactPhonePlaceholder: 'Telefon (opsiyonel)',
+  contactProductPlaceholder: 'Ürün adı (opsiyonel)',
+  contactBarcodePlaceholder: 'Ürün barkodu (opsiyonel)',
+  contactMessagePlaceholder: 'Mesajınız...',
+  contactSubmitText: 'Gönder',
+  navHomeText: 'Ana Sayfa',
+  navProductsText: 'Ürünler',
+  navCampaignText: 'Kampanyalar',
+  navAboutText: 'Hakkımızda',
+  navContactText: 'İletişim',
+  navSellerText: 'Satıcı Panelim',
+  navCartText: '🛒 Sepetim',
+  primaryColor: '#D4AF37',
+  accentColor: '#f0d77b',
+  textColor: '#eeeeee',
+  mutedColor: '#a7a09a',
+  buttonTextColor: '#000000',
+  headerBg: '#000000'
+};
+
+function keepLeadingEmoji(value, fallback) {
+  const text = (value || '').trim();
+  const prefix = Array.from(fallback || '')[0] || '';
+  if (!prefix || /^[A-Za-z0-9ÇĞİÖŞÜçğıöşü]/.test(prefix)) return text;
+  if (!text) return fallback;
+  return text.startsWith(prefix) ? text : (prefix + ' ' + text).replace(/\s+/g, ' ');
+}
+
 function loadSiteSettings(){
-  const s = safeParse(localStorage.getItem('site_settings'), {});
+  const s = Object.assign({}, DEFAULT_SITE_SETTINGS, safeParse(localStorage.getItem('site_settings'), {}));
   const map = {
     site_logo_text: 'logoText',
     site_phone_text: 'phoneText',
     site_footer_text: 'footerText',
     site_search_placeholder: 'searchPlaceholder',
-    site_banner_text: 'bannerText',
-    site_banner_accent_text: 'bannerAccentText',
+    site_home_banner_text: 'homeBannerText',
+    site_home_banner_accent_text: 'homeBannerAccentText',
+    site_products_banner_text: 'productsBannerText',
+    site_products_banner_accent_text: 'productsBannerAccentText',
+    site_campaign_banner_text: 'campaignBannerText',
+    site_campaign_banner_accent_text: 'campaignBannerAccentText',
+    site_about_banner_text: 'aboutBannerText',
+    site_about_banner_accent_text: 'aboutBannerAccentText',
+    site_contact_banner_text: 'contactBannerText',
+    site_contact_banner_accent_text: 'contactBannerAccentText',
+    site_cart_banner_text: 'cartBannerText',
+    site_success_title: 'successTitle',
+    site_products_section_title: 'productsSectionTitle',
+    site_add_to_cart_text: 'addToCartText',
+    site_product_empty_text: 'productEmptyText',
+    site_campaign_empty_text: 'campaignEmptyText',
+    site_cart_title: 'cartTitle',
+    site_clear_cart_text: 'clearCartText',
+    site_empty_cart_text: 'emptyCartText',
+    site_checkout_text: 'checkoutText',
     site_about_title: 'aboutTitle',
     site_about_content: 'aboutContent',
     site_contact_title: 'contactTitle',
     site_contact_address: 'contactAddress',
     site_contact_phone: 'contactPhone',
     site_contact_email: 'contactEmail',
+    site_contact_name_placeholder: 'contactNamePlaceholder',
+    site_contact_email_placeholder: 'contactEmailPlaceholder',
+    site_contact_phone_placeholder: 'contactPhonePlaceholder',
+    site_contact_product_placeholder: 'contactProductPlaceholder',
+    site_contact_barcode_placeholder: 'contactBarcodePlaceholder',
+    site_contact_message_placeholder: 'contactMessagePlaceholder',
+    site_contact_submit_text: 'contactSubmitText',
     site_nav_home_text: 'navHomeText',
     site_nav_products_text: 'navProductsText',
     site_nav_campaign_text: 'navCampaignText',
@@ -1465,35 +1715,61 @@ function loadSiteSettings(){
 }
 
 function saveSiteSettings(){
-  const s = {
+  const s = Object.assign({}, DEFAULT_SITE_SETTINGS, {
     logoText: document.getElementById('site_logo_text').value.trim(),
-    phoneText: document.getElementById('site_phone_text').value.trim(),
+    phoneText: keepLeadingEmoji(document.getElementById('site_phone_text').value, DEFAULT_SITE_SETTINGS.phoneText),
     footerText: document.getElementById('site_footer_text').value.trim(),
     searchPlaceholder: document.getElementById('site_search_placeholder').value.trim(),
-    bannerText: document.getElementById('site_banner_text').value.trim(),
-    bannerAccentText: document.getElementById('site_banner_accent_text').value.trim(),
+    homeBannerText: document.getElementById('site_home_banner_text').value.trim(),
+    homeBannerAccentText: document.getElementById('site_home_banner_accent_text').value.trim(),
+    productsBannerText: document.getElementById('site_products_banner_text').value.trim(),
+    productsBannerAccentText: document.getElementById('site_products_banner_accent_text').value.trim(),
+    campaignBannerText: document.getElementById('site_campaign_banner_text').value.trim(),
+    campaignBannerAccentText: document.getElementById('site_campaign_banner_accent_text').value.trim(),
+    aboutBannerText: document.getElementById('site_about_banner_text').value.trim(),
+    aboutBannerAccentText: document.getElementById('site_about_banner_accent_text').value.trim(),
+    contactBannerText: document.getElementById('site_contact_banner_text').value.trim(),
+    contactBannerAccentText: document.getElementById('site_contact_banner_accent_text').value.trim(),
+    cartBannerText: document.getElementById('site_cart_banner_text').value.trim(),
+    successTitle: document.getElementById('site_success_title').value.trim(),
+    productsSectionTitle: document.getElementById('site_products_section_title').value.trim(),
+    addToCartText: document.getElementById('site_add_to_cart_text').value.trim(),
+    productEmptyText: document.getElementById('site_product_empty_text').value.trim(),
+    campaignEmptyText: document.getElementById('site_campaign_empty_text').value.trim(),
+    cartTitle: keepLeadingEmoji(document.getElementById('site_cart_title').value, DEFAULT_SITE_SETTINGS.cartTitle),
+    clearCartText: keepLeadingEmoji(document.getElementById('site_clear_cart_text').value, DEFAULT_SITE_SETTINGS.clearCartText),
+    emptyCartText: document.getElementById('site_empty_cart_text').value.trim(),
+    checkoutText: keepLeadingEmoji(document.getElementById('site_checkout_text').value, DEFAULT_SITE_SETTINGS.checkoutText),
     aboutTitle: document.getElementById('site_about_title').value.trim(),
     aboutContent: document.getElementById('site_about_content').value.trim(),
     contactTitle: document.getElementById('site_contact_title').value.trim(),
     contactAddress: document.getElementById('site_contact_address').value.trim(),
     contactPhone: document.getElementById('site_contact_phone').value.trim(),
     contactEmail: document.getElementById('site_contact_email').value.trim(),
+    contactNamePlaceholder: document.getElementById('site_contact_name_placeholder').value.trim(),
+    contactEmailPlaceholder: document.getElementById('site_contact_email_placeholder').value.trim(),
+    contactPhonePlaceholder: document.getElementById('site_contact_phone_placeholder').value.trim(),
+    contactProductPlaceholder: document.getElementById('site_contact_product_placeholder').value.trim(),
+    contactBarcodePlaceholder: document.getElementById('site_contact_barcode_placeholder').value.trim(),
+    contactMessagePlaceholder: document.getElementById('site_contact_message_placeholder').value.trim(),
+    contactSubmitText: document.getElementById('site_contact_submit_text').value.trim(),
     navHomeText: document.getElementById('site_nav_home_text').value.trim(),
     navProductsText: document.getElementById('site_nav_products_text').value.trim(),
     navCampaignText: document.getElementById('site_nav_campaign_text').value.trim(),
     navAboutText: document.getElementById('site_nav_about_text').value.trim(),
     navContactText: document.getElementById('site_nav_contact_text').value.trim(),
     navSellerText: document.getElementById('site_nav_seller_text').value.trim(),
-    navCartText: document.getElementById('site_nav_cart_text').value.trim(),
+    navCartText: keepLeadingEmoji(document.getElementById('site_nav_cart_text').value, DEFAULT_SITE_SETTINGS.navCartText),
     primaryColor: document.getElementById('site_primary_color').value,
     accentColor: document.getElementById('site_accent_color').value,
     textColor: document.getElementById('site_text_color').value,
     mutedColor: document.getElementById('site_muted_color').value,
     buttonTextColor: document.getElementById('site_button_text_color').value,
     headerBg: document.getElementById('site_header_bg').value
-  };
+  });
   localStorage.setItem('site_settings', JSON.stringify(s));
   if (window.applySiteSettings) window.applySiteSettings();
+  loadSiteSettings();
   showToast('Site ayarları kaydedildi');
 }
 
@@ -1603,6 +1879,45 @@ function initAccordions(){
   }catch(e){console.error('Accordion init failed', e);}
 }
 
+initAccordions = function(){
+  try{
+    const cards = document.querySelectorAll('.seller-page > .seller-card[data-accordion-title]');
+    const savedState = safeParse(localStorage.getItem('seller_panel_sections'), {});
+    cards.forEach((card, index)=>{
+      if(card.dataset.accordionInit) return;
+      const key = card.dataset.accordionTitle || 'section-' + index;
+      const title = card.dataset.accordionTitle || 'Bölüm';
+      const titleEl = Array.from(card.children).find(child => {
+        const style = child.getAttribute && (child.getAttribute('style') || '');
+        return (child.textContent || '').trim() === title || style.includes('font-size:18px') || style.includes('font-weight:600');
+      });
+      const header = document.createElement('button');
+      header.type = 'button';
+      header.className = 'accordion-toggle';
+      header.textContent = title;
+      const body = document.createElement('div');
+      body.className = 'accordion-body';
+      Array.from(card.childNodes).forEach(child => {
+        if (child === titleEl) return;
+        body.appendChild(child);
+      });
+      card.classList.add('panel-section');
+      card.appendChild(header);
+      card.appendChild(body);
+      const shouldCollapse = savedState[key] !== undefined ? savedState[key] : !(index === 0 || key === 'Site Ayarları');
+      card.classList.toggle('collapsed', Boolean(shouldCollapse));
+      header.setAttribute('aria-expanded', String(!shouldCollapse));
+      header.addEventListener('click', ()=>{
+        const isCollapsed = card.classList.toggle('collapsed');
+        header.setAttribute('aria-expanded', String(!isCollapsed));
+        savedState[key] = isCollapsed;
+        localStorage.setItem('seller_panel_sections', JSON.stringify(savedState));
+      });
+      card.dataset.accordionInit = '1';
+    });
+  }catch(e){console.error('Accordion init failed', e);}
+};
+
 initAccordions();
 
 </script>
@@ -1610,3 +1925,5 @@ initAccordions();
 
 </body>
 </html>
+
+
