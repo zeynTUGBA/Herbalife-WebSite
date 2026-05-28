@@ -2,8 +2,9 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Zeyn Luxury - Kampanyalar</title>
+<title>Herbalife - Kampanyalar</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/commerce.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:#0f0f0f;color:#eee;}
@@ -53,7 +54,7 @@ footer{margin-top:60px;padding:20px;text-align:center;background:#080808;color:#
 
 <header>
   <div class="menu-btn" onclick="openMenu()">☰</div>
-  <div class="logo">Zeyn Luxury</div>
+  <div class="logo">Herbalife</div>
   <nav>
     <a href="index.html">Ana Sayfa</a>
     <a href="urunler.html">Ürünler</a>
@@ -93,11 +94,12 @@ footer{margin-top:60px;padding:20px;text-align:center;background:#080808;color:#
 
 <div class="products" id="productsGrid"></div>
 
-<footer>© 2026 Zeyn Luxury Shop</footer>
+<footer>© 2026 Herbalife</footer>
 <div id="toast"></div>
 
 <script>
-const AUTH_EMAIL='ornek@mail.com';const AUTH_PASSWORD='sifre123';const AUTH_STORAGE_KEY='sp_seller_auth';
+const AUTH_STORAGE_KEY = 'sp_seller_auth';
+
 function safeParse(key,fallback){try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback;}catch(e){localStorage.removeItem(key);return fallback;}}
 function openMenu(){document.getElementById('sideMenu').classList.add('active');document.getElementById('overlay').classList.add('active');}
 function closeMenu(){document.getElementById('sideMenu').classList.remove('active');document.getElementById('overlay').classList.remove('active');}
@@ -109,6 +111,7 @@ if(slides.length)setInterval(()=>{slides[sidx].classList.remove('active');sidx=(
 
 const allProducts=safeParse('sp_products',[]);
 const pageProducts=allProducts.filter(p=>p.target==='kampanyalar'||p.target==='hepsi');
+let currentProducts = pageProducts;
 
 function getCatEmoji(cat){return{'Takı':'💍','Giyim':'👕','Elektronik':'📱','Aksesuar':'👜'}[cat]||'📦';}
 
@@ -121,12 +124,13 @@ function buildCard(p,i){
 
 function renderProductGrid(list){
   const grid=document.getElementById('productsGrid');
+  currentProducts = list;
   grid.innerHTML=list.length?list.map((p,i)=>buildCard(p,i)).join(''):'<p style="color:#bbb;text-align:center;padding:40px 0;width:100%;">Kampanya ürünü bulunamadı.</p>';
 }
 function filterProducts(q){renderProductGrid(pageProducts.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())));}
 
 function addToCart(idx,btn){
-  const p=pageProducts[idx];if(!p)return;
+  const p=currentProducts[idx];if(!p)return;
   let cart=safeParse('cart',[]);
   cart.push({name:p.name,price:p.price,img:p.img||'',barcode:p.barcode||null,colors:p.colors||[],cat:p.cat});
   localStorage.setItem('cart',JSON.stringify(cart));
@@ -141,25 +145,50 @@ function addToCart(idx,btn){
     setTimeout(()=>fi.remove(),750);
   }
   btn.innerText='✓ Eklendi';btn.style.background='#4CAF50';
-  setTimeout(()=>{btn.innerText='Sepete Ekle';btn.style.background='#D4AF37';},1200);
+  setTimeout(()=>{btn.innerText='Sepete Ekle';btn.style.background='var(--site-primary)';},1200);
   showToast(p.name+' sepete eklendi');
 }
 
-function checkSellerLinkAuth(){
+async function checkSellerLinkAuth(){
   document.querySelectorAll('a[href="satici-paneli.html"]').forEach(link=>{
-    link.addEventListener('click',function(evt){
+    link.addEventListener('click',async function(evt){
       if(localStorage.getItem(AUTH_STORAGE_KEY)==='true')return;
       evt.preventDefault();
-      const email=prompt('E-posta girin:');const password=prompt('Şifre girin:');
-      if(email===AUTH_EMAIL&&password===AUTH_PASSWORD){localStorage.setItem(AUTH_STORAGE_KEY,'true');window.location.href='satici-paneli.html';}
-      else alert('Hatalı giriş.');
+      const email=prompt('Satıcı girişi için e-posta girin:');
+      const password=prompt('Şifre girin:');
+      if(!email||!password){alert('E-posta ve şifre gerekli.');return;}
+      try{
+        const res = await fetch('/api/seller/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+        const data = await res.json();
+        if(data.success){localStorage.setItem(AUTH_STORAGE_KEY,'true');window.location.href='satici-paneli.html';}
+        else{alert(data.error||'Hatalı giriş.');}
+      }catch(err){console.error(err);alert('Sunucuya bağlanılamadı.');}
     });
   });
+}
+
+async function loadSliderImages() {
+  try {
+    const res = await fetch('http://localhost:3000/api/slider/kampanyalar');
+    const data = await res.json();
+    if (data.success && data.slider) {
+      const images = document.querySelectorAll('.slider img');
+      const urls = [data.slider.image_url_1, data.slider.image_url_2, data.slider.image_url_3];
+      images.forEach((img, i) => {
+        if (urls[i]) img.src = urls[i];
+      });
+    }
+  } catch (err) {
+    console.log('Slider resimleri yüklenemedi:', err);
+  }
 }
 
 renderProductGrid(pageProducts);
 updateCartCount();
 checkSellerLinkAuth();
+loadSliderImages();
 </script>
+<script src="assets/commerce.js"></script>
+<script src="assets/site-settings.js"></script>
 </body>
 </html>

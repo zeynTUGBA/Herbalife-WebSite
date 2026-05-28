@@ -5,6 +5,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/commerce.css">
 
 <style>
 *{
@@ -185,7 +186,7 @@ footer{
 <body>
 
 <header>
-  <div class="logo">Zeyn Luxury Shop</div>
+  <div class="logo">Herbalife</div>
 
   <nav>
     <a href="index.html">Ana Sayfa</a>
@@ -221,17 +222,30 @@ footer{
 </div>
 
 <div class="about-section">
-<h1>Hakkımızda</h1>
-<p>
- kaliteli ve modern ürünleri müşterilerine sunmayı amaçlayan bir online alışveriş platformudur. 
-Misyonumuz, her müşteriye eşsiz bir alışveriş deneyimi yaşatmak ve lüksü ulaşılabilir kılmaktır. 
-Ürünlerimiz, titizlikle seçilmiş, şıklık ve dayanıklılığı ön planda tutan seçeneklerden oluşmaktadır. 
-Müşteri memnuniyetini her zaman önceliğimiz olarak görüyor ve güvenli alışverişi garanti ediyoruz.
-</p>
+  <h1 id="aboutTitle">Hakkımızda</h1>
+  <div id="aboutContent">
+    <p>
+      kaliteli ve modern ürünleri müşterilerine sunmayı amaçlayan bir online alışveriş platformudur. 
+      Misyonumuz, her müşteriye eşsiz bir alışveriş deneyimi yaşatmak ve lüksü ulaşılabilir kılmaktır. 
+      Ürünlerimiz, titizlikle seçilmiş, şıklık ve dayanıklılığı ön planda tutan seçeneklerden oluşmaktadır. 
+      Müşteri memnuniyetini her zaman önceliğimiz olarak görüyor ve güvenli alışverişi garanti ediyoruz.
+    </p>
+  </div>
 </div>
 
+<script>
+// Load site about content from seller settings (localStorage)
+document.addEventListener('DOMContentLoaded', function(){
+  try{
+    const s = JSON.parse(localStorage.getItem('site_settings') || '{}');
+    if(s.aboutTitle) document.getElementById('aboutTitle').innerText = s.aboutTitle;
+    if(s.aboutContent) document.getElementById('aboutContent').innerHTML = s.aboutContent.includes('<') ? s.aboutContent : '<p>'+s.aboutContent.replace(/\n/g,'<br>')+'</p>';
+  }catch(e){console.error(e);}
+});
+</script>
+
 <footer>
-© 2026 Zeyn Luxury Shop
+© 2026 Herbalife
 </footer>
 
 <script>
@@ -255,30 +269,56 @@ function updateCartCount(){
 }
 updateCartCount();
 
-const AUTH_EMAIL = 'ornek@mail.com';
-const AUTH_PASSWORD = 'sifre123';
 const AUTH_STORAGE_KEY = 'sp_seller_auth';
 
-function checkSellerLinkAuth() {
+async function checkSellerLinkAuth() {
   const links = document.querySelectorAll('a[href="satici-paneli.html"]');
   links.forEach(link => {
-    link.addEventListener('click', function(evt) {
+    link.addEventListener('click', async function(evt) {
       if (localStorage.getItem(AUTH_STORAGE_KEY) === 'true') return;
       evt.preventDefault();
       const email = prompt('Satıcı girişi için e-posta girin:');
       const password = prompt('Şifre girin:');
-      if (email === AUTH_EMAIL && password === AUTH_PASSWORD) {
-        localStorage.setItem(AUTH_STORAGE_KEY, 'true');
-        window.location.href = 'satici-paneli.html';
-      } else {
-        alert('E-posta veya şifre hatalı. Giriş başarısız.');
+      if (!email || !password) { alert('E-posta ve şifre gerekli.'); return; }
+      try {
+        const res = await fetch('/api/seller/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+        const data = await res.json();
+        if (data.success) {
+          localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+          window.location.href = 'satici-paneli.html';
+        } else {
+          alert(data.error || 'E-posta veya şifre hatalı. Giriş başarısız.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Sunucuya bağlanılamadı.');
       }
     });
   });
 }
+
+async function loadSliderImages() {
+  try {
+    const res = await fetch('http://localhost:3000/api/slider/hakkimizda');
+    const data = await res.json();
+    if (data.success && data.slider) {
+      const images = document.querySelectorAll('.slider img');
+      const urls = [data.slider.image_url_1, data.slider.image_url_2, data.slider.image_url_3];
+      images.forEach((img, i) => {
+        if (urls[i]) img.src = urls[i];
+      });
+    }
+  } catch (err) {
+    console.log('Slider resimleri yüklenemedi:', err);
+  }
+}
+
 checkSellerLinkAuth();
+loadSliderImages();
 
 </script>
 
+<script src="assets/commerce.js"></script>
+<script src="assets/site-settings.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Zeyn Luxury - Satıcı Paneli</title>
+<title>Herbalife- Satıcı Paneli</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -22,7 +22,7 @@ body{
 header{
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:space-between;<
   padding:20px 60px;
   background:rgba(0,0,0,0.75);
   border-bottom:2px solid rgba(212,175,55,0.3);
@@ -327,7 +327,7 @@ button:hover{opacity:0.95;}
   transform:translateY(0);
 }
 
-/* RENK EKLE ALANI */
+
 .color-input-row{
   display:flex;
   gap:10px;
@@ -481,7 +481,7 @@ button:hover{opacity:0.95;}
 
 <header>
   <div class="menu-btn" onclick="openMenu()">☰</div>
-  <div class="logo">Zeyn Luxury</div>
+  <div class="logo">Herbalife</div>
   <nav>
     <a href="index.html">Ana Sayfa</a>
     <a href="urunler.html">Ürünler</a>
@@ -515,7 +515,7 @@ button:hover{opacity:0.95;}
     <div class="login-error" id="loginError"></div>
     <div class="field">
       <div class="field-label">E-posta</div>
-      <input id="loginEmail" type="email" placeholder="ornek@mail.com">
+      <input id="loginEmail" type="email" placeholder="sezzginakdemir@gmail.com">
     </div>
     <div class="field">
       <div class="field-label">Şifre</div>
@@ -586,7 +586,7 @@ button:hover{opacity:0.95;}
       </div>
     </div>
 
-    <!-- BARKOD ALANI -->
+   
     <div class="grid2">
       <div class="field">
         <div class="field-label">Barkod Numarası</div>
@@ -599,7 +599,7 @@ button:hover{opacity:0.95;}
       </div>
     </div>
 
-    <!-- RENK SEÇENEKLERİ -->
+  
     <div class="field">
       <div class="field-label">Renk Seçenekleri</div>
       <div id="color-tags-list"></div>
@@ -665,25 +665,191 @@ button:hover{opacity:0.95;}
         </div>
       </div>
       <div class="field">
+        <div class="field-label">Adres</div>
+        <input id="c-address" placeholder="Örn: Taksim, İstanbul" oninput="updateAddressMap()">
+        <div id="address-map-container" style="margin-top:12px;border-radius:12px;overflow:hidden;display:none;height:200px;">
+          <iframe id="address-map" width="100%" height="200" style="border:none;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="field">
         <div class="field-label">Not</div>
         <textarea id="c-note" rows="3" placeholder="Özel not..."></textarea>
       </div>
       <button class="save-btn-green" onclick="addCustomer()">Müşteriyi Kaydet</button>
     </div>
   </div>
+
+  <div class="seller-card" style="margin-top:24px;">
+    <div style="font-size:18px;font-weight:600;margin-bottom:18px;color:#fff;">Slider Resimleri Yönet</div>
+    <p style="color:#aaa;margin-bottom:20px;">Sayfa başlarındaki slider resimlerini düzenleyin</p>
+    <div id="sliders-container"></div>
+  </div>
+
+  <div class="seller-card" style="margin-top:24px;">
+    <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Site Ayarları</div>
+    <p style="color:#aaa;margin-bottom:12px;">Hakkımızda içeriği, iletişim bilgileri, metin ve tema renklerini buradan düzenleyin.</p>
+    <div class="field">
+      <div class="field-label">Logo Metni</div>
+      <input id="site_logo_text" placeholder="Site adı veya logo metni">
+    </div>
+    <div class="field">
+      <div class="field-label">Arama Placeholder</div>
+      <input id="site_search_placeholder" placeholder="Ürün ara...">
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <div class="field-label">Footer Metni</div>
+        <input id="site_footer_text" placeholder="© 2026 Herbalife">
+      </div>
+      <div class="field">
+        <div class="field-label">Telefon Metni</div>
+        <input id="site_phone_text" placeholder="📞 0 555 123 45 67">
+      </div>
+    </div>
+    <div class="field">
+      <div class="field-label">Banner Başlığı</div>
+      <input id="site_banner_text" placeholder="%30 Luxury İndirim">
+    </div>
+    <div class="field">
+      <div class="field-label">Banner Vurgu Metni</div>
+      <input id="site_banner_accent_text" placeholder="Luxury İndirim">
+    </div>
+    <div class="field">
+      <div class="field-label">Hakkımızda Başlığı</div>
+      <input id="site_about_title" placeholder="Hakkımızda başlığı">
+    </div>
+    <div class="field">
+      <div class="field-label">Hakkımızda İçerik (HTML/Metin)</div>
+      <textarea id="site_about_content" rows="6" placeholder="Hakkımızda metni..."></textarea>
+    </div>
+    <div class="field">
+      <div class="field-label">İletişim Başlığı</div>
+      <input id="site_contact_title" placeholder="İletişim">
+    </div>
+    <div class="field">
+      <div class="field-label">İletişim - Adres</div>
+      <input id="site_contact_address" placeholder="Örn: Bursa, Türkiye">
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <div class="field-label">İletişim - Telefon</div>
+        <input id="site_contact_phone" placeholder="Örn: +90 555 123 45 67">
+      </div>
+      <div class="field">
+        <div class="field-label">İletişim - E-posta</div>
+        <input id="site_contact_email" placeholder="sezzginakdemir@gmail.com">
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:20px;">
+      <div class="field-label">Tema Renkleri</div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <div class="field-label">Birincil Renk</div>
+        <input id="site_primary_color" type="color" value="#D4AF37">
+      </div>
+      <div class="field">
+        <div class="field-label">Accent Renk</div>
+        <input id="site_accent_color" type="color" value="#f0d77b">
+      </div>
+      <div class="field">
+        <div class="field-label">Metin Rengi</div>
+        <input id="site_text_color" type="color" value="#eeeeee">
+      </div>
+      <div class="field">
+        <div class="field-label">Faik Metin Rengi</div>
+        <input id="site_muted_color" type="color" value="#a7a09a">
+      </div>
+      <div class="field">
+        <div class="field-label">Header Arka Plan</div>
+        <input id="site_header_bg" type="color" value="#000000">
+      </div>
+      <div class="field">
+        <div class="field-label">Buton Yazı Rengi</div>
+        <input id="site_button_text_color" type="color" value="#000000">
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:20px;">
+      <div class="field-label">Menü Etiketleri</div>
+    </div>
+    <div class="grid3" style="gap:12px;">
+      <div class="field">
+        <div class="field-label">Ana Sayfa</div>
+        <input id="site_nav_home_text" placeholder="Ana Sayfa">
+      </div>
+      <div class="field">
+        <div class="field-label">Ürünler</div>
+        <input id="site_nav_products_text" placeholder="Ürünler">
+      </div>
+      <div class="field">
+        <div class="field-label">Kampanyalar</div>
+        <input id="site_nav_campaign_text" placeholder="Kampanyalar">
+      </div>
+      <div class="field">
+        <div class="field-label">Hakkımızda</div>
+        <input id="site_nav_about_text" placeholder="Hakkımızda">
+      </div>
+      <div class="field">
+        <div class="field-label">İletişim</div>
+        <input id="site_nav_contact_text" placeholder="İletişim">
+      </div>
+      <div class="field">
+        <div class="field-label">Satıcı Paneli</div>
+        <input id="site_nav_seller_text" placeholder="Satıcı Panelim">
+      </div>
+      <div class="field">
+        <div class="field-label">Sepet</div>
+        <input id="site_nav_cart_text" placeholder="Sepetim">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
+      <button class="save-btn-blue" onclick="saveSiteSettings()">Ayarları Kaydet</button>
+      <button class="save-btn-green" onclick="loadSiteSettings()" style="width:auto;padding:12px 18px;">Ayarları Yükle</button>
+    </div>
+  </div>
+
+  <div class="seller-card" style="margin-top:24px;">
+    <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Satıcı Şifre Yönetimi</div>
+    <p style="color:#aaa;margin-bottom:12px;">Satıcı paneli giriş şifresini buradan değiştirebilirsiniz.</p>
+    <div class="field">
+      <div class="field-label">Mevcut Şifre</div>
+      <input id="current_seller_password" type="password" placeholder="Mevcut şifre">
+    </div>
+    <div class="field">
+      <div class="field-label">Yeni Şifre</div>
+      <input id="new_seller_password" type="password" placeholder="Yeni şifre">
+    </div>
+    <div class="field">
+      <div class="field-label">Yeni Şifre Tekrar</div>
+      <input id="confirm_seller_password" type="password" placeholder="Yeni şifre tekrar">
+    </div>
+    <button class="save-btn-blue" onclick="changeSellerPassword()">Şifreyi Güncelle</button>
+  </div>
+
+  <div class="seller-card" style="margin-top:24px;">
+    <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Mesajlar</div>
+    <p style="color:#aaa;margin-bottom:12px;">Ziyaretçilerin gönderdiği mesajlar burada listelenecek. Her mesaja cevap yazabilirsiniz; cevap kaydedildiğinde ürünle ilişkilendirildiyse ürün kartında görünecektir.</p>
+    <div id="messages-container">Yükleniyor...</div>
+  </div>
 </div>
 
 <footer style="text-align:center;padding:20px;color:#555;">
-© 2026 Zeyn Luxury Shop
+© 2026 Herbalife. Tüm hakları saklıdır.
 </footer>
 
 <div id="toast"></div>
 
-<script>
-const AUTH_EMAIL = 'ornek@mail.com';
-const AUTH_PASSWORD = 'sifre123';
-const AUTH_STORAGE_KEY = 'sp_seller_auth';
+<style>
+  .save-btn-red{ background:linear-gradient(45deg,#c0392b,#e74c3c); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+  .accordion-header{ font-weight:700; }
+</style>
 
+<script>
+const AUTH_STORAGE_KEY = 'sp_seller_auth';
+const API = 'http://localhost:3000';
 function safeParse(key, fallback) {
   try {
     const val = localStorage.getItem(key);
@@ -697,7 +863,7 @@ function safeParse(key, fallback) {
 let products = safeParse('sp_products', []);
 let customers = safeParse('sp_customers', []);
 
-// Geçici renk listesi (kaydetmeden önce)
+
 let tempColors = [];
 
 function save() {
@@ -733,6 +899,9 @@ function initAuth() {
     renderProducts();
     renderCustomers();
     updateDashboard();
+    loadMysqlCustomers();
+    loadSliders();
+    loadSiteSettings();
   } else {
     overlay.style.display = 'flex';
   }
@@ -742,17 +911,66 @@ function submitLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
   const error = document.getElementById('loginError');
-  if (email === AUTH_EMAIL && password === AUTH_PASSWORD) {
-    localStorage.setItem(AUTH_STORAGE_KEY, 'true');
-    error.innerText = '';
-    document.getElementById('loginOverlay').style.display = 'none';
-    renderProducts();
-    renderCustomers();
-    updateDashboard();
-    showToast('Giriş başarılı!');
-  } else {
-    error.innerText = 'E-posta veya şifre hatalı.';
+  fetch(API + '/api/seller/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+        error.innerText = '';
+        document.getElementById('loginOverlay').style.display = 'none';
+        renderProducts();
+        renderCustomers();
+        updateDashboard();
+        loadMysqlCustomers();
+        showToast('Giriş başarılı!');
+      } else {
+        error.innerText = data.error || 'E-posta veya şifre hatalı.';
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      error.innerText = 'Sunucuya bağlanılamadı.';
+    });
+}
+
+function changeSellerPassword() {
+  const current = document.getElementById('current_seller_password').value;
+  const next = document.getElementById('new_seller_password').value;
+  const confirm = document.getElementById('confirm_seller_password').value;
+
+  if (!current || !next || !confirm) {
+    showToast('Tüm alanlar zorunludur.');
+    return;
   }
+  if (next !== confirm) {
+    showToast('Yeni şifreler eşleşmiyor.');
+    return;
+  }
+
+  fetch(API + '/api/seller/password', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ currentPassword: current, newPassword: next })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('current_seller_password').value = '';
+        document.getElementById('new_seller_password').value = '';
+        document.getElementById('confirm_seller_password').value = '';
+        showToast('Şifre başarıyla güncellendi.');
+      } else {
+        showToast(data.error || 'Şifre güncellenemedi.');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      showToast('Sunucuya bağlanılamadı.');
+    });
 }
 
 function updateDashboard() {
@@ -943,15 +1161,56 @@ function renderProducts() {
 }
 
 // --- MÜŞTERİ ---
+function customerKey(c) {
+  return (c.email || c.phone || c.name || '').toString().trim().toLowerCase();
+}
+
+function mergeMysqlCustomers(dbCustomers) {
+  const manualCustomers = customers.filter(c => c.source !== 'mysql');
+  const manualKeys = new Set(manualCustomers.map(customerKey).filter(Boolean));
+  const freshMysql = dbCustomers
+    .filter(c => !manualKeys.has(customerKey(c)))
+    .map(c => ({ ...c, source: 'mysql' }));
+
+  customers = [...freshMysql, ...manualCustomers];
+  localStorage.setItem('sp_customers', JSON.stringify(customers));
+}
+
+async function loadMysqlCustomers() {
+  try {
+    const res = await fetch(API + '/api/customers');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Musteriler alinamadi');
+    mergeMysqlCustomers(data.customers || []);
+    renderCustomers();
+    updateDashboard();
+    showToast('MySQL musteri listesi guncellendi');
+  } catch (err) {
+    console.error(err);
+    showToast('MySQL musterileri yuklenemedi');
+  }
+}
+
 function renderCustomers() {
   const q = (document.getElementById('cust-search').value || '').toLowerCase();
   const list = document.getElementById('cust-list');
   const none = document.getElementById('no-cust');
-  const filtered = customers.filter(c => c.name.toLowerCase().includes(q) || (c.phone || '').includes(q));
+  const filtered = customers.filter(c =>
+    (c.name || '').toLowerCase().includes(q) ||
+    (c.phone || '').includes(q) ||
+    (c.email || '').toLowerCase().includes(q)
+  );
   if (!filtered.length) { list.innerHTML=''; none.style.display='block'; return; }
   none.style.display='none';
-  list.innerHTML = filtered.map((c, idx) => {
-    const initials = c.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  list.innerHTML = filtered.map((c) => {
+    const realIndex = customers.indexOf(c);
+    const initials = (c.name || '?').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    const mysqlBadge = c.source === 'mysql'
+      ? '<span class="badge badge-green" style="margin-left:6px;">MySQL</span>'
+      : '';
+    const orderSummary = c.source === 'mysql'
+      ? `<p style="font-size:12px;color:#D4AF37;margin-top:4px;">${c.orderCount || 0} siparis · ₺${Number(c.totalSpent || 0).toLocaleString('tr-TR')}</p>`
+      : '';
     const orderImagesHtml = (c.orderImages && c.orderImages.length)
       ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
           ${c.orderImages.map(o=>`<div style="text-align:center;">
@@ -964,12 +1223,13 @@ function renderCustomers() {
         <div style="display:flex;align-items:flex-start;gap:12px;">
           <div style="width:38px;height:38px;border-radius:50%;background:#1a1a1a;color:#D4AF37;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">${initials}</div>
           <div style="flex:1;min-width:0;">
-            <p style="font-weight:700;font-size:14px;color:#fff;">${c.name}</p>
+            <p style="font-weight:700;font-size:14px;color:#fff;">${c.name}${mysqlBadge}</p>
             <p style="font-size:12px;color:#aaa;">${c.phone || ''}${c.city ? ' · '+c.city : ''}${c.email ? ' · '+c.email : ''}</p>
+            ${orderSummary}
             ${c.note ? `<p style="font-size:12px;color:#bbb;margin-top:4px;white-space:pre-line;">${c.note}</p>` : ''}
             ${orderImagesHtml}
           </div>
-          <button class="delete-btn" style="flex-shrink:0;" onclick="deleteCustomer(${idx})">Sil</button>
+          <button class="delete-btn" style="flex-shrink:0;" onclick="deleteCustomer(${realIndex})">Sil</button>
         </div>
       </div>`;
   }).join('');
@@ -980,18 +1240,57 @@ function addCustomer() {
   const phone = document.getElementById('c-phone').value.trim();
   const email = document.getElementById('c-email').value.trim();
   const city = document.getElementById('c-city').value.trim();
+  const address = document.getElementById('c-address').value.trim();
   const note = document.getElementById('c-note').value.trim();
   if (!name) { showToast('Ad soyad gerekli!'); return; }
-  customers.push({ name, phone, email, city, note, date: new Date().toLocaleDateString('tr-TR') });
+  customers.push({ name, phone, email, city, address, note, date: new Date().toLocaleDateString('tr-TR') });
   save();
-  ['c-name','c-phone','c-email','c-city','c-note'].forEach(id => document.getElementById(id).value='');
+  ['c-name','c-phone','c-email','c-city','c-address','c-note'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('address-map-container').style.display = 'none';
   showToast(name + ' kaydedildi!');
   renderCustomers();
   updateDashboard();
 }
 
-function deleteCustomer(i) {
+function updateAddressMap() {
+  const address = document.getElementById('c-address').value.trim();
+  const mapContainer = document.getElementById('address-map-container');
+  const mapFrame = document.getElementById('address-map');
+  
+  if (!address) {
+    mapContainer.style.display = 'none';
+    return;
+  }
+  
+  const encodedAddress = encodeURIComponent(address);
+  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.1234567890123!2d28.9784!3d41.0082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s${encodedAddress}!5e0!3m2!1str!2str!4v1234567890123`;
+  
+  mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBu-_nOrAhznNsJitBrHX1_0zQT0VsUSS8&q=${encodedAddress}`;
+  mapContainer.style.display = 'block';
+}
+
+async function deleteCustomer(i) {
   const name = customers[i].name;
+  if (!confirm(name + ' silinsin mi?')) return;
+
+  if (customers[i].source === 'mysql') {
+    try {
+      const res = await fetch(API + '/api/customers/' + customers[i].id, { method: 'DELETE' });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Musteri silinemedi');
+      customers.splice(i,1);
+      localStorage.setItem('sp_customers', JSON.stringify(customers));
+      renderCustomers();
+      updateDashboard();
+      showToast(name + ' MySQLden silindi');
+      return;
+    } catch (err) {
+      console.error(err);
+      showToast('Musteri silinemedi');
+      return;
+    }
+  }
+
   customers.splice(i,1);
   save();
   renderCustomers();
@@ -1009,9 +1308,305 @@ function updateCartCount(){
   }
 }
 
+// --- SLIDER RESİMLERİ ---
+let sliders = {};
+
+async function loadSliders() {
+  try {
+    const res = await fetch(API + '/api/sliders');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Slider resimleri alinamadi');
+    sliders = {};
+    (data.sliders || []).forEach(s => {
+      sliders[s.page] = s;
+    });
+    renderSliders();
+  } catch (err) {
+    console.error(err);
+    showToast('Slider resimleri yuklenemedi');
+  }
+}
+
+function renderSliders() {
+  const pages = ['index', 'urunler', 'kampanyalar', 'hakkimizda', 'iletisim'];
+  const container = document.getElementById('sliders-container');
+  container.innerHTML = pages.map(page => {
+    const slider = sliders[page] || {};
+    return `
+      <div class="seller-card" style="margin-bottom:18px;padding:20px;">
+        <div style="font-size:16px;font-weight:600;color:#D4AF37;margin-bottom:16px;">${page.charAt(0).toUpperCase() + page.slice(1)} Slider</div>
+        <div class="grid3">
+          <div class="field">
+            <div class="field-label">Resim 1 - URL veya Dosya</div>
+            <div style="display:flex;gap:8px;margin-bottom:8px;">
+              <input type="text" id="slider-${page}-1-url" placeholder="https://..." value="${slider.image_url_1 || ''}" oninput="previewSliderImage('${page}', 1)" style="flex:1;">
+              <input type="file" id="slider-${page}-1-file" accept="image/*" onchange="uploadSliderFile('${page}', 1)" style="flex:1;" title="Bilgisayardan resim seç">
+            </div>
+            <img id="preview-${page}-1" src="${slider.image_url_1 || ''}" alt="Resim 1" style="width:100%;border-radius:10px;max-height:150px;object-fit:cover;display:${slider.image_url_1 ? 'block' : 'none'};" onerror="this.style.display='none'">
+          </div>
+          <div class="field">
+            <div class="field-label">Resim 2 - URL veya Dosya</div>
+            <div style="display:flex;gap:8px;margin-bottom:8px;">
+              <input type="text" id="slider-${page}-2-url" placeholder="https://..." value="${slider.image_url_2 || ''}" oninput="previewSliderImage('${page}', 2)" style="flex:1;">
+              <input type="file" id="slider-${page}-2-file" accept="image/*" onchange="uploadSliderFile('${page}', 2)" style="flex:1;" title="Bilgisayardan resim seç">
+            </div>
+            <img id="preview-${page}-2" src="${slider.image_url_2 || ''}" alt="Resim 2" style="width:100%;border-radius:10px;max-height:150px;object-fit:cover;display:${slider.image_url_2 ? 'block' : 'none'};" onerror="this.style.display='none'">
+          </div>
+          <div class="field">
+            <div class="field-label">Resim 3 - URL veya Dosya</div>
+            <div style="display:flex;gap:8px;margin-bottom:8px;">
+              <input type="text" id="slider-${page}-3-url" placeholder="https://..." value="${slider.image_url_3 || ''}" oninput="previewSliderImage('${page}', 3)" style="flex:1;">
+              <input type="file" id="slider-${page}-3-file" accept="image/*" onchange="uploadSliderFile('${page}', 3)" style="flex:1;" title="Bilgisayardan resim seç">
+            </div>
+            <img id="preview-${page}-3" src="${slider.image_url_3 || ''}" alt="Resim 3" style="width:100%;border-radius:10px;max-height:150px;object-fit:cover;display:${slider.image_url_3 ? 'block' : 'none'};" onerror="this.style.display='none'">
+          </div>
+        </div>
+        <button class="save-btn-blue" style="margin-top:12px;" onclick="saveSlider('${page}')">Kaydet</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function previewSliderImage(page, num) {
+  const input = document.getElementById('slider-' + page + '-' + num + '-url');
+  const preview = document.getElementById('preview-' + page + '-' + num);
+  if (input.value.trim()) {
+    preview.src = input.value;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+function uploadSliderFile(page, num) {
+  const fileInput = document.getElementById('slider-' + page + '-' + num + '-file');
+  const urlInput = document.getElementById('slider-' + page + '-' + num + '-url');
+  const preview = document.getElementById('preview-' + page + '-' + num);
+  const file = fileInput.files[0];
+  
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = () => {
+    const dataUrl = reader.result;
+    urlInput.value = dataUrl;
+    preview.src = dataUrl;
+    preview.style.display = 'block';
+    showToast('Resim ' + num + ' yüklendi');
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveSlider(page) {
+  try {
+    const image_url_1 = document.getElementById('slider-' + page + '-1-url').value.trim();
+    const image_url_2 = document.getElementById('slider-' + page + '-2-url').value.trim();
+    const image_url_3 = document.getElementById('slider-' + page + '-3-url').value.trim();
+
+    const res = await fetch(API + '/api/slider/' + page, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image_url_1, image_url_2, image_url_3 })
+    });
+
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Kayit yapilamadi');
+
+    sliders[page] = { page, image_url_1, image_url_2, image_url_3 };
+    showToast(page + ' slider resimleri kaydedildi!');
+  } catch (err) {
+    console.error(err);
+    showToast('Hata: ' + err.message);
+  }
+}
+
 initAuth();
 updateCartCount();
+
+// --- SITE AYARLARI (Hakkimizda + Iletisim) ---
+function loadSiteSettings(){
+  const s = safeParse(localStorage.getItem('site_settings'), {});
+  const map = {
+    site_logo_text: 'logoText',
+    site_phone_text: 'phoneText',
+    site_footer_text: 'footerText',
+    site_search_placeholder: 'searchPlaceholder',
+    site_banner_text: 'bannerText',
+    site_banner_accent_text: 'bannerAccentText',
+    site_about_title: 'aboutTitle',
+    site_about_content: 'aboutContent',
+    site_contact_title: 'contactTitle',
+    site_contact_address: 'contactAddress',
+    site_contact_phone: 'contactPhone',
+    site_contact_email: 'contactEmail',
+    site_nav_home_text: 'navHomeText',
+    site_nav_products_text: 'navProductsText',
+    site_nav_campaign_text: 'navCampaignText',
+    site_nav_about_text: 'navAboutText',
+    site_nav_contact_text: 'navContactText',
+    site_nav_seller_text: 'navSellerText',
+    site_nav_cart_text: 'navCartText',
+    site_primary_color: 'primaryColor',
+    site_accent_color: 'accentColor',
+    site_text_color: 'textColor',
+    site_muted_color: 'mutedColor',
+    site_button_text_color: 'buttonTextColor',
+    site_header_bg: 'headerBg'
+  };
+
+  Object.keys(map).forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+    const value = s[map[id]];
+    if (value !== undefined && value !== null) input.value = value;
+  });
+
+  showToast('Site ayarları yüklendi');
+}
+
+function saveSiteSettings(){
+  const s = {
+    logoText: document.getElementById('site_logo_text').value.trim(),
+    phoneText: document.getElementById('site_phone_text').value.trim(),
+    footerText: document.getElementById('site_footer_text').value.trim(),
+    searchPlaceholder: document.getElementById('site_search_placeholder').value.trim(),
+    bannerText: document.getElementById('site_banner_text').value.trim(),
+    bannerAccentText: document.getElementById('site_banner_accent_text').value.trim(),
+    aboutTitle: document.getElementById('site_about_title').value.trim(),
+    aboutContent: document.getElementById('site_about_content').value.trim(),
+    contactTitle: document.getElementById('site_contact_title').value.trim(),
+    contactAddress: document.getElementById('site_contact_address').value.trim(),
+    contactPhone: document.getElementById('site_contact_phone').value.trim(),
+    contactEmail: document.getElementById('site_contact_email').value.trim(),
+    navHomeText: document.getElementById('site_nav_home_text').value.trim(),
+    navProductsText: document.getElementById('site_nav_products_text').value.trim(),
+    navCampaignText: document.getElementById('site_nav_campaign_text').value.trim(),
+    navAboutText: document.getElementById('site_nav_about_text').value.trim(),
+    navContactText: document.getElementById('site_nav_contact_text').value.trim(),
+    navSellerText: document.getElementById('site_nav_seller_text').value.trim(),
+    navCartText: document.getElementById('site_nav_cart_text').value.trim(),
+    primaryColor: document.getElementById('site_primary_color').value,
+    accentColor: document.getElementById('site_accent_color').value,
+    textColor: document.getElementById('site_text_color').value,
+    mutedColor: document.getElementById('site_muted_color').value,
+    buttonTextColor: document.getElementById('site_button_text_color').value,
+    headerBg: document.getElementById('site_header_bg').value
+  };
+  localStorage.setItem('site_settings', JSON.stringify(s));
+  if (window.applySiteSettings) window.applySiteSettings();
+  showToast('Site ayarları kaydedildi');
+}
+
+// --- MESSAGES (Seller Inbox) ---
+async function loadMessages(){
+  try{
+    const res = await fetch(API + '/api/messages');
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'Mesajlar alınamadı');
+    renderMessages(data.messages || []);
+  }catch(err){
+    console.error(err);
+    document.getElementById('messages-container').innerText = 'Mesajlar yüklenemedi';
+  }
+}
+
+function renderMessages(messages){
+  const el = document.getElementById('messages-container');
+  if(!messages.length){ el.innerHTML = '<p style="color:#bbb;">Henüz mesaj yok.</p>'; return; }
+  el.innerHTML = messages.map(m => `
+    <div class="seller-card" style="margin-bottom:12px;padding:12px;">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:700;color:#fff;">${m.name || 'Anonim'} <span style=\"font-size:12px;color:#999;margin-left:8px;\">${m.created_at}</span></div>
+          <div style="font-size:13px;color:#ccc;margin-top:6px;">${m.message.replace(/\n/g,'<br>')}</div>
+          <div style="font-size:13px;color:#aaa;margin-top:6px;">İsim: ${m.name || ''} · Email: ${m.email || ''} · Tel: ${m.phone || ''} · Ürün: ${m.product_name || ''} ${m.product_barcode ? '· Barkod: ' + m.product_barcode : ''}</div>
+        </div>
+        <div style="width:260px;flex-shrink:0;">
+          <div style="margin-bottom:8px;"><strong>Cevap:</strong></div>
+          <textarea id="reply-${m.id}" rows="4" style="width:100%;background:#0f0f0f;color:#fff;padding:8px;border-radius:8px;border:1px solid #222;">${m.reply || ''}</textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button onclick="replyMessage(${m.id}, document.getElementById('reply-${m.id}').value)" class="save-btn-blue">Kaydet</button>
+            <button onclick="deleteMessage(${m.id})" class="save-btn-red">Sil</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function deleteMessage(id){
+  if(!confirm('Bu mesajı silmek istediğinize emin misiniz?')) return;
+  try{
+    const res = await fetch(API + '/api/messages/' + id, { method: 'DELETE' });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'Silme başarısız');
+    showToast('Mesaj silindi');
+    await loadMessages();
+  }catch(err){
+    console.error(err);
+    showToast('Mesaj silinemedi');
+  }
+}
+
+async function replyMessage(id, reply){
+  try{
+    const res = await fetch(API + '/api/messages/' + id + '/reply', { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ reply }) });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'Kayit yapılamadı');
+    showToast('Cevap kaydedildi');
+    // reload messages and also refresh front-end product replies
+    await loadMessages();
+    // tell product pages to reload messages (they will fetch on their own when next opened)
+  }catch(err){
+    console.error(err);
+    showToast('Cevap kaydedilemedi');
+  }
+}
+
+// call loadMessages after auth
+if(isAuthenticated()) loadMessages();
+
+// Initialize simple accordion behavior for seller-card sections
+function initAccordions(){
+  try{
+    document.querySelectorAll('.seller-card').forEach(card=>{
+      if(card.dataset.accordionInit) return;
+      const headerTextEl = card.querySelector('div[style*="font-size:18px"]') || card.querySelector('div[style*="font-weight:600"]') || card.firstElementChild;
+      const title = headerTextEl ? headerTextEl.innerText.trim().split('\n')[0] : 'Bölüm';
+      const header = document.createElement('div');
+      header.className = 'accordion-header';
+      header.innerText = title;
+      header.style.cursor = 'pointer';
+      header.style.padding = '12px 16px';
+      header.style.background = '#0b0b0b';
+      header.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
+      header.style.color = '#D4AF37';
+      const body = document.createElement('div');
+      body.className = 'accordion-body';
+      // move existing children into body
+      while(card.firstChild) body.appendChild(card.firstChild);
+      card.appendChild(header);
+      card.appendChild(body);
+      // default: expanded
+      body.style.transition = 'max-height 0.25s ease';
+      body.style.overflow = 'hidden';
+      body.style.maxHeight = '2000px';
+      header.addEventListener('click', ()=>{
+        if(body.style.maxHeight && body.style.maxHeight !== '0px'){
+          body.style.maxHeight = '0px';
+        } else {
+          body.style.maxHeight = '2000px';
+        }
+      });
+      card.dataset.accordionInit = '1';
+    });
+  }catch(e){console.error('Accordion init failed', e);}
+}
+
+initAccordions();
+
 </script>
+<script src="assets/site-settings.js"></script>
 
 </body>
 </html>

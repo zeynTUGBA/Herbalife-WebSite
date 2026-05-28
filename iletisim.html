@@ -5,6 +5,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/commerce.css">
 
 <style>
 *{
@@ -218,7 +219,7 @@ footer{
 <body>
 
 <header>
-  <div class="logo">Herbolife</div>
+  <div class="logo">HERBALİFE</div>
 
   <nav>
     <a href="index.html">Ana Sayfa</a>
@@ -254,24 +255,27 @@ footer{
 </div>
 
 <div class="contact-section">
-<h1>İletişim</h1>
+<h1 id="contactTitle">İletişim</h1>
 
 <div class="contact-info">
-  <div><strong>Adres:</strong> Bursa, Türkiye</div>
-  <div><strong>Telefon:</strong> +90 555 123 45 67</div>
-  <div><strong>Email:</strong> ornek@mail.com</div>
+  <div id="contactAddress"><strong>Adres:</strong> Bursa, Türkiye</div>
+  <div id="contactPhone"><strong>Telefon:</strong> +90 555 123 45 67</div>
+  <div id="contactEmail"><strong>Email:</strong> sezzginakdemir@gmail.com</div>
 </div>
 
 <form class="contact-form">
-  <input type="text" placeholder="Adınız Soyadınız" required>
-  <input type="email" placeholder="Email Adresiniz" required>
-  <textarea rows="6" placeholder="Mesajınız..." required></textarea>
-  <button type="submit">Gönder</button>
+  <input id="contact_name" type="text" placeholder="Adınız Soyadınız" required>
+  <input id="contact_email" type="email" placeholder="Email Adresiniz" required>
+  <input id="contact_phone" type="text" placeholder="Telefon (opsiyonel)">
+  <input id="contact_product" type="text" placeholder="Ürün adı (opsiyonel)">
+  <input id="contact_product_barcode" type="text" placeholder="Ürün barkodu (opsiyonel)">
+  <textarea id="contact_message" rows="6" placeholder="Mesajınız..." required></textarea>
+  <button id="contact_submit" type="submit">Gönder</button>
 </form>
 </div>
 
 <footer>
-© 2026 Herbolife. Tüm hakları saklıdır.
+© 2026 HERBALİFE. Tüm hakları saklıdır.
 </footer>
 
 <script>
@@ -295,30 +299,94 @@ function updateCartCount(){
 }
 updateCartCount();
 
-const AUTH_EMAIL = 'ornek@mail.com';
-const AUTH_PASSWORD = 'sifre123';
 const AUTH_STORAGE_KEY = 'sp_seller_auth';
 
-function checkSellerLinkAuth() {
+async function checkSellerLinkAuth() {
   const links = document.querySelectorAll('a[href="satici-paneli.html"]');
   links.forEach(link => {
-    link.addEventListener('click', function(evt) {
+    link.addEventListener('click', async function(evt) {
       if (localStorage.getItem(AUTH_STORAGE_KEY) === 'true') return;
       evt.preventDefault();
       const email = prompt('Satıcı girişi için e-posta girin:');
       const password = prompt('Şifre girin:');
-      if (email === AUTH_EMAIL && password === AUTH_PASSWORD) {
-        localStorage.setItem(AUTH_STORAGE_KEY, 'true');
-        window.location.href = 'satici-paneli.html';
-      } else {
-        alert('E-posta veya şifre hatalı. Giriş başarısız.');
+      if (!email || !password) { alert('E-posta ve şifre gerekli.'); return; }
+      try {
+        const res = await fetch('/api/seller/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+        const data = await res.json();
+        if (data.success) {
+          localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+          window.location.href = 'satici-paneli.html';
+        } else {
+          alert(data.error || 'E-posta veya şifre hatalı. Giriş başarısız.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Sunucuya bağlanılamadı.');
       }
     });
   });
 }
+
+async function loadSliderImages() {
+  try {
+    const res = await fetch('http://localhost:3000/api/slider/iletisim');
+    const data = await res.json();
+    if (data.success && data.slider) {
+      const images = document.querySelectorAll('.slider img');
+      const urls = [data.slider.image_url_1, data.slider.image_url_2, data.slider.image_url_3];
+      images.forEach((img, i) => {
+        if (urls[i]) img.src = urls[i];
+      });
+    }
+  } catch (err) {
+    console.log('Slider resimleri yüklenemedi:', err);
+  }
+}
+
 checkSellerLinkAuth();
+loadSliderImages();
+
+// Ajax contact form submit
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.querySelector('.contact-form');
+  if(!form) return;
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const name = document.getElementById('contact_name').value.trim();
+    const email = document.getElementById('contact_email').value.trim();
+    const phone = document.getElementById('contact_phone').value.trim();
+    const message = document.getElementById('contact_message').value.trim();
+    if(!message) return alert('Mesaj girin');
+    try{
+      const product = document.getElementById('contact_product').value.trim();
+      const product_barcode = document.getElementById('contact_product_barcode').value.trim();
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, product, product_barcode, message })
+      });
+      const data = await res.json();
+      if(data.success){
+        let msg = 'Mesajınız gönderildi. Teşekkürler!';
+        if(data.preview) msg += '\nÖnizleme: ' + data.preview;
+        alert(msg);
+        document.getElementById('contact_name').value='';
+        document.getElementById('contact_email').value='';
+        document.getElementById('contact_phone').value='';
+        document.getElementById('contact_message').value='';
+      } else {
+        alert('Gönderilemedi: ' + (data.error || 'Sunucu hatası'));
+      }
+    }catch(err){
+      console.error(err);
+      alert('Sunucuya bağlanılamadı');
+    }
+  });
+});
 
 </script>
 
+<script src="assets/commerce.js"></script>
+<script src="assets/site-settings.js"></script>
 </body>
 </html>

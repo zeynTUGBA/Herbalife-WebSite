@@ -2,89 +2,127 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Zeyn Luxury - Sepetim</title>
+<title>Herbalife - Sepetim</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/commerce.css">
+
 <style>
-    /* Stil kısmında değişiklik yapılmadı, mevcut CSS'iniz korunuyor */
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-    body{background:#0f0f0f;color:#eee;}
-    header{display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(0,0,0,0.75);border-bottom:2px solid rgba(212,175,55,0.3);}
-    .logo{font-size:28px;color:#D4AF37;}
-    .menu-btn{font-size:26px;color:#D4AF37;cursor:pointer;}
-    nav{display:flex;align-items:center;gap:15px;}
-    nav a{text-decoration:none;color:#ddd;}
-    nav a:hover{color:#D4AF37;}
-    .cart-phone{display:flex;align-items:center;gap:10px;}
-    .cart-icon{position:relative;color:#D4AF37;cursor:pointer;}
-    #cartCount{position:absolute;top:-8px;right:-12px;background:red;color:#fff;border-radius:50%;padding:3px 7px;font-size:12px;}
-    .side-menu{position:fixed;top:0;right:-300px;width:260px;height:100%;background:#111;padding:30px;transition:0.4s;z-index:1000;display:flex;flex-direction:column;gap:20px;}
-    .side-menu.active{right:0;}
-    .side-menu a{color:#ddd;text-decoration:none;font-size:18px;}
-    .side-menu a:hover{color:#D4AF37;}
-    .close-btn{font-size:20px;cursor:pointer;}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;}
-    .overlay.active{display:block;}
-    .banner{position:relative;width:90%;margin:40px auto;height:260px;border-radius:20px;overflow:hidden;}
-    .slider img{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0;transition:1s;}
-    .slider img.active{opacity:1;}
-    .banner::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.5);}
-    .banner-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:36px;color:#fff;z-index:2;white-space:nowrap;}
-    .banner span{color:#D4AF37;}
-    .container{width:88%;max-width:900px;margin:40px auto 60px;}
-    h1{text-align:center;color:#D4AF37;margin-bottom:28px;font-size:30px;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0f0f0f;color:#eee;}
 
-    .cart-item{
-        display:flex; align-items:center; gap:16px; padding:14px 18px;
-        background:#111; border:1px solid rgba(212,175,55,0.12);
-        border-radius:14px; margin-bottom:12px;
-    }
-    .cart-item img{ width:70px;height:70px;object-fit:cover;border-radius:10px;background:#1a1a1a;flex-shrink:0; }
-    .cart-item-img-placeholder{ width:70px;height:70px;border-radius:10px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0; }
-    .cart-item-info{flex:1;min-width:0;}
-    .cart-item-info .name{font-weight:600;font-size:15px;color:#fff;}
-    .cart-item-info .price{color:#D4AF37;font-size:14px;margin-top:3px;}
-    .cart-item-info .barcode{font-family:'Courier New',monospace;font-size:11px;color:#888;letter-spacing:1.5px;margin-top:3px;}
-    .cart-item-info .color-info{font-size:12px;color:#aaa;margin-top:3px;display:flex;align-items:center;gap:6px;}
-    .color-dot-small{width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);display:inline-block;}
-    .remove-item-btn{background:#E24B4A;color:#fff;border:none;padding:7px 12px;border-radius:10px;cursor:pointer;font-size:12px;flex-shrink:0;}
+header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:20px 60px;background:rgba(0,0,0,0.75);
+    border-bottom:2px solid rgba(15,157,88,0.25);
+}
 
-    .total{text-align:right;margin:20px 0;font-size:22px;color:#D4AF37;font-weight:700;}
+.logo{font-size:28px;color:#0F9D58;}
 
-    .checkout-card{background:#111;border:1px solid rgba(212,175,55,0.14);border-radius:18px;padding:28px;margin-top:28px;}
-    .checkout-card .section-title{font-size:17px;font-weight:600;color:#fff;margin-bottom:18px;}
-    .field{margin-bottom:16px;}
-    .field-label{display:block;margin-bottom:8px;font-size:13px;color:#bbb;}
-    input,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #333;background:#121212;color:#eee;font-size:14px;}
-    textarea{resize:vertical;min-height:90px;}
-    button{cursor:pointer;border:none;border-radius:12px;font-size:14px;padding:12px 20px;}
-    .btn-gold{background:#D4AF37;color:#0f0f0f;width:100%;font-weight:600;font-size:15px;}
-    .btn-red{background:#E24B4A;color:#fff;margin-top:14px;}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+nav a{color:#ddd;text-decoration:none;margin-left:15px;}
+nav a:hover{color:#0F9D58;}
 
-    .remember-bar{
-        display:flex;align-items:center;gap:10px;margin-bottom:18px;
-        background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.2);
-        border-radius:10px;padding:10px 14px;font-size:13px;color:#ccc;
-    }
-    .remember-bar strong{color:#D4AF37;}
-    .remember-bar button{padding:6px 14px;font-size:12px;background:#333;color:#eee;border-radius:8px;margin-left:auto;}
+.container{width:90%;max-width:900px;margin:40px auto;}
 
-    #toast{position:fixed;top:20px;right:20px;background:rgba(0,0,0,0.88);color:#fff;padding:12px 18px;border-radius:14px;opacity:0;transform:translateY(-10px);transition:opacity 0.25s,transform 0.25s;z-index:10000;}
-    #toast.show{opacity:1;transform:translateY(0);}
+h1{text-align:center;color:#0F9D58;margin-bottom:20px;}
 
-    footer{margin-top:60px;padding:20px;text-align:center;background:#080808;color:#555;}
+.cart-item{
+    display:flex;align-items:center;gap:15px;
+    background:#111;border:1px solid rgba(15,157,88,0.08);
+    padding:12px;border-radius:12px;margin-bottom:10px;
+}
 
-    @media(max-width:680px){
-        header,.container{padding:16px;}
-        .grid2{grid-template-columns:1fr;}
-    }
+.cart-item img{width:60px;height:60px;object-fit:cover;border-radius:10px;}
+
+.total{text-align:right;color:#0F9D58;font-size:20px;margin:20px 0;font-weight:700;}
+
+.checkout-card{
+    background:#111;padding:20px;border-radius:14px;
+    border:1px solid rgba(15,157,88,0.12);
+}
+
+checkout-card h3{
+    color:#0F9D58;margin-bottom:16px;font-size:18px;
+}
+
+input,textarea{
+    width:100%;padding:10px;margin-top:6px;margin-bottom:12px;
+    background:#0f0f0f;color:#fff;
+    border:1px solid #333;border-radius:10px;
+    font-family:'Poppins',sans-serif;
+}
+
+input:focus,textarea:focus{
+    outline:none;border-color:rgba(15,157,88,0.45);
+}
+
+button{
+    width:100%;padding:12px;margin-top:10px;
+    border:none;border-radius:10px;cursor:pointer;
+    font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;
+}
+
+.btn-pay{background:#0F9D58;color:#000;}
+.btn-pay:hover{background:#0e8e4e;}
+.btn-clear{background:#E24B4A;color:#fff;margin-top:8px;}
+.btn-clear:hover{background:#c73b3a;}
+
+.empty-cart{
+    text-align:center;color:#aaa;padding:60px 0;
+    font-size:16px;
+}
+
+.empty-cart div{font-size:48px;margin-bottom:12px;}
+
+#toast{
+    position:fixed;top:20px;right:20px;
+    background:#111;color:#fff;
+    padding:12px 20px;border-radius:10px;
+    border:1px solid rgba(15,157,88,0.25);
+    opacity:0;transform:translateY(-10px);transition:.3s;
+    z-index:99999;
+}
+#toast.show{opacity:1;transform:translateY(0);}
+
+/* PAYTR MODAL */
+.paytr-modal{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.88);
+    display:flex;align-items:center;justify-content:center;
+    z-index:99998;
+}
+
+.paytr-modal-inner{
+    position:relative;
+    width:90%;
+    max-width:500px;
+}
+
+.paytr-modal-close{
+    position:absolute;
+    top:-40px;right:0;
+    background:none;border:none;
+    color:#fff;font-size:26px;
+    cursor:pointer;width:auto;padding:0;
+}
+
+.paytr-modal-close:hover{color:#0F9D58;}
+
+.paytr-modal iframe{
+    width:100%;height:620px;
+    border:none;border-radius:14px;
+    background:#fff;
+}
+
+.loading-spinner{
+    text-align:center;padding:40px;color:#0F9D58;
+}
 </style>
 </head>
+
 <body>
 
 <header>
-    <div class="menu-btn" onclick="openMenu()">☰</div>
-    <div class="logo">Zeyn Luxury</div>
+    <div class="logo">Herbalife</div>
     <nav>
         <a href="index.html">Ana Sayfa</a>
         <a href="urunler.html">Ürünler</a>
@@ -92,288 +130,231 @@
         <a href="hakkimizda.html">Hakkımızda</a>
         <a href="iletisim.html">İletişim</a>
         <a href="satici-paneli.html">Satıcı Panelim</a>
-        <div class="cart-phone">
-            <a href="sepetim.html" class="cart-icon">🛒 <span id="cartCount">0</span></a>
-            <span style="color:#D4AF37;font-weight:600;">📞 0 555 123 45 67</span>
-        </div>
     </nav>
 </header>
 
-<div class="side-menu" id="sideMenu">
-    <div class="close-btn" onclick="closeMenu()">✖</div>
-    <a href="index.html">Ana Sayfa</a>
-    <a href="urunler.html">Ürünler</a>
-    <a href="kampanyalar.html">Kampanyalar</a>
-    <a href="hakkimizda.html">Hakkımızda</a>
-    <a href="iletisim.html">İletişim</a>
-    <a href="satici-paneli.html">Satıcı Panelim</a>
-    <a href="sepetim.html">🛒 Sepetim</a>
-</div>
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
-
-<div class="banner">
-    <div class="slider">
-        <img src="https://picsum.photos/900/300?41" class="active">
-        <img src="https://picsum.photos/900/300?42">
-        <img src="https://picsum.photos/900/300?43">
-    </div>
-    <div class="banner-text">Senin <span>Sepetin</span></div>
-</div>
-
 <div class="container">
-    <h1>Sepetim</h1>
+    <h1>🛒 Sepetim</h1>
+
     <div id="cartItems"></div>
     <div class="total" id="totalPrice"></div>
 
-    <div class="checkout-card">
-        <div class="section-title">Teslimat Bilgileri</div>
-        <div id="remember-bar" class="remember-bar" style="display:none;"></div>
-        <div class="grid2">
-            <div class="field">
-                <div class="field-label">Ad Soyad</div>
-                <input id="checkoutName" type="text" placeholder="Adınız Soyadınız">
-            </div>
-            <div class="field">
-                <div class="field-label">Telefon</div>
-                <input id="checkoutPhone" type="text" placeholder="05XX XXX XX XX">
-            </div>
-        </div>
-        <div class="field">
-            <div class="field-label">Adres</div>
-            <textarea id="checkoutAddress" placeholder="Teslimat adresinizi girin"></textarea>
-        </div>
-        <div class="field" style="display:flex;align-items:center;gap:10px;">
-            <input type="checkbox" id="rememberMe" style="width:auto;padding:0;" checked>
-            <label for="rememberMe" style="font-size:13px;color:#bbb;cursor:pointer;">Bilgilerimi hatırla (bir sonraki siparişte otomatik doldur)</label>
-        </div>
-        <button class="btn-gold" onclick="checkout()">Satın Al</button>
-        <button class="btn-red" onclick="clearCart()">Sepeti Temizle</button>
+    <div class="checkout-card" id="checkoutCard" style="display:none;">
+        <h3>Teslimat Bilgileri</h3>
+
+        <input id="name" type="text" placeholder="Ad Soyad" required>
+        <input id="email" type="email" placeholder="E-posta" required>
+        <input id="phone" type="tel" placeholder="Telefon (05XX XXX XX XX)" required>
+        <textarea id="address" rows="3" placeholder="Teslimat Adresi" required></textarea>
+
+        <button class="btn-pay" onclick="checkout()">💳 ÖDEMEYE GİT</button>
+        <button class="btn-clear" onclick="clearCart()">🗑️ Sepeti Temizle</button>
     </div>
 </div>
 
-<footer>© 2026 Zeyn Luxury Shop</footer>
 <div id="toast"></div>
 
 <script>
-const AUTH_EMAIL = 'ornek@mail.com';
-const AUTH_PASSWORD = 'sifre123';
-const AUTH_STORAGE_KEY = 'sp_seller_auth';
-const USER_INFO_KEY = 'zl_user_info';
+const API = "http://localhost:3000";
 
-function safeParse(key, fallback) {
-    try { 
-        const v = localStorage.getItem(key); 
-        return v ? JSON.parse(v) : fallback; 
-    } catch(e) { 
-        return fallback; 
+function toast(t){
+    let el = document.getElementById("toast");
+    el.innerText = t;
+    el.classList.add("show");
+    setTimeout(() => el.classList.remove("show"), 2500);
+}
+
+function getCart(){
+    try {
+        return JSON.parse(localStorage.getItem("cart") || "[]");
+    } catch(e) {
+        return [];
     }
 }
 
-function openMenu(){ document.getElementById('sideMenu').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
-function closeMenu(){ document.getElementById('sideMenu').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
-
-function showToast(text){
-    let t = document.getElementById('toast');
-    t.innerText = text; t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'),2200);
-}
-
-function updateCartCount(){
-    let cart = safeParse('cart', []);
-    let el = document.getElementById('cartCount');
-    if(el) el.innerText = cart.length;
-}
-
-// Slider
-let slides = document.querySelectorAll('.slider img');
-let idx = 0;
-if(slides.length) {
-    setInterval(() => {
-        slides[idx].classList.remove('active');
-        idx = (idx + 1) % slides.length;
-        slides[idx].classList.add('active');
-    }, 3000);
-}
-
-// Kayıtlı kullanıcı bilgisi yükleme
-function loadSavedUserInfo() {
-    const saved = safeParse(USER_INFO_KEY, null);
-    const bar = document.getElementById('remember-bar');
-    if (saved && saved.name) {
-        document.getElementById('checkoutName').value = saved.name || '';
-        document.getElementById('checkoutPhone').value = saved.phone || '';
-        document.getElementById('checkoutAddress').value = saved.address || '';
-        bar.style.display = 'flex';
-        bar.innerHTML = `<span>Merhaba, <strong>${saved.name}</strong>! Bilgileriniz otomatik dolduruldu.</span><button onclick="clearSavedInfo()">Değiştir</button>`;
-    }
-}
-
-function clearSavedInfo() {
-    localStorage.removeItem(USER_INFO_KEY);
-    document.getElementById('checkoutName').value = '';
-    document.getElementById('checkoutPhone').value = '';
-    document.getElementById('checkoutAddress').value = '';
-    document.getElementById('remember-bar').style.display = 'none';
+function saveCart(c){
+    localStorage.setItem("cart", JSON.stringify(c));
 }
 
 function loadCart(){
-    const cart = safeParse('cart', []);
-    const cartItems = document.getElementById('cartItems');
+    let cart = getCart();
+    let box = document.getElementById("cartItems");
+    let checkoutCard = document.getElementById("checkoutCard");
     let total = 0;
-    if (!cart.length) {
-        cartItems.innerHTML = '<p style="color:#bbb;text-align:center;padding:40px 0;">Sepetiniz boş.</p>';
-        document.getElementById('totalPrice').innerText = '';
+
+    if(cart.length === 0){
+        box.innerHTML = `
+            <div class="empty-cart">
+                <div>🛒</div>
+                <p>Sepetiniz boş</p>
+                <a href="urunler.html" style="color:#0F9D58;text-decoration:none;margin-top:12px;display:inline-block;">
+                    Alışverişe Başla →
+                </a>
+            </div>`;
+        document.getElementById("totalPrice").innerText = "";
+        checkoutCard.style.display = "none";
         return;
     }
-    cartItems.innerHTML = cart.map((item, i) => {
-        total += Number(item.price) || 0;
-        const imgHtml = item.img
-            ? `<img src="${item.img}" alt="${item.name}" onerror="this.style.display='none'">`
-            : `<div class="cart-item-img-placeholder">📦</div>`;
-        const barcodeHtml = item.barcode
-            ? `<div class="barcode">🔢 ${item.barcode}</div>` : '';
-        const colorHtml = (item.selectedColor)
-            ? `<div class="color-info"><span class="color-dot-small" style="background:${item.selectedColor.hex};"></span>${item.selectedColor.name}</div>` : '';
-        
+
+    checkoutCard.style.display = "block";
+
+    box.innerHTML = cart.map((p, i) => {
+        const price = parseFloat(p.price) || 0;
+        total += price;
+
+        const colorsHtml = (p.colors && p.colors.length)
+            ? `<div style="display:flex;gap:4px;margin-top:4px;">
+                ${p.colors.map(c => `<span style="width:12px;height:12px;border-radius:50%;background:${c.hex};border:1px solid rgba(255,255,255,0.2);display:inline-block;" title="${c.name}"></span>`).join('')}
+               </div>`
+            : '';
+
         return `
-            <div class="cart-item">
-                ${imgHtml}
-                <div class="cart-item-info">
-                    <div class="name">${item.name}</div>
-                    <div class="price">₺${Number(item.price).toLocaleString('tr-TR')}</div>
-                    ${barcodeHtml}
-                    ${colorHtml}
-                </div>
-                <button class="remove-item-btn" onclick="removeItem(${i})">Kaldır</button>
-            </div>`;
-    }).join('');
-    document.getElementById('totalPrice').innerText = 'Toplam: ₺' + total.toLocaleString('tr-TR');
+        <div class="cart-item">
+            ${p.img ? `<img src="${p.img}" onerror="this.style.display='none'">` : `<div style="width:60px;height:60px;background:#1a1a1a;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;">📦</div>`}
+            <div style="flex:1">
+                <div style="font-weight:600;">${p.name}</div>
+                <div style="color:#0F9D58;margin-top:2px;">₺${price.toLocaleString('tr-TR')}</div>
+                ${colorsHtml}
+            </div>
+            <button onclick="removeItem(${i})"
+                style="width:auto;padding:8px 14px;background:#E24B4A;color:#fff;border-radius:10px;border:none;cursor:pointer;font-size:13px;">
+                Sil
+            </button>
+        </div>`;
+    }).join("");
+
+    document.getElementById("totalPrice").innerText =
+        "Toplam: ₺" + total.toLocaleString("tr-TR");
 }
 
-function removeItem(i) {
-    let cart = safeParse('cart', []);
+function removeItem(i){
+    let cart = getCart();
     cart.splice(i, 1);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
+    saveCart(cart);
     loadCart();
+    toast("Ürün sepetten çıkarıldı");
 }
 
 function clearCart(){
-    if(confirm("Sepeti temizlemek istediğinize emin misiniz?")) {
-        localStorage.removeItem('cart');
-        updateCartCount();
-        loadCart();
-    }
+    if(!confirm("Sepeti temizlemek istediğinize emin misiniz?")) return;
+    localStorage.removeItem("cart");
+    loadCart();
+    toast("Sepet temizlendi");
 }
 
 async function checkout(){
-    const cart = safeParse('cart', []);
-    if (!cart.length) { showToast('Sepetiniz boş!'); return; }
+    let cart = getCart();
 
-    const name = document.getElementById('checkoutName').value.trim();
-    const phone = document.getElementById('checkoutPhone').value.trim();
-    const address = document.getElementById('checkoutAddress').value.trim();
-
-    // PAYTR VE BANKA KURALLARI GEREĞİ ZORUNLU ALANLAR
-    if (!name || name.length < 3) { 
-        showToast('Lütfen geçerli bir isim girin.'); 
-        return; 
-    }
-    if (!phone || phone.length < 10) { 
-        showToast('Lütfen geçerli bir telefon numarası girin.'); 
-        return; 
-    }
-    if (!address || address.length < 10) { 
-        showToast('Lütfen detaylı bir teslimat adresi girin.'); 
-        return; 
+    if(cart.length === 0){
+        return toast("Sepet boş!");
     }
 
-    // Bilgileri yerel hafızada hatırla
-    if (document.getElementById('rememberMe').checked) {
-        localStorage.setItem(USER_INFO_KEY, JSON.stringify({ name, phone, address }));
+    let name    = document.getElementById("name").value.trim();
+    let email   = document.getElementById("email").value.trim();
+    let phone   = document.getElementById("phone").value.trim();
+    let address = document.getElementById("address").value.trim();
+
+    if(!name || !email || !phone || !address){
+        return toast("Tüm alanlar zorunlu!");
     }
 
-    // Müşteri Kaydı ve Loglama (Yerel Hafıza Paneli İçin)
-    let customers = safeParse('sp_customers', []);
-    const existingIdx = customers.findIndex(c => c.phone === phone);
-    const totalVal = cart.reduce((s, item) => s + (Number(item.price)||0), 0);
-    const orderNote = `Sipariş: ${cart.map(i=>i.name).join(', ')} | Toplam: ₺${totalVal.toLocaleString('tr-TR')} | Adres: ${address}`;
-    
-    if (existingIdx >= 0) {
-        customers[existingIdx].note = (customers[existingIdx].note ? customers[existingIdx].note + '\n' : '') + orderNote;
-        customers[existingIdx].lastOrder = new Date().toLocaleDateString('tr-TR');
-        if (!customers[existingIdx].orderImages) customers[existingIdx].orderImages = [];
-        cart.forEach(item => { if(item.img) customers[existingIdx].orderImages.push({img:item.img, name:item.name, date:new Date().toLocaleDateString('tr-TR')}); });
-    } else {
-        const orderImages = cart.filter(i=>i.img).map(i=>({img:i.img, name:i.name, date:new Date().toLocaleDateString('tr-TR')}));
-        customers.push({ name: name, phone: phone, email:'test@test.com', city:'İstanbul', note: orderNote, date: new Date().toLocaleDateString('tr-TR'), orderImages });
-    }
-    localStorage.setItem('sp_customers', JSON.stringify(customers));
+    // quantity yoksa 1 ekle
+    const cartWithQty = cart.map(item => ({
+        ...item,
+        quantity: item.quantity || 1
+    }));
 
-    // PAYTR Ödeme Entegrasyonu
+    // Butonu devre dışı bırak
+    const btn = document.querySelector(".btn-pay");
+    btn.innerText = "⏳ İşleniyor...";
+    btn.disabled = true;
+
     try {
-        const res = await fetch("http://localhost:3000/pay", {
+        const res = await fetch(API + "/pay", {
             method: "POST",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify({ 
-                cart,
-                customer: { name, phone, address }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                cart: cartWithQty,
+                customer: { name, email, phone, address }
             })
         });
 
         const data = await res.json();
-        
-        // Backend'den hata dönerse kullanıcıya göster
-        if (data.error) {
-            showToast("Hata: " + data.error);
+
+        if(!data.success || !data.iframe_link){
+            console.error("PayTR hatası:", data);
+            toast("Ödeme başlatılamadı: " + (data.reason || "Sunucu hatası"));
+            btn.innerText = "💳 ÖDEMEYE GİT";
+            btn.disabled = false;
             return;
         }
 
-        // Otomatik PayTR Formu Oluşturma ve Gönderme
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "https://www.paytr.com/odeme";
+        // PayTR iframe modalı göster
+        openPaytrModal(data.iframe_link);
 
-        for (let key in data) {
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = key;
-            input.value = data[key];
-            form.appendChild(input);
-        }
-        document.body.appendChild(form);
-        form.submit();
-
-    } catch (err) {
-        console.error(err);
-        showToast("Sunucuya bağlanılamadı. Backend'in çalıştığından emin olun!");
+    } catch(e) {
+        console.error(e);
+        toast("Sunucu bağlantı hatası! (localhost:3000 çalışıyor mu?)");
     }
+
+    btn.innerText = "💳 ÖDEMEYE GİT";
+    btn.disabled = false;
 }
 
-function checkSellerLinkAuth() {
-    document.querySelectorAll('a[href="satici-paneli.html"]').forEach(link => {
-        link.addEventListener('click', function(evt) {
-            if (localStorage.getItem(AUTH_STORAGE_KEY) === 'true') return;
-            evt.preventDefault();
-            const email = prompt('Satıcı girişi için e-posta girin:');
-            const password = prompt('Şifre girin:');
-            if (email === AUTH_EMAIL && password === AUTH_PASSWORD) {
-                localStorage.setItem(AUTH_STORAGE_KEY, 'true');
-                window.location.href = 'satici-paneli.html';
-            } else { 
-                alert('Hatalı giriş.'); 
-            }
-        });
+function openPaytrModal(iframeLink){
+    // Varsa eski modalı kaldır
+    const existing = document.getElementById("paytrModal");
+    if(existing) existing.remove();
+
+    const modal = document.createElement("div");
+    modal.id = "paytrModal";
+    modal.className = "paytr-modal";
+    modal.innerHTML = `
+        <div class="paytr-modal-inner">
+            <button class="paytr-modal-close" onclick="closePaytrModal()">✕</button>
+            <div class="loading-spinner" id="paytrLoading">
+                <div style="font-size:32px;">⏳</div>
+                <p style="margin-top:8px;">Ödeme sayfası yükleniyor...</p>
+            </div>
+            <iframe
+                src="${iframeLink}"
+                id="paytrIframe"
+                style="display:none;"
+                onload="document.getElementById('paytrLoading').style.display='none'; this.style.display='block';">
+            </iframe>
+        </div>
+    `;
+
+    // Modal dışına tıklanınca kapat
+    modal.addEventListener("click", function(e){
+        if(e.target === modal) closePaytrModal();
     });
+
+    document.body.appendChild(modal);
 }
 
-// Sayfa yüklendiğinde çalıştır
-window.onload = () => {
-    loadSavedUserInfo();
-    loadCart();
-    updateCartCount();
-    checkSellerLinkAuth();
-};
+function closePaytrModal(){
+    const modal = document.getElementById("paytrModal");
+    if(modal) modal.remove();
+}
+
+// PayTR'dan başarı/başarısız mesajı dinle
+window.addEventListener("message", function(e){
+    if(e.data === "paytr_payment_success"){
+        closePaytrModal();
+        localStorage.removeItem("cart");
+        loadCart();
+        toast("✅ Ödeme başarılı! Teşekkürler.");
+    } else if(e.data === "paytr_payment_failed"){
+        closePaytrModal();
+        toast("❌ Ödeme başarısız. Lütfen tekrar deneyin.");
+    }
+});
+
+loadCart();
 </script>
+
+<script src="assets/commerce.js"></script>
+<script src="assets/site-settings.js"></script>
 </body>
 </html>

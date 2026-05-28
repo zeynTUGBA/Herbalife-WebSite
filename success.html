@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ödeme Başarılı - Herbalife</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#0f0f0f;
+  color:#eee;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.success-container{
+  width:90%;
+  max-width:600px;
+  background:#1a1a1a;
+  border:2px solid rgba(212,175,55,0.3);
+  border-radius:20px;
+  padding:60px 40px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.7);
+}
+
+.success-icon{
+  width:100px;
+  height:100px;
+  background:linear-gradient(135deg,#4CAF50,#45a049);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:50px;
+  margin:0 auto 30px;
+  animation:scaleIn 0.6s ease-out;
+}
+
+@keyframes scaleIn {
+  from{
+    transform:scale(0);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+h1{
+  font-size:32px;
+  color:#D4AF37;
+  margin-bottom:16px;
+}
+
+.success-message{
+  font-size:16px;
+  color:#ccc;
+  line-height:1.6;
+  margin-bottom:30px;
+}
+
+.order-details{
+  background:rgba(212,175,55,0.1);
+  border:1px solid rgba(212,175,55,0.2);
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:30px;
+  text-align:left;
+}
+
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid rgba(212,175,55,0.1);
+}
+
+.detail-row:last-child{
+  border-bottom:none;
+}
+
+.detail-label{
+  color:#aaa;
+  font-size:14px;
+}
+
+.detail-value{
+  color:#D4AF37;
+  font-weight:600;
+}
+
+.action-buttons{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+button{
+  padding:14px 28px;
+  border:none;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn-primary{
+  background:#D4AF37;
+  color:#0f0f0f;
+}
+
+.btn-primary:hover{
+  background:#ffaa00;
+}
+
+.btn-secondary{
+  background:rgba(212,175,55,0.15);
+  color:#D4AF37;
+  border:1px solid rgba(212,175,55,0.3);
+}
+
+.btn-secondary:hover{
+  background:rgba(212,175,55,0.25);
+}
+
+footer{
+  margin-top:60px;
+  padding:20px;
+  text-align:center;
+  background:#080808;
+  color:#555;
+  border-radius:12px;
+}
+
+@media(max-width:600px){
+  .success-container{
+    padding:40px 20px;
+  }
+  h1{
+    font-size:24px;
+  }
+  .action-buttons{
+    flex-direction:column;
+  }
+  button{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="success-container">
+  <div class="success-icon">✓</div>
+  
+  <h1>Ödeme Başarılı!</h1>
+  
+  <div class="success-message">
+    <p>Siparişiniz başarıyla alındı. Yakında sizinle iletişime geçeceğiz.</p>
+  </div>
+
+  <div class="order-details">
+    <div class="detail-row">
+      <span class="detail-label">Sipariş Numarası:</span>
+      <span class="detail-value" id="order-id">-</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Tutar:</span>
+      <span class="detail-value" id="order-amount">-</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Durum:</span>
+      <span class="detail-value">Ödendi ✓</span>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn-primary" onclick="window.location.href='index.html'">Ana Sayfaya Dön</button>
+    <button class="btn-secondary" onclick="window.location.href='urunler.html'">Ürünleri Gez</button>
+  </div>
+
+  <footer>
+    © 2026 HERBALİFE Shop - Ödemeniz güvenli bir şekilde işlem gördü.
+  </footer>
+</div>
+
+<script>
+// URL'den sipariş bilgilerini oku ve göster
+const params = new URLSearchParams(window.location.search);
+const orderId = params.get('merchant_oid') || localStorage.getItem('lastOrderId') || 'Siparişiniz';
+const amount = params.get('total_amount') || localStorage.getItem('lastOrderAmount') || '-';
+
+document.getElementById('order-id').innerText = orderId;
+if (amount !== '-') {
+  const formattedAmount = (Number(amount) / 100).toLocaleString('tr-TR', { 
+    minimumFractionDigits: 2, 
+    maximumFractionDigits: 2 
+  });
+  document.getElementById('order-amount').innerText = '₺' + formattedAmount;
+}
+
+// Sepeti temizle
+localStorage.removeItem('cart');
+</script>
+<script src="assets/site-settings.js"></script>
+</body>
+</html>
