@@ -2,7 +2,7 @@
   const STORAGE_KEY = 'site_settings';
   const DEFAULTS = {
     logoText: 'Herbalife',
-    phoneText: '📞 0 555 123 45 67',
+    phoneText: '� 0 555 123 45 67',
     footerText: '© 2026 Herbalife',
     searchPlaceholder: 'Ürün ara...',
     bannerText: '%30 <span>Luxury İndirim</span>',
