@@ -2,1807 +2,2005 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Herbalife- Satıcı Paneli</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herbalife — Satıcı Paneli</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
-body{
-  background:#0f0f0f;
-  color:#eee;
-}
-
-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:20px 60px;
-  background:rgba(0,0,0,0.75);
-  border-bottom:2px solid rgba(212,175,55,0.3);
-}
-
-.logo{
-  font-size:28px;
-  color:#D4AF37;
-}
-
-.menu-btn{
-  font-size:26px;
-  color:#D4AF37;
-  cursor:pointer;
-}
-
-nav{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-nav a{
-  text-decoration:none;
-  color:#ddd;
-}
-
-nav a:hover,
-nav a.active{
-  color:#D4AF37;
-}
-
-.cart-phone{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.cart-icon{
-  position:relative;
-  color:#D4AF37;
-  cursor:pointer;
-}
-
-#cartCount{
-  position:absolute;
-  top:-8px;
-  right:-12px;
-  background:red;
-  color:#fff;
-  border-radius:50%;
-  padding:3px 7px;
-  font-size:12px;
-}
-
-#cartCount.bump{
-  transform:scale(1.4);
-  transition:0.2s;
-}
-
-.side-menu{
-  position:fixed;
-  top:0;
-  right:-300px;
-  width:260px;
-  height:100%;
-  background:#111;
-  padding:30px;
-  transition:0.4s;
-  z-index:1000;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
-
-.side-menu.active{
-  right:0;
-}
-
-.side-menu a{
-  color:#ddd;
-  text-decoration:none;
-  font-size:18px;
-}
-
-.side-menu a:hover{
-  color:#D4AF37;
-}
-
-.close-btn{
-  font-size:20px;
-  cursor:pointer;
-}
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  display:none;
-}
+:root {
+  --gold: #D4AF37;
+  --gold-light: #f0d77b;
+  --gold-dark: #a88b28;
+  --gold-glow: rgba(212,175,55,0.15);
+  --gold-border: rgba(212,175,55,0.25);
+  --bg: #080808;
+  --bg2: #0f0f0f;
+  --bg3: #161616;
+  --bg4: #1e1e1e;
+  --bg5: #252525;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.1);
+  --text: #f0f0f0;
+  --text2: #aaa;
+  --text3: #666;
+  --red: #e24b4a;
+  --green: #4caf50;
+  --radius: 14px;
+  --radius-sm: 9px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  height: 64px;
+}
+
+.topbar-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: -0.5px;
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.topbar-nav a {
+  text-decoration: none;
+  color: var(--text2);
+  font-size: 13px;
+  padding: 7px 13px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.topbar-nav a:hover { color: var(--text); background: var(--bg3); }
+.topbar-nav a.active { color: var(--gold); background: var(--gold-glow); }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cart-btn {
+  position: relative;
+  text-decoration: none;
+  color: var(--text2);
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+.cart-btn:hover { color: var(--gold); }
+
+#cartCount {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 600;
+}
 
-.overlay.active{
-  display:block;
-}
-
-.login-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.92);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:10001;
-}
-
-.login-card{
-  width:100%;
-  max-width:420px;
-  background:#111;
-  border:1px solid rgba(212,175,55,0.18);
-  border-radius:20px;
-  padding:30px;
-  box-shadow:0 20px 50px rgba(0,0,0,0.45);
-}
-
-.login-card h2{
-  margin-bottom:16px;
-  color:#fff;
-}
-
-.login-card .field{
-  margin-bottom:16px;
-}
-
-.login-card button{
-  width:100%;
-  background:#D4AF37;
-  color:#111;
-}
-
-.login-error{
-  color:#f48a8a;
-  font-size:13px;
-  margin-bottom:12px;
-  min-height:18px;
-}
-
-.seller-page{
-  width:90%;
-  max-width:1100px;
-  margin:40px auto 60px;
-}
-
-.seller-header{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-between;
-  gap:20px;
-  align-items:flex-start;
-  margin-bottom:24px;
-}
-
-.seller-header h1{
-  font-size:34px;
-  color:#fff;
-}
+.phone-badge {
+  background: var(--gold-glow);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ── SIDE DRAWER ── */
+.drawer {
+  position: fixed;
+  top: 0; right: -280px;
+  width: 260px;
+  height: 100%;
+  background: var(--bg2);
+  border-left: 1px solid var(--border2);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 24px 20px;
+  transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+.drawer.open { right: 0; }
+
+.drawer a {
+  text-decoration: none;
+  color: var(--text2);
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: all 0.18s;
+}
+
+.drawer a:hover { color: var(--text); background: var(--bg4); }
+
+.drawer-close {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 20px;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 10px;
+  padding: 4px;
+}
+
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; z-index:400; }
+.overlay.show { display:block; }
+
+/* ── LOGIN ── */
+.login-wall {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 36px;
+}
+
+.login-box h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.login-box p {
+  color: var(--text3);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+
+.login-err {
+  color: #f48a8a;
+  font-size: 12px;
+  margin-bottom: 14px;
+  min-height: 16px;
+}
+
+/* ── LAYOUT ── */
+.page {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100vh - 64px);
+}
+
+.sidebar {
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  padding: 28px 16px;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  margin-bottom: 28px;
+}
+
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text3);
+  padding: 0 10px;
+  margin-bottom: 8px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  cursor: pointer;
+  color: var(--text2);
+  font-size: 13px;
+  transition: all 0.18s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+}
+
+.sidebar-item:hover { background: var(--bg3); color: var(--text); }
+.sidebar-item.active { background: var(--gold-glow); color: var(--gold); }
+
+.sidebar-item .s-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-badge {
+  margin-left: auto;
+  background: var(--bg4);
+  color: var(--text3);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.sidebar-item.active .sidebar-badge {
+  background: rgba(212,175,55,0.2);
+  color: var(--gold);
+}
+
+/* ── MAIN ── */
+.main-content {
+  padding: 32px 36px;
+  max-width: 960px;
+}
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0.5;
+}
 
-.seller-header p{
-  color:#ccc;
-  margin-top:8px;
+.stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text3);
+  margin-bottom: 8px;
 }
 
-.seller-card{
-  background:#111;
-  border:1px solid rgba(212,175,55,0.14);
-  border-radius:18px;
-  padding:24px;
-  margin-bottom:18px;
+.stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 4px;
 }
+
+/* ── ACCORDION ── */
+.panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
 
-.seller-card.panel-section{
-  padding:0;
-  overflow:hidden;
+.panel.open { border-color: var(--gold-border); }
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.panel-header:hover { background: rgba(255,255,255,0.02); }
+
+.panel-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.panel-ic {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.panel.open .panel-ic {
+  background: var(--gold-glow);
+  border-color: var(--gold-border);
+}
+
+.panel-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
 }
-
-.accordion-toggle{
-  width:100%;
-  min-height:58px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:16px 20px;
-  border-radius:0;
-  background:#0b0b0b;
-  color:#D4AF37;
-  border-bottom:1px solid rgba(212,175,55,0.12);
-  font-weight:700;
-  text-align:left;
+
+.panel-sub {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
 }
 
-.accordion-toggle::after{
-  content:'⌄';
-  font-size:18px;
-  transition:transform .2s ease;
-}
+.panel-chevron {
+  color: var(--text3);
+  font-size: 15px;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), color 0.2s;
+  flex-shrink: 0;
+}
 
-.seller-card.panel-section.collapsed .accordion-toggle::after{
-  transform:rotate(-90deg);
-}
+.panel.open .panel-chevron { transform: rotate(180deg); color: var(--gold); }
 
-.accordion-body{
-  padding:24px;
+.panel-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
 }
 
-.seller-card.panel-section.collapsed .accordion-body{
-  display:none;
-}
+.panel.open .panel-body { max-height: 9000px; }
 
-.grid2{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
+.panel-inner {
+  padding: 0 22px 24px;
+  border-top: 1px solid var(--border);
 }
 
-.grid3{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:16px;
+/* ── SECTION HEADER inside panels ── */
+.sec-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--gold);
+  margin: 20px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
 }
 
-.field{
-  margin-bottom:16px;
-}
+/* ── FORM ── */
+.field { margin-bottom: 14px; }
 
-.field-label{
-  display:block;
-  margin-bottom:8px;
-  font-size:13px;
-  color:#bbb;
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text3);
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
 }
 
-input, select, textarea{
-  width:100%;
-  padding:12px 14px;
-  border-radius:12px;
-  border:1px solid #333;
-  background:#121212;
-  color:#eee;
-  font-size:14px;
+input[type=text], input[type=email], input[type=password],
+input[type=number], input[type=url], select, textarea {
+  width: 100%;
+  padding: 10px 13px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s, background 0.2s;
+  outline: none;
 }
 
-textarea{resize:vertical;}
-
-button{
-  cursor:pointer;
-  border:none;
-  border-radius:12px;
-  font-size:14px;
-  padding:12px 18px;
+input:focus, select:focus, textarea:focus {
+  border-color: var(--gold-border);
+  background: var(--bg4);
 }
 
-button:hover{opacity:0.95;}
+textarea { resize: vertical; }
+select { cursor: pointer; }
 
-.save-btn-blue{
-  background:#D4AF37;
-  color:#0f0f0f;
-  width:100%;
-}
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
 
-.save-btn-green{
-  background:#4CAF50;
-  color:#fff;
-  width:100%;
+/* ── BUTTONS ── */
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 18px;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
 }
 
-.badge{
-  display:inline-block;
-  font-size:11px;
-  padding:4px 10px;
-  border-radius:18px;
-  font-weight:600;
+.btn-gold {
+  background: var(--gold);
+  color: #0a0a0a;
+  width: 100%;
 }
-
-.badge-green{background:#27500A;color:#EAF3DE;}
-.badge-amber{background:#633806;color:#FAEEDA;}
-.badge-red{background:#791F1F;color:#FCEBEB;}
 
-.prod-img{
-  width:60px;
-  height:60px;
-  object-fit:cover;
-  border-radius:12px;
-  background:#1a1a1a;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#D4AF37;
-  font-size:24px;
-  flex-shrink:0;
-}
+.btn-gold:hover { background: var(--gold-light); }
 
-.prod-row{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  flex-wrap:wrap;
+.btn-outline-gold {
+  background: transparent;
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
 }
 
-.delete-btn{
-  background:#E24B4A;
-  color:#fff;
-  padding:8px 14px;
-  border-radius:12px;
-}
+.btn-outline-gold:hover { background: var(--gold-glow); }
 
-#img-preview{
-  border:1px solid #2f2f2f;
-  padding:10px;
-  border-radius:12px;
-  background:#111;
-  max-width:240px;
+.btn-green {
+  background: #1e4e1e;
+  color: #7ddb7d;
+  border: 1px solid rgba(76,175,80,0.3);
+  width: 100%;
 }
 
-#toast{
-  position:fixed;
-  top:20px;
-  right:20px;
-  background:rgba(0,0,0,0.88);
-  color:#fff;
-  padding:12px 18px;
-  border-radius:14px;
-  opacity:0;
-  transform:translateY(-10px);
-  transition:opacity 0.25s, transform 0.25s;
-  z-index:10000;
-}
+.btn-green:hover { background: #254e25; }
 
-#toast.show{
-  opacity:1;
-  transform:translateY(0);
+.btn-red {
+  background: #4e1e1e;
+  color: #f08080;
+  border: 1px solid rgba(226,75,74,0.3);
+  padding: 7px 13px;
+  font-size: 12px;
 }
 
+.btn-red:hover { background: #5e2222; }
 
-.color-input-row{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  margin-bottom:10px;
-  flex-wrap:wrap;
+.btn-ghost {
+  background: var(--bg4);
+  color: var(--text2);
+  border: 1px solid var(--border2);
 }
 
-.color-input-row input[type="text"]{
-  flex:1;
-  min-width:120px;
-}
+.btn-ghost:hover { background: var(--bg5); color: var(--text); }
 
-.color-input-row input[type="color"]{
-  width:44px;
-  height:44px;
-  border-radius:10px;
-  border:1px solid #333;
-  background:#121212;
-  padding:3px;
-  cursor:pointer;
+.btn-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
 }
 
-.color-tag{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:5px 10px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:600;
-  margin:4px 4px 4px 0;
-  border:1px solid rgba(255,255,255,0.15);
-}
+.btn-row .btn-gold { width: auto; }
 
-.color-tag .color-dot{
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,0.25);
-  display:inline-block;
+/* ── BADGE ── */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
 }
 
-.color-tag .remove-color{
-  cursor:pointer;
-  font-size:14px;
-  opacity:0.7;
-  background:none;
-  border:none;
-  color:#eee;
-  padding:0;
-  width:auto;
-  line-height:1;
+.b-green { background: #1a3f1a; color: #80d880; }
+.b-amber { background: #3d2800; color: #f0a030; }
+.b-red   { background: #3f1a1a; color: #e08080; }
+.b-blue  { background: #1a2840; color: #6090e0; }
+
+/* ── PRODUCT CARD ── */
+.prod-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.prod-item:last-child { border-bottom: none; }
+
+.prod-thumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.prod-thumb img { width:100%; height:100%; object-fit:cover; border-radius:10px; }
+
+.prod-info { flex: 1; min-width: 0; }
+.prod-name { font-weight: 600; font-size: 14px; color: var(--text); }
+.prod-meta { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+.prod-price {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  text-align: right;
+}
+
+/* ── COLOR TAGS ── */
+.color-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+
+.color-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  border: 1px solid var(--border2);
+  background: var(--bg4);
+}
+
+.color-dot {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  flex-shrink: 0;
 }
-
-.color-tag .remove-color:hover{
-  opacity:1;
+
+.color-tag button {
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s;
 }
 
-#color-tags-list{
-  display:flex;
-  flex-wrap:wrap;
-  margin-bottom:8px;
-  min-height:10px;
-}
+.color-tag button:hover { color: var(--red); }
 
-.add-color-btn{
-  background:#D4AF37;
-  color:#0f0f0f;
-  padding:10px 16px;
-  font-size:13px;
-  border-radius:10px;
-  flex-shrink:0;
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-/* BARKOD ALANI */
-.barcode-display{
-  font-family:'Courier New', monospace;
-  font-size:13px;
-  color:#D4AF37;
-  background:#1a1a1a;
-  border:1px solid #2f2f2f;
-  border-radius:8px;
-  padding:6px 10px;
-  display:inline-block;
-  letter-spacing:2px;
-  margin-top:4px;
+.color-row input[type=color] {
+  width: 40px;
+  height: 38px;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  flex-shrink: 0;
 }
 
-.gen-barcode-btn{
-  background:#2a2a2a;
-  color:#D4AF37;
-  border:1px solid rgba(212,175,55,0.4);
-  padding:10px 14px;
-  font-size:12px;
-  border-radius:10px;
-  margin-top:6px;
+/* ── BARCODE ── */
+.barcode-display {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 13px;
+  color: var(--gold);
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  letter-spacing: 2px;
+  margin-top: 6px;
+  display: inline-block;
 }
 
-.gen-barcode-btn:hover{
-  background:#333;
+/* ── CUSTOMER ── */
+.cust-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
 }
 
-/* Ürün detay renk gösterimi */
-.prod-colors{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
-  margin-top:6px;
-}
+.cust-item:last-child { border-bottom: none; }
 
-.prod-color-dot{
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  border:2px solid rgba(255,255,255,0.2);
-  display:inline-block;
-  cursor:default;
-  position:relative;
+.cust-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
 }
 
-.prod-color-dot:hover::after{
-  content:attr(title);
-  position:absolute;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#222;
-  color:#fff;
-  padding:3px 8px;
-  border-radius:6px;
-  font-size:11px;
-  white-space:nowrap;
-  pointer-events:none;
+/* ── SUB-ACCORDION (site settings) ── */
+.sub-panel {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  margin-bottom: 8px;
+  overflow: hidden;
 }
 
-@media (max-width: 820px){
-  header, .seller-page{padding:20px;}
-  .grid2{grid-template-columns:1fr;}
-  .grid3{grid-template-columns:1fr 1fr;}
-}
+.sub-panel.open { border-color: var(--gold-border); }
 
-@media (max-width: 580px){
-  header{flex-direction:column;align-items:flex-start;gap:16px;}
-  nav{flex-wrap:wrap;gap:10px;}
-  .grid3{grid-template-columns:1fr;}
+.sub-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.sub-header:hover { background: rgba(255,255,255,0.02); }
+
+.sub-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sub-icon {
+  font-size: 15px;
+  width: 26px;
+  text-align: center;
+  color: var(--gold);
+}
+
+.sub-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.sub-arrow {
+  font-size: 13px;
+  color: var(--text3);
+  transition: transform 0.25s, color 0.2s;
+}
+
+.sub-panel.open .sub-arrow { transform: rotate(180deg); color: var(--gold); }
+
+.sub-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+.sub-panel.open .sub-body { max-height: 3000px; }
+
+.sub-inner {
+  padding: 4px 16px 18px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── COLOR PREVIEW ── */
+.color-preview-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px;
+  background: var(--bg4);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+
+.cp-swatch {
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: default;
+  position: relative;
+}
+
+.cp-swatch:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg5);
+  color: var(--text);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  border: 1px solid var(--border2);
+}
+
+/* ── SLIDER PANEL ── */
+.img-preview-wrap {
+  position: relative;
+}
+
+.img-preview-wrap img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  margin-top: 6px;
+  display: none;
+}
+
+/* ── TOAST ── */
+#toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.25s;
+  z-index: 9999;
+  max-width: 320px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+#toast.show { opacity: 1; transform: translateY(0); }
+#toast.success { border-color: rgba(76,175,80,0.4); color: #7dd87d; }
+#toast.error { border-color: rgba(226,75,74,0.4); color: #f08080; }
+
+/* ── SEARCH ── */
+.search-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.search-wrap input { padding-left: 36px; }
+
+.search-wrap::before {
+  content: '🔍';
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ── IMAGE PREVIEW ── */
+#img-preview-box {
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 200px;
+  display: none;
+}
+
+#img-preview-box img { width: 100%; display: block; }
+
+/* ── MAP ── */
+#address-map-container {
+  margin-top: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: none;
+  height: 180px;
+  border: 1px solid var(--border2);
+}
+
+/* ── MESSAGE CARD ── */
+.msg-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .page { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .topbar { padding: 0 20px; }
+  .topbar-nav { display: none; }
+  .menu-toggle { display: block; }
+  .main-content { padding: 20px; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 540px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .g2, .g3 { grid-template-columns: 1fr; }
+  .topbar-right .phone-badge { display: none; }
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="menu-btn" onclick="openMenu()">☰</div>
-  <div class="logo">Herbalife</div>
-  <nav>
+<!-- ── TOPBAR ── -->
+<header class="topbar">
+  <button class="menu-toggle" onclick="toggleDrawer()">☰</button>
+  <div class="topbar-logo">Herbalife</div>
+  <nav class="topbar-nav">
     <a href="index.html">Ana Sayfa</a>
     <a href="urunler.html">Ürünler</a>
     <a href="kampanyalar.html">Kampanyalar</a>
     <a href="hakkimizda.html">Hakkımızda</a>
     <a href="iletisim.html">İletişim</a>
-    <a href="satici-paneli.html" class="active">Satıcı Panelim</a>
-    <div class="cart-phone">
-      <a href="sepetim.html" class="cart-icon">🛒 <span id="cartCount">0</span></a>
-      <span style="color:#D4AF37; font-weight:600;">📞 0 555 123 45 67</span>
-    </div>
+    <a href="satici-paneli.html" class="active">Satıcı Paneli</a>
   </nav>
+  <div class="topbar-right">
+    <a href="sepetim.html" class="cart-btn">🛒<span id="cartCount">0</span></a>
+    <div class="phone-badge">📞 0 555 123 45 67</div>
+  </div>
 </header>
 
-<div class="side-menu" id="sideMenu">
-  <div class="close-btn" onclick="closeMenu()">✖</div>
+<!-- ── DRAWER ── -->
+<div class="drawer" id="drawer">
+  <button class="drawer-close" onclick="toggleDrawer()">✕</button>
   <a href="index.html">Ana Sayfa</a>
   <a href="urunler.html">Ürünler</a>
   <a href="kampanyalar.html">Kampanyalar</a>
   <a href="hakkimizda.html">Hakkımızda</a>
   <a href="iletisim.html">İletişim</a>
-  <a href="satici-paneli.html">Satıcı Panelim</a>
+  <a href="satici-paneli.html">Satıcı Paneli</a>
   <a href="sepetim.html">🛒 Sepetim</a>
 </div>
+<div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
 
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
-
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
+<!-- ── LOGIN ── -->
+<div class="login-wall" id="loginWall">
+  <div class="login-box">
     <h2>Satıcı Girişi</h2>
-    <div class="login-error" id="loginError"></div>
+    <p>Devam etmek için hesabınıza giriş yapın</p>
+    <div class="login-err" id="loginErr"></div>
     <div class="field">
-      <div class="field-label">E-posta</div>
+      <label class="field-label">E-posta</label>
       <input id="loginEmail" type="email" placeholder="sezzginakdemir@gmail.com">
     </div>
     <div class="field">
-      <div class="field-label">Şifre</div>
-      <input id="loginPassword" type="password" placeholder="sifre123">
+      <label class="field-label">Şifre</label>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <input id="loginPassword" type="password" placeholder="••••••••" style="flex:1;">
+        <button type="button" class="btn btn-outline-gold" style="padding:10px 12px;height:40px;" onclick="togglePassword()">Göster</button>
+      </div>
     </div>
-    <button onclick="submitLogin()">Giriş Yap</button>
+    <button class="btn btn-gold" onclick="doLogin()">Giriş Yap</button>
   </div>
 </div>
 
-<div class="seller-page">
-  <div class="seller-header">
-    <div>
-      <h1>Satıcı Paneli</h1>
-      <p>Ürün yönetimi ve müşteri takibi sitenizin stiliyle entegre edildi.</p>
+<!-- ── MAIN PAGE ── -->
+<div class="page">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Yönetim</div>
+      <div class="sidebar-item active" onclick="scrollToPanel('prd')">
+        <span class="s-icon">📦</span> Ürünler
+        <span class="sidebar-badge" id="sb-prod">0</span>
+      </div>
+      <div class="sidebar-item" onclick="scrollToPanel('cust')">
+        <span class="s-icon">👥</span> Müşteriler
+        <span class="sidebar-badge" id="sb-cust">0</span>
+      </div>
+      <div class="sidebar-item" onclick="scrollToPanel('msg')">
+        <span class="s-icon">✉️</span> Mesajlar
+      </div>
     </div>
-    <div style="min-width:220px;">
-      <div class="seller-card" style="padding:16px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Sayfa</div>
+      <div class="sidebar-item" onclick="scrollToPanel('slider')">
+        <span class="s-icon">🖼️</span> Slider Resimleri
+      </div>
+      <div class="sidebar-item" onclick="scrollToPanel('settings')">
+        <span class="s-icon">⚙️</span> Site Ayarları
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hesap</div>
+      <div class="sidebar-item" onclick="scrollToPanel('pwd')">
+        <span class="s-icon">🔒</span> Şifre Yönetimi
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main-content">
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Toplam Ürün</div>
+        <div class="stat-value" id="stat-prod">0</div>
+        <div class="stat-sub">Kayıtlı ürünler</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Müşteriler</div>
+        <div class="stat-value" id="stat-cust">0</div>
+        <div class="stat-sub">Kayıtlı müşteriler</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Stoksuz</div>
+        <div class="stat-value" id="stat-out" style="color:var(--red)">0</div>
+        <div class="stat-sub">Stok tükenen</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Düşük Stok</div>
+        <div class="stat-value" id="stat-low" style="color:#f0a030">0</div>
+        <div class="stat-sub">10 adetten az</div>
+      </div>
+    </div>
+
+    <!-- ===== 1. ÜRÜNLER ===== -->
+    <div class="panel" id="prd">
+      <div class="panel-header" onclick="togglePanel('prd')">
+        <div class="panel-header-left">
+          <div class="panel-ic">📦</div>
           <div>
-            <div class="field-label">Toplam Ürün</div>
-            <div style="font-size:24px;font-weight:700;color:#D4AF37;" id="mini-product-count">0</div>
+            <div class="panel-title">Ürün Yönetimi</div>
+            <div class="panel-sub">Ürün ekle, listele ve yönet</div>
           </div>
+        </div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-inner">
+
+          <div class="sec-title">Yeni Ürün Ekle</div>
+
+          <div class="g2">
+            <div class="field">
+              <label class="field-label">Ürün adı *</label>
+              <input id="p-name" type="text" placeholder="Ör: Altın Kolye">
+            </div>
+            <div class="field">
+              <label class="field-label">Fiyat (₺) *</label>
+              <input id="p-price" type="number" min="0" placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="g3">
+            <div class="field">
+              <label class="field-label">Stok adedi</label>
+              <input id="p-stock" type="number" min="0" placeholder="0">
+            </div>
+            <div class="field">
+              <label class="field-label">Kategori</label>
+              <select id="p-cat">
+                <option>Kişisel Bakım</option>
+                <option>İçecekler</option>
+                <option>Temel Beslenme</option>
+                <option>Atıştırmalıklar</option>
+                <option>Aktif Yaşam Ürünleri</option>
+                <option>Takviye Edici Gıdalar</option>
+                <option>Tanıtım Ürünleri</option>
+                <option>Kilo Alma ve Verme Setleri</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label">Yayınlanacağı yer</label>
+              <select id="p-target">
+                <option value="urunler">Ürünler</option>
+                <option value="kampanyalar">Kampanyalar</option>
+                <option value="hepsi">Hepsi</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="g2">
+            <div class="field">
+              <label class="field-label">Barkod Numarası</label>
+              <input id="p-barcode" type="text" placeholder="Ör: 8690000123456" maxlength="30">
+              <button class="btn btn-ghost" style="margin-top:6px;padding:7px 12px;font-size:12px;" onclick="genBarcode()">🎲 Otomatik Oluştur</button>
+            </div>
+            <div class="field" id="barcode-preview-wrap" style="display:none">
+              <label class="field-label">Barkod Önizleme</label>
+              <div class="barcode-display" id="barcode-preview-val"></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label">Renk Seçenekleri</label>
+            <div class="color-tags" id="color-tags-list"></div>
+            <div class="color-row">
+              <input type="color" id="p-color-pick" value="#D4AF37">
+              <input type="text" id="p-color-name" placeholder="Renk adı (Ör: Altın, Gümüş)">
+              <button class="btn btn-outline-gold" style="width:auto;padding:9px 14px;font-size:12px;" onclick="addColor()">+ Ekle</button>
+            </div>
+          </div>
+
+          <div class="g2">
+            <div class="field">
+              <label class="field-label">Görsel URL (opsiyonel)</label>
+              <input id="p-img" type="url" placeholder="https://..." oninput="updateImgPreview()">
+            </div>
+            <div class="field">
+              <label class="field-label">Bilgisayardan Yükle</label>
+              <input id="p-img-file" type="file" accept="image/*" onchange="loadImgFile()">
+            </div>
+          </div>
+
+          <div id="img-preview-box" style="margin-bottom:14px;">
+            <img id="img-preview-img" alt="önizleme">
+          </div>
+
+          <div class="field">
+            <label class="field-label">Açıklama</label>
+            <textarea id="p-desc" rows="3" placeholder="Kısa ürün açıklaması..."></textarea>
+          </div>
+
+          <button id="saveProductButton" class="btn btn-gold" onclick="addOrUpdateProduct()">Ürünü Kaydet</button>
+          <button id="cancelEditButton" class="btn btn-outline-gold" style="margin-top:12px;display:none;width:auto;padding:10px 22px;" onclick="resetProductForm()">Düzenlemeyi İptal Et</button>
+
+          <div class="sec-title" style="margin-top:28px;">Ürün Listesi</div>
+          <div id="prod-list"></div>
+          <p id="no-prod" style="color:var(--text3);text-align:center;padding:24px 0;display:none;">Henüz ürün eklenmedi.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 2. MÜŞTERİLER ===== -->
+    <div class="panel" id="cust">
+      <div class="panel-header" onclick="togglePanel('cust')">
+        <div class="panel-header-left">
+          <div class="panel-ic">👥</div>
           <div>
-            <div class="field-label">Müşteri</div>
-            <div style="font-size:24px;font-weight:700;color:#D4AF37;" id="mini-customer-count">0</div>
+            <div class="panel-title">Müşteriler</div>
+            <div class="panel-sub">Müşteri listesi ve yeni kayıt</div>
+          </div>
+        </div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-inner">
+          <div class="search-wrap">
+            <input id="cust-search" type="text" placeholder="İsim, telefon veya e-posta ara..." oninput="renderCustomers()">
+          </div>
+          <div id="cust-list"></div>
+          <p id="no-cust" style="color:var(--text3);text-align:center;padding:24px 0;display:none;">Henüz müşteri kaydı yok.</p>
+
+          <div class="sec-title" style="margin-top:20px;">Yeni Müşteri Ekle</div>
+          <div class="g2">
+            <div class="field"><label class="field-label">Ad Soyad *</label><input id="c-name" placeholder="Ali Yılmaz"></div>
+            <div class="field"><label class="field-label">Telefon</label><input id="c-phone" placeholder="05XX XXX XX XX"></div>
+          </div>
+          <div class="g2">
+            <div class="field"><label class="field-label">E-posta</label><input id="c-email" type="email" placeholder="ali@example.com"></div>
+            <div class="field"><label class="field-label">Şehir</label><input id="c-city" placeholder="İstanbul"></div>
+          </div>
+          <div class="field">
+            <label class="field-label">Adres</label>
+            <input id="c-address" placeholder="Örn: Taksim, İstanbul" oninput="updateAddrMap()">
+            <div id="address-map-container">
+              <iframe id="address-map" width="100%" height="180" style="border:none;" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+          <div class="field"><label class="field-label">Not</label><textarea id="c-note" rows="3" placeholder="Özel not..."></textarea></div>
+          <button class="btn btn-green" onclick="addCustomer()">Müşteriyi Kaydet</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 3. MESAJLAR ===== -->
+    <div class="panel" id="msg">
+      <div class="panel-header" onclick="togglePanel('msg')">
+        <div class="panel-header-left">
+          <div class="panel-ic">✉️</div>
+          <div>
+            <div class="panel-title">Mesajlar</div>
+            <div class="panel-sub">Ziyaretçi mesajları ve cevaplar</div>
+          </div>
+        </div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-inner">
+          <div id="messages-container">
+            <p style="color:var(--text3);padding:20px 0;">Yükleniyor...</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="seller-card" data-accordion-title="Yeni Ürün Ekle">
-    <div style="font-size:18px;font-weight:600;margin-bottom:18px;color:#fff;">Yeni Ürün Ekle</div>
-
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">Ürün adı</div>
-        <input id="p-name" placeholder="Ör: Altın Kolye">
-      </div>
-      <div class="field">
-        <div class="field-label">Fiyat (₺)</div>
-        <input id="p-price" type="number" min="0" placeholder="0">
-      </div>
-    </div>
-
-    <div class="grid3">
-      <div class="field">
-        <div class="field-label">Stok adedi</div>
-        <input id="p-stock" type="number" min="0" placeholder="0">
-      </div>
-      <div class="field">
-        <div class="field-label">Kategori</div>
-        <select id="p-cat">
-          <option>Takı</option>
-          <option>Aksesuar</option>
-          <option>Giyim</option>
-          <option>Elektronik</option>
-          <option>Diğer</option>
-        </select>
-      </div>
-      <div class="field">
-        <div class="field-label">Yayınlanacağı yer</div>
-        <select id="p-target">
-          <option value="urunler">Ürünler</option>
-          <option value="kampanyalar">Kampanyalar</option>
-          <option value="hepsi">Hepsi</option>
-        </select>
-      </div>
-    </div>
-
-   
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">Barkod Numarası</div>
-        <input id="p-barcode" placeholder="Ör: 8690000123456" maxlength="30">
-        <button class="gen-barcode-btn" onclick="generateBarcode()" type="button">🎲 Otomatik Oluştur</button>
-      </div>
-      <div class="field" id="barcode-preview-field" style="display:none;">
-        <div class="field-label">Barkod Önizlemesi</div>
-        <div class="barcode-display" id="barcode-preview-val"></div>
-      </div>
-    </div>
-
-  
-    <div class="field">
-      <div class="field-label">Renk Seçenekleri</div>
-      <div id="color-tags-list"></div>
-      <div class="color-input-row">
-        <input type="color" id="p-color-pick" value="#D4AF37" title="Renk seç">
-        <input type="text" id="p-color-name" placeholder="Renk adı (Ör: Altın, Gümüş, Siyah)">
-        <button class="add-color-btn" onclick="addColor()" type="button">+ Renk Ekle</button>
-      </div>
-      <p style="font-size:12px;color:#777;">Birden fazla renk ekleyebilirsiniz. Her rengi ayrı ayrı ekleyin.</p>
-    </div>
-
-    <div class="field">
-      <div class="field-label">Görsel URL (opsiyonel)</div>
-      <input id="p-img" placeholder="https://..." oninput="updateImagePreview()">
-    </div>
-    <div class="field">
-      <div class="field-label">Bilgisayardan ürün fotoğrafı seç</div>
-      <input id="p-img-file" type="file" accept="image/*" onchange="previewSelectedImage()">
-    </div>
-    <div class="field" id="img-preview-field" style="display:none;">
-      <div class="field-label">Resim önizlemesi</div>
-      <div id="img-preview"></div>
-    </div>
-    <div class="field">
-      <div class="field-label">Açıklama</div>
-      <textarea id="p-desc" rows="3" placeholder="Kısa ürün açıklaması..."></textarea>
-    </div>
-    <button class="save-btn-blue" onclick="addProduct()">Ürünü Kaydet</button>
-  </div>
-
-  <div id="prod-list"></div>
-  <p id="no-prod" style="color:#bbb; padding:28px 0; text-align:center; display:none;">Henüz ürün eklenmedi.</p>
-
-  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Müşteriler">
-    <div style="font-size:18px;font-weight:600;margin-bottom:18px;color:#fff;">Müşteriler</div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
-      <input id="cust-search" style="flex:1;min-width:220px;" placeholder="İsim veya telefon ara..." oninput="renderCustomers()">
-    </div>
-    <div class="seller-card" style="padding:18px; margin:0 0 18px;">
-      <div id="cust-list"></div>
-      <p id="no-cust" style="color:#bbb; padding:22px 0; text-align:center; display:none;">Henüz müşteri kaydedilmedi.</p>
-    </div>
-    <div class="seller-card" style="padding:18px; margin:0;">
-      <div style="font-size:18px;font-weight:600;margin-bottom:18px;color:#fff;">Müşteri Ekle</div>
-      <div class="grid2">
-        <div class="field">
-          <div class="field-label">Ad soyad</div>
-          <input id="c-name" placeholder="Ali Yılmaz">
+    <!-- ===== 4. SLIDER ===== -->
+    <div class="panel" id="slider">
+      <div class="panel-header" onclick="togglePanel('slider')">
+        <div class="panel-header-left">
+          <div class="panel-ic">🖼️</div>
+          <div>
+            <div class="panel-title">Slider Resimleri</div>
+            <div class="panel-sub">Her sayfa için slider yönetimi</div>
+          </div>
         </div>
-        <div class="field">
-          <div class="field-label">Telefon</div>
-          <input id="c-phone" placeholder="05XX XXX XX XX">
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-inner">
+          <div id="sliders-container"></div>
         </div>
       </div>
-      <div class="grid2">
-        <div class="field">
-          <div class="field-label">E-posta</div>
-          <input id="c-email" placeholder="ali@example.com">
+    </div>
+
+    <!-- ===== 5. SİTE AYARLARI ===== -->
+    <div class="panel" id="settings">
+      <div class="panel-header" onclick="togglePanel('settings')">
+        <div class="panel-header-left">
+          <div class="panel-ic">⚙️</div>
+          <div>
+            <div class="panel-title">Site Ayarları</div>
+            <div class="panel-sub">Genel, hakkımızda, iletişim, tema, menü</div>
+          </div>
         </div>
-        <div class="field">
-          <div class="field-label">Şehir</div>
-          <input id="c-city" placeholder="İstanbul">
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-inner">
+
+          <!-- 5a Genel -->
+          <div class="sub-panel" id="sub-genel">
+            <div class="sub-header" onclick="toggleSub('sub-genel')">
+              <div class="sub-header-left">
+                <span class="sub-icon">🏷️</span>
+                <span class="sub-title">Genel Bilgiler</span>
+              </div>
+              <span class="sub-arrow">▼</span>
+            </div>
+            <div class="sub-body">
+              <div class="sub-inner">
+                <div class="g2" style="margin-top:10px;">
+                  <div class="field"><label class="field-label">Marka Adı</label><input id="site_logo_text" placeholder="Herbalife"></div>
+                  <div class="field"><label class="field-label">Arama Placeholder</label><input id="site_search_placeholder" placeholder="Ürün ara..."></div>
+                </div>
+                <div class="g2">
+                  <div class="field"><label class="field-label">Anasayfa Üst Şerit</label><input id="site_top_strip_text" placeholder="Bugune ozel 2500 TL uzeri ucretsiz kargo"></div>
+                  <div class="field"><label class="field-label">Footer Metni</label><input id="site_footer_text" placeholder="© 2026 Herbalife"></div>
+                </div>
+                <div class="g2">
+                  <div class="field"><label class="field-label">Telefon Metni</label><input id="site_phone_text" placeholder="📞 0 555 123 45 67"></div>
+                  <div class="field"><label class="field-label">Banner Başlığı</label><input id="site_banner_text" placeholder="%30 Luxury İndirim"></div>
+                </div>
+                <div class="btn-row">
+                  <button class="btn btn-gold" onclick="saveSiteSettings()">Kaydet</button>
+                  <button class="btn btn-ghost" onclick="loadSiteSettings()">Yenile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5b Hakkımızda -->
+          <div class="sub-panel" id="sub-about">
+            <div class="sub-header" onclick="toggleSub('sub-about')">
+              <div class="sub-header-left">
+                <span class="sub-icon">📖</span>
+                <span class="sub-title">Hakkımızda</span>
+              </div>
+              <span class="sub-arrow">▼</span>
+            </div>
+            <div class="sub-body">
+              <div class="sub-inner">
+                <div class="field" style="margin-top:10px;"><label class="field-label">Hakkımızda Başlığı</label><input id="site_about_title" placeholder="Biz Kimiz?"></div>
+                <div class="field"><label class="field-label">İçerik (HTML veya Düz Metin)</label><textarea id="site_about_content" rows="8" placeholder="Hakkımızda sayfasının içeriğini buraya yazın..."></textarea></div>
+                <div class="btn-row">
+                  <button class="btn btn-gold" onclick="saveSiteSettings()">Kaydet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5c İletişim -->
+          <div class="sub-panel" id="sub-contact">
+            <div class="sub-header" onclick="toggleSub('sub-contact')">
+              <div class="sub-header-left">
+                <span class="sub-icon">📞</span>
+                <span class="sub-title">İletişim Bilgileri</span>
+              </div>
+              <span class="sub-arrow">▼</span>
+            </div>
+            <div class="sub-body">
+              <div class="sub-inner">
+                <div class="field" style="margin-top:10px;"><label class="field-label">İletişim Sayfası Başlığı</label><input id="site_contact_title" placeholder="İletişim"></div>
+                <div class="field"><label class="field-label">Adres</label><input id="site_contact_address" placeholder="Bursa, Türkiye"></div>
+                <div class="g2">
+                  <div class="field"><label class="field-label">Telefon</label><input id="site_contact_phone" placeholder="+90 555 123 45 67"></div>
+                  <div class="field"><label class="field-label">E-posta</label><input id="site_contact_email" type="email" placeholder="sezzginakdemir@gmail.com"></div>
+                </div>
+                <div class="btn-row">
+                  <button class="btn btn-gold" onclick="saveSiteSettings()">Kaydet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5d Tema Renkleri -->
+          <div class="sub-panel" id="sub-theme">
+            <div class="sub-header" onclick="toggleSub('sub-theme')">
+              <div class="sub-header-left">
+                <span class="sub-icon">🎨</span>
+                <span class="sub-title">Tema Renkleri</span>
+              </div>
+              <span class="sub-arrow">▼</span>
+            </div>
+            <div class="sub-body">
+              <div class="sub-inner">
+                <div style="margin-top:10px;margin-bottom:12px;">
+                  <label class="field-label">Canlı Önizleme</label>
+                  <div class="color-preview-row">
+                    <div class="cp-swatch" id="prev-primary" title="Birincil Renk" style="background:#D4AF37"></div>
+                    <div class="cp-swatch" id="prev-accent" title="Accent Renk" style="background:#f0d77b"></div>
+                    <div class="cp-swatch" id="prev-text" title="Metin" style="background:#eeeeee"></div>
+                    <div class="cp-swatch" id="prev-muted" title="Soluk Metin" style="background:#a7a09a"></div>
+                    <div class="cp-swatch" id="prev-header" title="Header Arkaplan" style="background:#000000;border:1px solid #333"></div>
+                    <div class="cp-swatch" id="prev-btn" title="Buton Yazı" style="background:#000000;border:1px solid #333"></div>
+                  </div>
+                </div>
+                <div class="g2">
+                  <div class="field"><label class="field-label">Birincil Renk</label><input id="site_primary_color" type="color" value="#D4AF37" oninput="updateSwatch('primary',this.value)"></div>
+                  <div class="field"><label class="field-label">Accent Renk</label><input id="site_accent_color" type="color" value="#f0d77b" oninput="updateSwatch('accent',this.value)"></div>
+                  <div class="field"><label class="field-label">Metin Rengi</label><input id="site_text_color" type="color" value="#eeeeee" oninput="updateSwatch('text',this.value)"></div>
+                  <div class="field"><label class="field-label">Soluk Metin</label><input id="site_muted_color" type="color" value="#a7a09a" oninput="updateSwatch('muted',this.value)"></div>
+                  <div class="field"><label class="field-label">Header Arkaplan</label><input id="site_header_bg" type="color" value="#000000" oninput="updateSwatch('header',this.value)"></div>
+                  <div class="field"><label class="field-label">Buton Yazı Rengi</label><input id="site_button_text_color" type="color" value="#000000" oninput="updateSwatch('btn',this.value)"></div>
+                </div>
+                <div class="btn-row">
+                  <button class="btn btn-gold" onclick="saveSiteSettings()">Kaydet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5e Menü Etiketleri -->
+          <div class="sub-panel" id="sub-nav">
+            <div class="sub-header" onclick="toggleSub('sub-nav')">
+              <div class="sub-header-left">
+                <span class="sub-icon">🗂️</span>
+                <span class="sub-title">Menü Etiketleri</span>
+              </div>
+              <span class="sub-arrow">▼</span>
+            </div>
+            <div class="sub-body">
+              <div class="sub-inner">
+                <div class="g3" style="margin-top:10px;">
+                  <div class="field"><label class="field-label">Ana Sayfa</label><input id="site_nav_home_text" placeholder="Ana Sayfa"></div>
+                  <div class="field"><label class="field-label">Ürünler</label><input id="site_nav_products_text" placeholder="Ürünler"></div>
+                  <div class="field"><label class="field-label">Kampanyalar</label><input id="site_nav_campaign_text" placeholder="Kampanyalar"></div>
+                  <div class="field"><label class="field-label">Hakkımızda</label><input id="site_nav_about_text" placeholder="Hakkımızda"></div>
+                  <div class="field"><label class="field-label">İletişim</label><input id="site_nav_contact_text" placeholder="İletişim"></div>
+                  <div class="field"><label class="field-label">Satıcı Paneli</label><input id="site_nav_seller_text" placeholder="Satıcı Panelim"></div>
+                  <div class="field"><label class="field-label">Sepet</label><input id="site_nav_cart_text" placeholder="Sepetim"></div>
+                </div>
+                <div class="btn-row">
+                  <button class="btn btn-gold" onclick="saveSiteSettings()">Kaydet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tümünü Kaydet -->
+          <div style="display:flex;gap:10px;margin-top:16px;">
+            <button class="btn btn-gold" onclick="saveSiteSettings()" style="width:auto;padding:10px 22px;">Tüm Ayarları Kaydet</button>
+            <button class="btn btn-ghost" onclick="loadSiteSettings()">Yenile</button>
+          </div>
+
         </div>
       </div>
-      <div class="field">
-        <div class="field-label">Adres</div>
-        <input id="c-address" placeholder="Örn: Taksim, İstanbul" oninput="updateAddressMap()">
-        <div id="address-map-container" style="margin-top:12px;border-radius:12px;overflow:hidden;display:none;height:200px;">
-          <iframe id="address-map" width="100%" height="200" style="border:none;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <!-- ===== 6. ŞİFRE ===== -->
+    <div class="panel" id="pwd">
+      <div class="panel-header" onclick="togglePanel('pwd')">
+        <div class="panel-header-left">
+          <div class="panel-ic">🔒</div>
+          <div>
+            <div class="panel-title">Şifre Yönetimi</div>
+            <div class="panel-sub">Satıcı paneli giriş şifrenizi güncelleyin</div>
+          </div>
+        </div>
+        <span class="panel-chevron">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-inner">
+          <div class="g3" style="margin-top:4px;">
+            <div class="field"><label class="field-label">Mevcut Şifre</label><input id="current_seller_password" type="password" placeholder="••••••••"></div>
+            <div class="field"><label class="field-label">Yeni Şifre</label><input id="new_seller_password" type="password" placeholder="••••••••"></div>
+            <div class="field"><label class="field-label">Yeni Şifre (Tekrar)</label><input id="confirm_seller_password" type="password" placeholder="••••••••"></div>
+          </div>
+          <button class="btn btn-gold" style="width:auto;padding:10px 22px;" onclick="changeSellerPassword()">Şifreyi Güncelle</button>
         </div>
       </div>
-      <div class="field">
-        <div class="field-label">Not</div>
-        <textarea id="c-note" rows="3" placeholder="Özel not..."></textarea>
-      </div>
-      <button class="save-btn-green" onclick="addCustomer()">Müşteriyi Kaydet</button>
-    </div>
-  </div>
-
-  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Slider Resimleri Yönet">
-    <div style="font-size:18px;font-weight:600;margin-bottom:18px;color:#fff;">Slider Resimleri Yönet</div>
-    <p style="color:#aaa;margin-bottom:20px;">Sayfa başlarındaki slider resimlerini düzenleyin</p>
-    <div id="sliders-container"></div>
-  </div>
-
-  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Site Ayarları">
-    <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Site Ayarları</div>
-    <p style="color:#aaa;margin-bottom:12px;">Hakkımızda içeriği, iletişim bilgileri, metin ve tema renklerini buradan düzenleyin.</p>
-    <div class="field">
-      <div class="field-label">Logo Metni</div>
-      <input id="site_logo_text" placeholder="Site adı veya logo metni">
-    </div>
-    <div class="field">
-      <div class="field-label">Arama Placeholder</div>
-      <input id="site_search_placeholder" placeholder="Ürün ara...">
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">Footer Metni</div>
-        <input id="site_footer_text" placeholder="© 2026 Herbalife">
-      </div>
-      <div class="field">
-        <div class="field-label">Telefon Metni</div>
-        <input id="site_phone_text" placeholder="📞 0 555 123 45 67">
-      </div>
     </div>
 
-    <div class="field" style="margin-top:20px;">
-      <div class="field-label">Sayfa Banner Metinleri</div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">Ana Sayfa Banner</div>
-        <input id="site_home_banner_text" placeholder="%30 Luxury İndirim">
-      </div>
-      <div class="field">
-        <div class="field-label">Ana Sayfa Vurgu</div>
-        <input id="site_home_banner_accent_text" placeholder="Luxury İndirim">
-      </div>
-      <div class="field">
-        <div class="field-label">Ürünler Banner</div>
-        <input id="site_products_banner_text" placeholder="Tüm Ürünler">
-      </div>
-      <div class="field">
-        <div class="field-label">Ürünler Vurgu</div>
-        <input id="site_products_banner_accent_text" placeholder="Ürünler">
-      </div>
-      <div class="field">
-        <div class="field-label">Kampanyalar Banner</div>
-        <input id="site_campaign_banner_text" placeholder="%30 Luxury İndirim">
-      </div>
-      <div class="field">
-        <div class="field-label">Kampanyalar Vurgu</div>
-        <input id="site_campaign_banner_accent_text" placeholder="Luxury İndirim">
-      </div>
-      <div class="field">
-        <div class="field-label">Hakkımızda Banner</div>
-        <input id="site_about_banner_text" placeholder="Biz Kimiz?">
-      </div>
-      <div class="field">
-        <div class="field-label">Hakkımızda Vurgu</div>
-        <input id="site_about_banner_accent_text" placeholder="Kimiz?">
-      </div>
-      <div class="field">
-        <div class="field-label">İletişim Banner</div>
-        <input id="site_contact_banner_text" placeholder="Bizimle İletişime Geç">
-      </div>
-      <div class="field">
-        <div class="field-label">İletişim Vurgu</div>
-        <input id="site_contact_banner_accent_text" placeholder="İletişime Geç">
-      </div>
-      <div class="field">
-        <div class="field-label">Sepet Banner</div>
-        <input id="site_cart_banner_text" placeholder="Sepetim">
-      </div>
-      <div class="field">
-        <div class="field-label">Başarılı Ödeme Başlığı</div>
-        <input id="site_success_title" placeholder="Ödeme Başarılı">
-      </div>
-    </div>
-
-    <div class="field" style="margin-top:20px;">
-      <div class="field-label">Ürün Liste Metinleri</div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">Ana Sayfa Ürün Başlığı</div>
-        <input id="site_products_section_title" placeholder="Öne Çıkan Ürünler">
-      </div>
-      <div class="field">
-        <div class="field-label">Sepete Ekle Butonu</div>
-        <input id="site_add_to_cart_text" placeholder="Sepete Ekle">
-      </div>
-      <div class="field">
-        <div class="field-label">Ürün Yok Metni</div>
-        <input id="site_product_empty_text" placeholder="Ürün bulunamadı.">
-      </div>
-      <div class="field">
-        <div class="field-label">Kampanya Yok Metni</div>
-        <input id="site_campaign_empty_text" placeholder="Kampanya ürünü bulunamadı.">
-      </div>
-    </div>
-
-    <div class="field" style="margin-top:20px;">
-      <div class="field-label">Sepet Metinleri</div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">Sepet Başlığı</div>
-        <input id="site_cart_title" placeholder="🛒 Sepetim">
-      </div>
-      <div class="field">
-        <div class="field-label">Sepeti Temizle Butonu</div>
-        <input id="site_clear_cart_text" placeholder="🗑️ Sepeti Temizle">
-      </div>
-      <div class="field">
-        <div class="field-label">Boş Sepet Metni</div>
-        <input id="site_empty_cart_text" placeholder="Sepetiniz boş">
-      </div>
-      <div class="field">
-        <div class="field-label">Ödeme Butonu</div>
-        <input id="site_checkout_text" placeholder="💳 ÖDEMEYE GİT">
-      </div>
-    </div>
-
-    <div class="field">
-      <div class="field-label">Hakkımızda Başlığı</div>
-      <input id="site_about_title" placeholder="Hakkımızda başlığı">
-    </div>
-    <div class="field">
-      <div class="field-label">Hakkımızda İçerik (HTML/Metin)</div>
-      <textarea id="site_about_content" rows="6" placeholder="Hakkımızda metni..."></textarea>
-    </div>
-    <div class="field">
-      <div class="field-label">İletişim Başlığı</div>
-      <input id="site_contact_title" placeholder="İletişim">
-    </div>
-    <div class="field">
-      <div class="field-label">İletişim - Adres</div>
-      <input id="site_contact_address" placeholder="Örn: Bursa, Türkiye">
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">İletişim - Telefon</div>
-        <input id="site_contact_phone" placeholder="Örn: +90 555 123 45 67">
-      </div>
-      <div class="field">
-        <div class="field-label">İletişim - E-posta</div>
-        <input id="site_contact_email" placeholder="sezzginakdemir@gmail.com">
-      </div>
-    </div>
-    <div class="field" style="margin-top:20px;">
-      <div class="field-label">İletişim Formu Metinleri</div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">Ad Soyad Placeholder</div>
-        <input id="site_contact_name_placeholder" placeholder="Adınız Soyadınız">
-      </div>
-      <div class="field">
-        <div class="field-label">Email Placeholder</div>
-        <input id="site_contact_email_placeholder" placeholder="Email Adresiniz">
-      </div>
-      <div class="field">
-        <div class="field-label">Telefon Placeholder</div>
-        <input id="site_contact_phone_placeholder" placeholder="Telefon (opsiyonel)">
-      </div>
-      <div class="field">
-        <div class="field-label">Ürün Placeholder</div>
-        <input id="site_contact_product_placeholder" placeholder="Ürün adı (opsiyonel)">
-      </div>
-      <div class="field">
-        <div class="field-label">Barkod Placeholder</div>
-        <input id="site_contact_barcode_placeholder" placeholder="Ürün barkodu (opsiyonel)">
-      </div>
-      <div class="field">
-        <div class="field-label">Gönder Butonu</div>
-        <input id="site_contact_submit_text" placeholder="Gönder">
-      </div>
-    </div>
-    <div class="field">
-      <div class="field-label">Mesaj Placeholder</div>
-      <input id="site_contact_message_placeholder" placeholder="Mesajınız...">
-    </div>
-
-    <div class="field" style="margin-top:20px;">
-      <div class="field-label">Tema Renkleri</div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <div class="field-label">Birincil Renk</div>
-        <input id="site_primary_color" type="color" value="#D4AF37">
-      </div>
-      <div class="field">
-        <div class="field-label">Accent Renk</div>
-        <input id="site_accent_color" type="color" value="#f0d77b">
-      </div>
-      <div class="field">
-        <div class="field-label">Metin Rengi</div>
-        <input id="site_text_color" type="color" value="#eeeeee">
-      </div>
-      <div class="field">
-        <div class="field-label">Faik Metin Rengi</div>
-        <input id="site_muted_color" type="color" value="#a7a09a">
-      </div>
-      <div class="field">
-        <div class="field-label">Header Arka Plan</div>
-        <input id="site_header_bg" type="color" value="#000000">
-      </div>
-      <div class="field">
-        <div class="field-label">Buton Yazı Rengi</div>
-        <input id="site_button_text_color" type="color" value="#000000">
-      </div>
-    </div>
-
-    <div class="field" style="margin-top:20px;">
-      <div class="field-label">Menü Etiketleri</div>
-    </div>
-    <div class="grid3" style="gap:12px;">
-      <div class="field">
-        <div class="field-label">Ana Sayfa</div>
-        <input id="site_nav_home_text" placeholder="Ana Sayfa">
-      </div>
-      <div class="field">
-        <div class="field-label">Ürünler</div>
-        <input id="site_nav_products_text" placeholder="Ürünler">
-      </div>
-      <div class="field">
-        <div class="field-label">Kampanyalar</div>
-        <input id="site_nav_campaign_text" placeholder="Kampanyalar">
-      </div>
-      <div class="field">
-        <div class="field-label">Hakkımızda</div>
-        <input id="site_nav_about_text" placeholder="Hakkımızda">
-      </div>
-      <div class="field">
-        <div class="field-label">İletişim</div>
-        <input id="site_nav_contact_text" placeholder="İletişim">
-      </div>
-      <div class="field">
-        <div class="field-label">Satıcı Paneli</div>
-        <input id="site_nav_seller_text" placeholder="Satıcı Panelim">
-      </div>
-      <div class="field">
-        <div class="field-label">Sepet</div>
-        <input id="site_nav_cart_text" placeholder="Sepetim">
-      </div>
-    </div>
-
-    <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;">
-      <button class="save-btn-blue" onclick="saveSiteSettings()">Ayarları Kaydet</button>
-      <button class="save-btn-green" onclick="loadSiteSettings()" style="width:auto;padding:12px 18px;">Ayarları Yükle</button>
-    </div>
-  </div>
-
-  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Satıcı Şifre Yönetimi">
-    <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Satıcı Şifre Yönetimi</div>
-    <p style="color:#aaa;margin-bottom:12px;">Satıcı paneli giriş şifresini buradan değiştirebilirsiniz.</p>
-    <div class="field">
-      <div class="field-label">Mevcut Şifre</div>
-      <input id="current_seller_password" type="password" placeholder="Mevcut şifre">
-    </div>
-    <div class="field">
-      <div class="field-label">Yeni Şifre</div>
-      <input id="new_seller_password" type="password" placeholder="Yeni şifre">
-    </div>
-    <div class="field">
-      <div class="field-label">Yeni Şifre Tekrar</div>
-      <input id="confirm_seller_password" type="password" placeholder="Yeni şifre tekrar">
-    </div>
-    <button class="save-btn-blue" onclick="changeSellerPassword()">Şifreyi Güncelle</button>
-  </div>
-
-  <div class="seller-card" style="margin-top:24px;" data-accordion-title="Mesajlar">
-    <div style="font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;">Mesajlar</div>
-    <p style="color:#aaa;margin-bottom:12px;">Ziyaretçilerin gönderdiği mesajlar burada listelenecek. Her mesaja cevap yazabilirsiniz; cevap kaydedildiğinde ürünle ilişkilendirildiyse ürün kartında görünecektir.</p>
-    <div id="messages-container">Yükleniyor...</div>
-  </div>
+  </main>
 </div>
 
-<footer style="text-align:center;padding:20px;color:#555;">
-© 2026 Herbalife. Tüm hakları saklıdır.
+<footer style="text-align:center;padding:28px;color:var(--text3);border-top:1px solid var(--border);font-size:12px;">
+  © 2026 Herbalife. Tüm hakları saklıdır.
 </footer>
 
 <div id="toast"></div>
 
-<style>
-  .save-btn-red{ background:linear-gradient(45deg,#c0392b,#e74c3c); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
-  .accordion-header{ font-weight:700; }
-</style>
-
 <script>
-const AUTH_STORAGE_KEY = 'sp_seller_auth';
+const AUTH_KEY = 'sp_seller_auth';
 const API = 'http://localhost:3000';
+
 function safeParse(key, fallback) {
-  try {
-    const val = localStorage.getItem(key);
-    return val ? JSON.parse(val) : fallback;
-  } catch(e) {
-    localStorage.removeItem(key);
-    return fallback;
-  }
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e) { localStorage.removeItem(key); return fallback; }
 }
 
 let products = safeParse('sp_products', []);
 let customers = safeParse('sp_customers', []);
-
-
 let tempColors = [];
+let sliders = {};
+let editingProductIndex = null;
 
-function save() {
+function saveLocal() {
   localStorage.setItem('sp_products', JSON.stringify(products));
   localStorage.setItem('sp_customers', JSON.stringify(customers));
 }
 
-function showToast(text){
-  let toast = document.getElementById('toast');
-  toast.innerText = text;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2200);
+// ── TOAST ──
+function toast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className = '', 2600);
 }
 
-function openMenu(){
-  document.getElementById('sideMenu').classList.add('active');
-  document.getElementById('overlay').classList.add('active');
+// ── MENU DRAWER ──
+function toggleDrawer() {
+  document.getElementById('drawer').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
 }
 
-function closeMenu(){
-  document.getElementById('sideMenu').classList.remove('active');
-  document.getElementById('overlay').classList.remove('active');
+// ── ACCORDION ──
+function togglePanel(id) {
+  const el = document.getElementById(id);
+  const wasOpen = el.classList.contains('open');
+  el.classList.toggle('open');
+  // update sidebar active
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  const map = {prd:0, cust:1, msg:2, slider:3, settings:4, pwd:5};
+  const items = document.querySelectorAll('.sidebar-item');
+  if (map[id] !== undefined && items[map[id]]) items[map[id]].classList.add('active');
 }
 
-function isAuthenticated() {
-  return localStorage.getItem(AUTH_STORAGE_KEY) === 'true';
+function toggleSub(id) {
+  document.getElementById(id).classList.toggle('open');
 }
+
+function scrollToPanel(id) {
+  const el = document.getElementById(id);
+  if (!el.classList.contains('open')) el.classList.add('open');
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// ── AUTH ──
+function isAuth() { return localStorage.getItem(AUTH_KEY) === 'true'; }
 
 function initAuth() {
-  const overlay = document.getElementById('loginOverlay');
-  if (isAuthenticated()) {
-    overlay.style.display = 'none';
-    renderProducts();
-    renderCustomers();
-    updateDashboard();
-    loadMysqlCustomers();
-    loadSliders();
-    loadSiteSettings();
-  } else {
-    overlay.style.display = 'flex';
+  if (isAuth()) {
+    document.getElementById('loginWall').style.display = 'none';
+    renderProducts(); renderCustomers(); updateStats();
+    loadMysqlCustomers(); loadSliders(); loadSiteSettings(); loadMessages();
+    document.getElementById('prd').classList.add('open');
   }
 }
 
-function submitLogin() {
+function togglePassword() {
+  const pass = document.getElementById('loginPassword');
+  if (!pass) return;
+  pass.type = pass.type === 'password' ? 'text' : 'password';
+}
+
+function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
-  const error = document.getElementById('loginError');
+  const errEl = document.getElementById('loginErr');
+
   fetch(API + '/api/seller/login', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({email, password})
   })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        localStorage.setItem(AUTH_STORAGE_KEY, 'true');
-        error.innerText = '';
-        document.getElementById('loginOverlay').style.display = 'none';
-        renderProducts();
-        renderCustomers();
-        updateDashboard();
-        loadMysqlCustomers();
-        loadSiteSettings();
-        showToast('Giriş başarılı!');
-      } else {
-        error.innerText = data.error || 'E-posta veya şifre hatalı.';
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      error.innerText = 'Sunucuya bağlanılamadı.';
-    });
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      localStorage.setItem(AUTH_KEY, 'true');
+      document.getElementById('loginWall').style.display = 'none';
+      renderProducts(); renderCustomers(); updateStats();
+      loadMysqlCustomers(); loadMessages();
+      toast('Giriş başarılı!', 'success');
+    } else {
+      errEl.textContent = data.error || 'E-posta veya şifre hatalı.';
+    }
+  })
+  .catch(() => { errEl.textContent = 'Sunucuya bağlanılamadı.'; });
 }
 
 function changeSellerPassword() {
-  const current = document.getElementById('current_seller_password').value;
-  const next = document.getElementById('new_seller_password').value;
-  const confirm = document.getElementById('confirm_seller_password').value;
-
-  if (!current || !next || !confirm) {
-    showToast('Tüm alanlar zorunludur.');
-    return;
-  }
-  if (next !== confirm) {
-    showToast('Yeni şifreler eşleşmiyor.');
-    return;
-  }
-
+  const cur = document.getElementById('current_seller_password').value;
+  const nxt = document.getElementById('new_seller_password').value;
+  const cnf = document.getElementById('confirm_seller_password').value;
+  if (!cur||!nxt||!cnf) { toast('Tüm alanlar zorunlu.','error'); return; }
+  if (nxt !== cnf) { toast('Yeni şifreler eşleşmiyor.','error'); return; }
   fetch(API + '/api/seller/password', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ currentPassword: current, newPassword: next })
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({currentPassword:cur, newPassword:nxt})
   })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('current_seller_password').value = '';
-        document.getElementById('new_seller_password').value = '';
-        document.getElementById('confirm_seller_password').value = '';
-        showToast('Şifre başarıyla güncellendi.');
-      } else {
-        showToast(data.error || 'Şifre güncellenemedi.');
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      showToast('Sunucuya bağlanılamadı.');
-    });
+  .then(r => r.json())
+  .then(d => {
+    if (d.success) {
+      ['current_seller_password','new_seller_password','confirm_seller_password'].forEach(id => document.getElementById(id).value='');
+      toast('Şifre güncellendi.','success');
+    } else { toast(d.error || 'Güncellenemedi.','error'); }
+  })
+  .catch(() => toast('Sunucuya bağlanılamadı.','error'));
 }
 
-function updateDashboard() {
-  document.getElementById('mini-product-count').innerText = products.length;
-  document.getElementById('mini-customer-count').innerText = customers.length;
+// ── STATS ──
+function updateStats() {
+  document.getElementById('stat-prod').textContent = products.length;
+  document.getElementById('stat-cust').textContent = customers.length;
+  document.getElementById('stat-out').textContent = products.filter(p => p.stock <= 0).length;
+  document.getElementById('stat-low').textContent = products.filter(p => p.stock > 0 && p.stock <= 10).length;
+  document.getElementById('sb-prod').textContent = products.length;
+  document.getElementById('sb-cust').textContent = customers.length;
 }
 
-function getCatEmoji(cat) {
-  return { 'Takı': '💍', 'Giyim': '👕', 'Elektronik': '📱', 'Aksesuar': '👜' }[cat] || '📦';
+// ── BARCODE ──
+function genBarcode() {
+  const b = '869' + Math.floor(Math.random()*10000000000).toString().padStart(10,'0');
+  document.getElementById('p-barcode').value = b;
+  showBarcodePreview(b);
 }
 
-function getTargetLabel(target) {
-  return { urunler: 'Ürünler', kampanyalar: 'Kampanyalar', hepsi: 'Hepsi' }[target] || 'Hepsi';
+function showBarcodePreview(v) {
+  const w = document.getElementById('barcode-preview-wrap');
+  const d = document.getElementById('barcode-preview-val');
+  if (v) { d.textContent = v; w.style.display='block'; }
+  else { w.style.display='none'; }
 }
 
-// --- BARKOD ---
-function generateBarcode() {
-  const prefix = '869';
-  const rand = Math.floor(Math.random() * 10000000000).toString().padStart(10, '0');
-  const barcode = prefix + rand;
-  document.getElementById('p-barcode').value = barcode;
-  showBarcodePreview(barcode);
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('p-barcode').addEventListener('input', function(){
-    showBarcodePreview(this.value.trim());
-  });
+document.addEventListener('DOMContentLoaded', () => {
+  const bc = document.getElementById('p-barcode');
+  if (bc) bc.addEventListener('input', e => showBarcodePreview(e.target.value.trim()));
 });
 
-function showBarcodePreview(val) {
-  const field = document.getElementById('barcode-preview-field');
-  const display = document.getElementById('barcode-preview-val');
-  if (val) {
-    display.innerText = val;
-    field.style.display = 'block';
-  } else {
-    field.style.display = 'none';
-    display.innerText = '';
-  }
-}
-
-// --- RENKLER ---
+// ── COLOR TAGS ──
 function addColor() {
   const hex = document.getElementById('p-color-pick').value;
   const name = document.getElementById('p-color-name').value.trim();
-  if (!name) { showToast('Renk adı gerekli!'); return; }
-  // Aynı renk adı tekrar eklenmesin
-  if (tempColors.find(c => c.name.toLowerCase() === name.toLowerCase())) {
-    showToast('Bu renk zaten eklenmiş!'); return;
-  }
-  tempColors.push({ hex, name });
+  if (!name) { toast('Renk adı gerekli!','error'); return; }
+  if (tempColors.find(c => c.name.toLowerCase() === name.toLowerCase())) { toast('Bu renk zaten eklenmiş!','error'); return; }
+  tempColors.push({hex, name});
   document.getElementById('p-color-name').value = '';
   renderColorTags();
 }
 
-function removeColor(idx) {
-  tempColors.splice(idx, 1);
-  renderColorTags();
+function removeColor(i) { tempColors.splice(i,1); renderColorTags(); }
+
+function hexAlpha(hex, a) {
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
 }
 
 function renderColorTags() {
-  const list = document.getElementById('color-tags-list');
-  if (!tempColors.length) { list.innerHTML = ''; return; }
-  list.innerHTML = tempColors.map((c, i) => `
-    <span class="color-tag" style="background:${hexToRgba(c.hex, 0.18)}; border-color:${hexToRgba(c.hex, 0.4)}; color:#eee;">
-      <span class="color-dot" style="background:${c.hex};"></span>
+  document.getElementById('color-tags-list').innerHTML = tempColors.map((c,i) =>
+    `<span class="color-tag">
+      <span class="color-dot" style="background:${c.hex}"></span>
       ${c.name}
-      <button class="remove-color" onclick="removeColor(${i})" title="Kaldır">✕</button>
-    </span>
-  `).join('');
+      <button onclick="removeColor(${i})" title="Kaldır">✕</button>
+    </span>`
+  ).join('');
 }
 
-function hexToRgba(hex, alpha) {
-  const r = parseInt(hex.slice(1,3),16);
-  const g = parseInt(hex.slice(3,5),16);
-  const b = parseInt(hex.slice(5,7),16);
-  return `rgba(${r},${g},${b},${alpha})`;
+// ── IMAGE ──
+function updateImgPreview() {
+  const url = document.getElementById('p-img').value.trim();
+  const box = document.getElementById('img-preview-box');
+  const img = document.getElementById('img-preview-img');
+  if (url) { img.src = url; box.style.display='block'; }
+  else { box.style.display='none'; }
 }
 
-// --- GÖRSEL ---
-function updateImagePreview() {
-  const urlInput = document.getElementById('p-img');
-  const preview = document.getElementById('img-preview');
-  const previewField = document.getElementById('img-preview-field');
-  const fileInput = document.getElementById('p-img-file');
-  if (!urlInput.value.trim()) {
-    fileInput.value = '';
-    previewField.style.display = 'none';
-    preview.innerHTML = '';
-    return;
-  }
-  preview.innerHTML = `<img src="${urlInput.value.trim()}" alt="Ürün önizleme" style="width:100%;border-radius:12px;object-fit:cover;">`;
-  previewField.style.display = 'block';
-}
-
-function previewSelectedImage() {
-  const fileInput = document.getElementById('p-img-file');
-  const preview = document.getElementById('img-preview');
-  const previewField = document.getElementById('img-preview-field');
-  const urlInput = document.getElementById('p-img');
-  const file = fileInput.files[0];
-  if (!file) { previewField.style.display = 'none'; preview.innerHTML = ''; return; }
-  const reader = new FileReader();
-  reader.onload = () => {
-    urlInput.value = reader.result;
-    preview.innerHTML = `<img src="${reader.result}" alt="Ürün önizleme" style="width:100%;border-radius:12px;object-fit:cover;">`;
-    previewField.style.display = 'block';
+function loadImgFile() {
+  const f = document.getElementById('p-img-file').files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    document.getElementById('p-img').value = r.result;
+    document.getElementById('img-preview-img').src = r.result;
+    document.getElementById('img-preview-box').style.display = 'block';
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(f);
 }
 
-// --- ÜRÜN EKLE ---
+// ── PRODUCT ──
+function getCatEmoji(c) {
+  return {
+    'Kişisel Bakım':'💆',
+    'İçecekler':'🥤',
+    'Temel Beslenme':'🥗',
+    'Atıştırmalıklar':'🍪',
+    'Aktif Yaşam Ürünleri':'🏃',
+    'Takviye Edici Gıdalar':'💊',
+    'Tanıtım Ürünleri':'🎁',
+    'Kilo Alma ve Verme Setleri':'⚖️'
+  }[c] || '📦';
+}
+
+function getTargetLabel(t) {
+  return {urunler:'Ürünler',kampanyalar:'Kampanyalar',hepsi:'Hepsi'}[t]||'Hepsi';
+}
+
+function addOrUpdateProduct() {
+  if (editingProductIndex === null) {
+    addProduct();
+  } else {
+    updateProduct();
+  }
+}
+
+function resetProductForm() {
+  editingProductIndex = null;
+  document.getElementById('saveProductButton').textContent = 'Ürünü Kaydet';
+  document.getElementById('cancelEditButton').style.display = 'none';
+  ['p-name','p-price','p-stock','p-img','p-desc','p-barcode'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-img-file').value='';
+  document.getElementById('img-preview-box').style.display='none';
+  document.getElementById('barcode-preview-wrap').style.display='none';
+  tempColors=[]; renderColorTags();
+}
+
 function addProduct() {
   const name = document.getElementById('p-name').value.trim();
-  const price = parseFloat(document.getElementById('p-price').value) || 0;
-  const stock = parseInt(document.getElementById('p-stock').value) || 0;
+  const price = parseFloat(document.getElementById('p-price').value)||0;
+  const stock = parseInt(document.getElementById('p-stock').value)||0;
   const cat = document.getElementById('p-cat').value;
   const target = document.getElementById('p-target').value;
   const img = document.getElementById('p-img').value.trim();
   const desc = document.getElementById('p-desc').value.trim();
   const barcode = document.getElementById('p-barcode').value.trim();
+  if (!name) { toast('Ürün adı gerekli!','error'); return; }
+  products.push({name,price,previous_price:null,stock,cat,target,img,desc,barcode:barcode||null,colors:[...tempColors]});
+  saveLocal();
+  resetProductForm();
+  toast(name + ' eklendi!','success');
+  renderProducts();
+}
 
-  if (!name) { showToast('Ürün adı gerekli!'); return; }
-
-  products.push({
-    name, price, stock, cat, target, img, desc,
-    barcode: barcode || null,
-    colors: [...tempColors]
-  });
-  save();
-
-  ['p-name','p-price','p-stock','p-img','p-desc','p-target','p-barcode'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('p-img-file').value = '';
-  document.getElementById('img-preview-field').style.display = 'none';
-  document.getElementById('img-preview').innerHTML = '';
-  document.getElementById('barcode-preview-field').style.display = 'none';
-  document.getElementById('barcode-preview-val').innerText = '';
-  tempColors = [];
+function editProduct(i) {
+  const p = products[i];
+  if (!p) return;
+  editingProductIndex = i;
+  document.getElementById('p-name').value = p.name || '';
+  document.getElementById('p-price').value = p.price || 0;
+  document.getElementById('p-stock').value = p.stock || 0;
+  document.getElementById('p-cat').value = p.cat || 'Takı';
+  document.getElementById('p-target').value = p.target || 'urunler';
+  document.getElementById('p-img').value = p.img || '';
+  document.getElementById('p-desc').value = p.desc || '';
+  document.getElementById('p-barcode').value = p.barcode || '';
+  tempColors = Array.isArray(p.colors) ? [...p.colors] : [];
   renderColorTags();
-  showToast(name + ' eklendi!');
+  updateImgPreview();
+  if (p.barcode) showBarcodePreview(p.barcode);
+  document.getElementById('saveProductButton').textContent = 'Fiyatı Güncelle';
+  document.getElementById('cancelEditButton').style.display = 'inline-flex';
+}
+
+function updateProduct() {
+  if (editingProductIndex === null) return;
+  const name = document.getElementById('p-name').value.trim();
+  const price = parseFloat(document.getElementById('p-price').value)||0;
+  const stock = parseInt(document.getElementById('p-stock').value)||0;
+  const cat = document.getElementById('p-cat').value;
+  const target = document.getElementById('p-target').value;
+  const img = document.getElementById('p-img').value.trim();
+  const desc = document.getElementById('p-desc').value.trim();
+  const barcode = document.getElementById('p-barcode').value.trim();
+  if (!name) { toast('Ürün adı gerekli!','error'); return; }
+  const existing = products[editingProductIndex];
+  if (!existing) return;
+  if (Number(existing.price) !== Number(price)) {
+    existing.previous_price = existing.price;
+  }
+  existing.name = name;
+  existing.price = price;
+  existing.stock = stock;
+  existing.cat = cat;
+  existing.target = target;
+  existing.img = img;
+  existing.desc = desc;
+  existing.barcode = barcode||null;
+  existing.colors = [...tempColors];
+  saveLocal();
+  resetProductForm();
+  toast(name + ' güncellendi!','success');
   renderProducts();
 }
 
 function deleteProduct(i) {
   const name = products[i].name;
-  products.splice(i,1);
-  save();
-  renderProducts();
-  showToast(name + ' silindi');
+  products.splice(i,1); saveLocal(); renderProducts();
+  toast(name + ' silindi');
 }
 
-// --- ÜRÜN LİSTESİ ---
 function renderProducts() {
   const list = document.getElementById('prod-list');
   const none = document.getElementById('no-prod');
-  updateDashboard();
-  if (!products.length) { list.innerHTML = ''; none.style.display = 'block'; return; }
-  none.style.display = 'none';
-  list.innerHTML = products.map((p, i) => {
-    const colorDotsHtml = (p.colors && p.colors.length)
-      ? `<div class="prod-colors">
-          ${p.colors.map(c => `<span class="prod-color-dot" style="background:${c.hex};" title="${c.name}"></span>`).join('')}
-          <span style="font-size:11px;color:#888;margin-left:4px;">${p.colors.map(c=>c.name).join(', ')}</span>
-         </div>`
+  updateStats();
+  if (!products.length) { list.innerHTML=''; none.style.display='block'; return; }
+  none.style.display='none';
+  list.innerHTML = products.map((p,i) => {
+    const stockClass = p.stock>10?'b-green':p.stock>0?'b-amber':'b-red';
+    const colorDots = p.colors&&p.colors.length
+      ? p.colors.map(c=>`<span class="color-dot" style="background:${c.hex};width:13px;height:13px;" title="${c.name}"></span>`).join('')
       : '';
-    const barcodeHtml = p.barcode
-      ? `<p style="font-size:11px;color:#888;font-family:'Courier New',monospace;letter-spacing:1.5px;margin-top:4px;">🔢 ${p.barcode}</p>`
-      : '';
-    return `
-    <div class="seller-card">
-      <div class="prod-row">
-        ${p.img ? `<img src="${p.img}" class="prod-img" onerror="this.style.display='none'" />` : `<div class="prod-img">${getCatEmoji(p.cat)}</div>`}
-        <div style="flex:1;min-width:0;">
-          <p style="font-weight:700;font-size:15px;color:#fff;">${p.name}</p>
-          <p style="font-size:13px;color:#aaa;">${p.cat}${p.desc ? ' · ' + p.desc.slice(0, 50) : ''} · ${getTargetLabel(p.target)}</p>
-          ${colorDotsHtml}
-          ${barcodeHtml}
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-right:8px;">
-          <p style="font-weight:700;font-size:15px;color:#D4AF37;">₺${Number(p.price).toLocaleString('tr-TR')}</p>
-          <span class="badge ${p.stock > 10 ? 'badge-green' : p.stock > 0 ? 'badge-amber' : 'badge-red'}">${p.stock} adet</span>
-        </div>
-        <button class="delete-btn" onclick="deleteProduct(${i})">Sil</button>
+    const priceHtml = (p.previous_price && Number(p.previous_price) > Number(p.price))
+      ? `<div style="font-size:12px;color:var(--text3);text-decoration:line-through;">₺${Number(p.previous_price).toLocaleString('tr-TR')}</div><div class="prod-price" style="margin-top:4px;">₺${Number(p.price).toLocaleString('tr-TR')}</div>`
+      : `<div class="prod-price">₺${Number(p.price).toLocaleString('tr-TR')}</div>`;
+    return `<div class="prod-item">
+      <div class="prod-thumb">${p.img?`<img src="${p.img}" onerror="this.parentElement.innerHTML='${getCatEmoji(p.cat)}'">`:getCatEmoji(p.cat)}</div>
+      <div class="prod-info">
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-meta">${p.cat} · ${getTargetLabel(p.target)}${p.desc?' · '+p.desc.slice(0,40):''}</div>
+        ${colorDots?`<div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;">${colorDots}</div>`:''}
+        ${p.barcode?`<div style="font-size:11px;color:var(--text3);font-family:monospace;margin-top:4px;">🔢 ${p.barcode}</div>`:''}
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        ${priceHtml}
+        <span class="badge ${stockClass}" style="margin-top:4px;display:inline-block;">${p.stock} adet</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;justify-content:center;">
+        <button class="btn btn-ghost" style="width:auto;padding:7px 12px;font-size:12px;" onclick="editProduct(${i})">Düzenle</button>
+        <button class="btn btn-red" onclick="deleteProduct(${i})">Sil</button>
       </div>
     </div>`;
   }).join('');
 }
 
-// --- MÜŞTERİ ---
-function customerKey(c) {
-  return (c.email || c.phone || c.name || '').toString().trim().toLowerCase();
-}
+// ── CUSTOMER ──
+function customerKey(c) { return (c.email||c.phone||c.name||'').toString().trim().toLowerCase(); }
 
-function mergeMysqlCustomers(dbCustomers) {
-  const manualCustomers = customers.filter(c => c.source !== 'mysql');
-  const manualKeys = new Set(manualCustomers.map(customerKey).filter(Boolean));
-  const freshMysql = dbCustomers
-    .filter(c => !manualKeys.has(customerKey(c)))
-    .map(c => ({ ...c, source: 'mysql' }));
-
-  customers = [...freshMysql, ...manualCustomers];
+function mergeMysqlCustomers(dbc) {
+  const manual = customers.filter(c=>c.source!=='mysql');
+  const manualKeys = new Set(manual.map(customerKey).filter(Boolean));
+  const fresh = dbc.filter(c=>!manualKeys.has(customerKey(c))).map(c=>({...c,source:'mysql'}));
+  customers = [...fresh,...manual];
   localStorage.setItem('sp_customers', JSON.stringify(customers));
 }
 
 async function loadMysqlCustomers() {
   try {
-    const res = await fetch(API + '/api/customers');
-    const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Musteriler alinamadi');
-    mergeMysqlCustomers(data.customers || []);
-    renderCustomers();
-    updateDashboard();
-    showToast('MySQL musteri listesi guncellendi');
-  } catch (err) {
-    console.error(err);
-    showToast('MySQL musterileri yuklenemedi');
-  }
+    const r = await fetch(API+'/api/customers');
+    const d = await r.json();
+    if (!d.success) throw new Error();
+    mergeMysqlCustomers(d.customers||[]);
+    renderCustomers(); updateStats();
+  } catch(e) {}
 }
 
 function renderCustomers() {
-  const q = (document.getElementById('cust-search').value || '').toLowerCase();
+  const q = (document.getElementById('cust-search').value||'').toLowerCase();
   const list = document.getElementById('cust-list');
   const none = document.getElementById('no-cust');
-  const filtered = customers.filter(c =>
-    (c.name || '').toLowerCase().includes(q) ||
-    (c.phone || '').includes(q) ||
-    (c.email || '').toLowerCase().includes(q)
+  const filtered = customers.filter(c=>
+    (c.name||'').toLowerCase().includes(q)||(c.phone||'').includes(q)||(c.email||'').toLowerCase().includes(q)
   );
   if (!filtered.length) { list.innerHTML=''; none.style.display='block'; return; }
   none.style.display='none';
-  list.innerHTML = filtered.map((c) => {
-    const realIndex = customers.indexOf(c);
-    const initials = (c.name || '?').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
-    const mysqlBadge = c.source === 'mysql'
-      ? '<span class="badge badge-green" style="margin-left:6px;">MySQL</span>'
+  list.innerHTML = filtered.map(c => {
+    const ri = customers.indexOf(c);
+    const init = (c.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const mysqlBadge = c.source==='mysql'?`<span class="badge b-blue" style="margin-left:6px;">MySQL</span>`:'';
+    const orderInfo = c.source==='mysql'
+      ? `<div style="font-size:12px;color:var(--gold);margin-top:3px;">${c.orderCount||0} sipariş · ₺${Number(c.totalSpent||0).toLocaleString('tr-TR')}</div>`
       : '';
-    const orderSummary = c.source === 'mysql'
-      ? `<p style="font-size:12px;color:#D4AF37;margin-top:4px;">${c.orderCount || 0} siparis · ₺${Number(c.totalSpent || 0).toLocaleString('tr-TR')}</p>`
-      : '';
-    const orderImagesHtml = (c.orderImages && c.orderImages.length)
-      ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
-          ${c.orderImages.map(o=>`<div style="text-align:center;">
-            <img src="${o.img}" alt="${o.name}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid rgba(212,175,55,0.25);" onerror="this.style.display='none'">
-            <div style="font-size:10px;color:#888;margin-top:2px;max-width:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.name}</div>
-          </div>`).join('')}
-         </div>` : '';
-    return `
-      <div style="padding:14px 0; border-bottom:1px solid #222; width:100%;">
-        <div style="display:flex;align-items:flex-start;gap:12px;">
-          <div style="width:38px;height:38px;border-radius:50%;background:#1a1a1a;color:#D4AF37;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">${initials}</div>
-          <div style="flex:1;min-width:0;">
-            <p style="font-weight:700;font-size:14px;color:#fff;">${c.name}${mysqlBadge}</p>
-            <p style="font-size:12px;color:#aaa;">${c.phone || ''}${c.city ? ' · '+c.city : ''}${c.email ? ' · '+c.email : ''}</p>
-            ${orderSummary}
-            ${c.note ? `<p style="font-size:12px;color:#bbb;margin-top:4px;white-space:pre-line;">${c.note}</p>` : ''}
-            ${orderImagesHtml}
-          </div>
-          <button class="delete-btn" style="flex-shrink:0;" onclick="deleteCustomer(${realIndex})">Sil</button>
-        </div>
-      </div>`;
+    return `<div class="cust-item">
+      <div class="cust-avatar">${init}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:600;font-size:14px;">${c.name}${mysqlBadge}</div>
+        <div style="font-size:12px;color:var(--text3);">${c.phone||''}${c.city?' · '+c.city:''}${c.email?' · '+c.email:''}</div>
+        ${orderInfo}
+        ${c.note?`<div style="font-size:12px;color:var(--text2);margin-top:4px;">${c.note}</div>`:''}
+      </div>
+      <button class="btn btn-red" onclick="deleteCustomer(${ri})">Sil</button>
+    </div>`;
   }).join('');
 }
 
 function addCustomer() {
   const name = document.getElementById('c-name').value.trim();
-  const phone = document.getElementById('c-phone').value.trim();
-  const email = document.getElementById('c-email').value.trim();
-  const city = document.getElementById('c-city').value.trim();
-  const address = document.getElementById('c-address').value.trim();
-  const note = document.getElementById('c-note').value.trim();
-  if (!name) { showToast('Ad soyad gerekli!'); return; }
-  customers.push({ name, phone, email, city, address, note, date: new Date().toLocaleDateString('tr-TR') });
-  save();
-  ['c-name','c-phone','c-email','c-city','c-address','c-note'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('address-map-container').style.display = 'none';
-  showToast(name + ' kaydedildi!');
-  renderCustomers();
-  updateDashboard();
+  if (!name) { toast('Ad soyad gerekli!','error'); return; }
+  customers.push({
+    name,
+    phone: document.getElementById('c-phone').value.trim(),
+    email: document.getElementById('c-email').value.trim(),
+    city: document.getElementById('c-city').value.trim(),
+    address: document.getElementById('c-address').value.trim(),
+    note: document.getElementById('c-note').value.trim(),
+    date: new Date().toLocaleDateString('tr-TR')
+  });
+  saveLocal();
+  ['c-name','c-phone','c-email','c-city','c-address','c-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('address-map-container').style.display='none';
+  toast(name + ' kaydedildi!','success');
+  renderCustomers(); updateStats();
 }
 
-function updateAddressMap() {
-  const address = document.getElementById('c-address').value.trim();
-  const mapContainer = document.getElementById('address-map-container');
-  const mapFrame = document.getElementById('address-map');
-  
-  if (!address) {
-    mapContainer.style.display = 'none';
-    return;
-  }
-  
-  const encodedAddress = encodeURIComponent(address);
-  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.1234567890123!2d28.9784!3d41.0082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s${encodedAddress}!5e0!3m2!1str!2str!4v1234567890123`;
-  
-  mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBu-_nOrAhznNsJitBrHX1_0zQT0VsUSS8&q=${encodedAddress}`;
-  mapContainer.style.display = 'block';
+function updateAddrMap() {
+  const a = document.getElementById('c-address').value.trim();
+  const mc = document.getElementById('address-map-container');
+  if (!a) { mc.style.display='none'; return; }
+  document.getElementById('address-map').src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBu-_nOrAhznNsJitBrHX1_0zQT0VsUSS8&q=${encodeURIComponent(a)}`;
+  mc.style.display='block';
 }
 
 async function deleteCustomer(i) {
   const name = customers[i].name;
   if (!confirm(name + ' silinsin mi?')) return;
-
-  if (customers[i].source === 'mysql') {
+  if (customers[i].source==='mysql') {
     try {
-      const res = await fetch(API + '/api/customers/' + customers[i].id, { method: 'DELETE' });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.error || 'Musteri silinemedi');
+      const r = await fetch(API+'/api/customers/'+customers[i].id, {method:'DELETE'});
+      const d = await r.json();
+      if (!d.success) throw new Error();
       customers.splice(i,1);
       localStorage.setItem('sp_customers', JSON.stringify(customers));
-      renderCustomers();
-      updateDashboard();
-      showToast(name + ' MySQLden silindi');
-      return;
-    } catch (err) {
-      console.error(err);
-      showToast('Musteri silinemedi');
-      return;
-    }
+      renderCustomers(); updateStats();
+      toast(name + ' MySQLden silindi');
+    } catch(e) { toast('Silinemedi.','error'); }
+    return;
   }
-
-  customers.splice(i,1);
-  save();
-  renderCustomers();
-  updateDashboard();
-  showToast(name + ' silindi');
+  customers.splice(i,1); saveLocal(); renderCustomers(); updateStats();
+  toast(name + ' silindi');
 }
 
-function updateCartCount(){
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  let el = document.getElementById('cartCount');
-  if(el) el.innerText = cart.length;
-  if(el) {
-    el.classList.add('bump');
-    setTimeout(()=> el.classList.remove('bump'),200);
-  }
+// ── CART COUNT ──
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('cart'))||[];
+  document.getElementById('cartCount').textContent = cart.length;
 }
 
-// --- SLIDER RESİMLERİ ---
-let sliders = {};
-
+// ── SLIDER ──
 async function loadSliders() {
   try {
-    const res = await fetch(API + '/api/sliders');
-    const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Slider resimleri alinamadi');
+    const r = await fetch(API+'/api/sliders');
+    const d = await r.json();
+    if (!d.success) throw new Error();
     sliders = {};
-    (data.sliders || []).forEach(s => {
-      sliders[s.page] = s;
-    });
+    (d.sliders||[]).forEach(s => sliders[s.page]=s);
     renderSliders();
-  } catch (err) {
-    console.error(err);
-    showToast('Slider resimleri yuklenemedi');
-  }
+  } catch(e) { renderSliders(); }
 }
 
 function renderSliders() {
-  const pages = ['index', 'urunler', 'kampanyalar', 'hakkimizda', 'iletisim'];
-  const container = document.getElementById('sliders-container');
-  container.innerHTML = pages.map(page => {
-    const slider = sliders[page] || {};
+  const pages = ['index','urunler','kampanyalar','hakkimizda','iletisim'];
+  const pageNames = {index:'Ana Sayfa',urunler:'Ürünler',kampanyalar:'Kampanyalar',hakkimizda:'Hakkımızda',iletisim:'İletişim'};
+  document.getElementById('sliders-container').innerHTML = pages.map(page => {
+    const s = sliders[page]||{};
     return `
-      <div class="seller-card" style="margin-bottom:18px;padding:20px;">
-        <div style="font-size:16px;font-weight:600;color:#D4AF37;margin-bottom:16px;">${page.charAt(0).toUpperCase() + page.slice(1)} Slider</div>
-        <div class="grid3">
-          <div class="field">
-            <div class="field-label">Resim 1 - URL veya Dosya</div>
-            <div style="display:flex;gap:8px;margin-bottom:8px;">
-              <input type="text" id="slider-${page}-1-url" placeholder="https://..." value="${slider.image_url_1 || ''}" oninput="previewSliderImage('${page}', 1)" style="flex:1;">
-              <input type="file" id="slider-${page}-1-file" accept="image/*" onchange="uploadSliderFile('${page}', 1)" style="flex:1;" title="Bilgisayardan resim seç">
-            </div>
-            <img id="preview-${page}-1" src="${slider.image_url_1 || ''}" alt="Resim 1" style="width:100%;border-radius:10px;max-height:150px;object-fit:cover;display:${slider.image_url_1 ? 'block' : 'none'};" onerror="this.style.display='none'">
+    <div class="sub-panel" id="sub-slider-${page}">
+      <div class="sub-header" onclick="toggleSub('sub-slider-${page}')">
+        <div class="sub-header-left">
+          <span class="sub-icon">📄</span>
+          <span class="sub-title">${pageNames[page]||page}</span>
+        </div>
+        <span class="sub-arrow">▼</span>
+      </div>
+      <div class="sub-body">
+        <div class="sub-inner">
+          <div class="g3" style="margin-top:10px;">
+            ${[1,2,3].map(n=>`
+            <div class="field">
+              <label class="field-label">Resim ${n}</label>
+              <div style="display:flex;gap:6px;">
+                <input type="text" id="sl-${page}-${n}-url" placeholder="https://..." value="${s['image_url_'+n]||''}" oninput="previewSlider('${page}',${n})" style="flex:1;">
+                <input type="file" id="sl-${page}-${n}-file" accept="image/*" onchange="uploadSlider('${page}',${n})" style="width:90px;" title="Dosyadan yükle">
+              </div>
+              <div class="img-preview-wrap">
+                <img id="slprev-${page}-${n}" src="${s['image_url_'+n]||''}" style="display:${s['image_url_'+n]?'block':'none'}">
+              </div>
+            </div>`).join('')}
           </div>
-          <div class="field">
-            <div class="field-label">Resim 2 - URL veya Dosya</div>
-            <div style="display:flex;gap:8px;margin-bottom:8px;">
-              <input type="text" id="slider-${page}-2-url" placeholder="https://..." value="${slider.image_url_2 || ''}" oninput="previewSliderImage('${page}', 2)" style="flex:1;">
-              <input type="file" id="slider-${page}-2-file" accept="image/*" onchange="uploadSliderFile('${page}', 2)" style="flex:1;" title="Bilgisayardan resim seç">
-            </div>
-            <img id="preview-${page}-2" src="${slider.image_url_2 || ''}" alt="Resim 2" style="width:100%;border-radius:10px;max-height:150px;object-fit:cover;display:${slider.image_url_2 ? 'block' : 'none'};" onerror="this.style.display='none'">
-          </div>
-          <div class="field">
-            <div class="field-label">Resim 3 - URL veya Dosya</div>
-            <div style="display:flex;gap:8px;margin-bottom:8px;">
-              <input type="text" id="slider-${page}-3-url" placeholder="https://..." value="${slider.image_url_3 || ''}" oninput="previewSliderImage('${page}', 3)" style="flex:1;">
-              <input type="file" id="slider-${page}-3-file" accept="image/*" onchange="uploadSliderFile('${page}', 3)" style="flex:1;" title="Bilgisayardan resim seç">
-            </div>
-            <img id="preview-${page}-3" src="${slider.image_url_3 || ''}" alt="Resim 3" style="width:100%;border-radius:10px;max-height:150px;object-fit:cover;display:${slider.image_url_3 ? 'block' : 'none'};" onerror="this.style.display='none'">
+          <div class="btn-row" style="margin-top:6px;">
+            <button class="btn btn-gold" onclick="saveSlider('${page}')">Kaydet</button>
           </div>
         </div>
-        <button class="save-btn-blue" style="margin-top:12px;" onclick="saveSlider('${page}')">Kaydet</button>
       </div>
-    `;
+    </div>`;
   }).join('');
 }
 
-function previewSliderImage(page, num) {
-  const input = document.getElementById('slider-' + page + '-' + num + '-url');
-  const preview = document.getElementById('preview-' + page + '-' + num);
-  if (input.value.trim()) {
-    preview.src = input.value;
-    preview.style.display = 'block';
-  } else {
-    preview.style.display = 'none';
-  }
+function previewSlider(page, n) {
+  const v = document.getElementById(`sl-${page}-${n}-url`).value.trim();
+  const img = document.getElementById(`slprev-${page}-${n}`);
+  if (v) { img.src=v; img.style.display='block'; } else { img.style.display='none'; }
 }
 
-function uploadSliderFile(page, num) {
-  const fileInput = document.getElementById('slider-' + page + '-' + num + '-file');
-  const urlInput = document.getElementById('slider-' + page + '-' + num + '-url');
-  const preview = document.getElementById('preview-' + page + '-' + num);
-  const file = fileInput.files[0];
-  
-  if (!file) return;
-  
-  const reader = new FileReader();
-  reader.onload = () => {
-    const dataUrl = reader.result;
-    urlInput.value = dataUrl;
-    preview.src = dataUrl;
-    preview.style.display = 'block';
-    showToast('Resim ' + num + ' yüklendi');
+function uploadSlider(page, n) {
+  const f = document.getElementById(`sl-${page}-${n}-file`).files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    document.getElementById(`sl-${page}-${n}-url`).value = r.result;
+    const img = document.getElementById(`slprev-${page}-${n}`);
+    img.src = r.result; img.style.display='block';
+    toast('Resim yüklendi');
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(f);
 }
 
 async function saveSlider(page) {
+  const u1=document.getElementById(`sl-${page}-1-url`).value.trim();
+  const u2=document.getElementById(`sl-${page}-2-url`).value.trim();
+  const u3=document.getElementById(`sl-${page}-3-url`).value.trim();
   try {
-    const image_url_1 = document.getElementById('slider-' + page + '-1-url').value.trim();
-    const image_url_2 = document.getElementById('slider-' + page + '-2-url').value.trim();
-    const image_url_3 = document.getElementById('slider-' + page + '-3-url').value.trim();
-
-    const res = await fetch(API + '/api/slider/' + page, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image_url_1, image_url_2, image_url_3 })
+    const r = await fetch(`${API}/api/slider/${page}`, {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({image_url_1:u1,image_url_2:u2,image_url_3:u3})
     });
-
-    const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Kayit yapilamadi');
-
-    sliders[page] = { page, image_url_1, image_url_2, image_url_3 };
-    showToast(page + ' slider resimleri kaydedildi!');
-  } catch (err) {
-    console.error(err);
-    showToast('Hata: ' + err.message);
-  }
+    const d = await r.json();
+    if (!d.success) throw new Error(d.error||'Kayıt yapılamadı');
+    sliders[page]={page,image_url_1:u1,image_url_2:u2,image_url_3:u3};
+    toast(page+' slider kaydedildi!','success');
+  } catch(e) { toast('Hata: '+e.message,'error'); }
 }
 
-initAuth();
-updateCartCount();
-
-// --- SITE AYARLARI (Tum site metinleri + tema) ---
-const DEFAULT_SITE_SETTINGS = {
-  logoText: 'Herbalife',
-  phoneText: '📞 0 555 123 45 67',
-  footerText: '© 2026 Herbalife',
-  searchPlaceholder: 'Ürün ara...',
-  homeBannerText: '%30 <span>Luxury İndirim</span>',
-  homeBannerAccentText: 'Luxury İndirim',
-  productsBannerText: 'Tüm <span>Ürünler</span>',
-  productsBannerAccentText: 'Ürünler',
-  campaignBannerText: '%30 <span>Luxury İndirim</span>',
-  campaignBannerAccentText: 'Luxury İndirim',
-  aboutBannerText: 'Biz <span>Kimiz?</span>',
-  aboutBannerAccentText: 'Kimiz?',
-  contactBannerText: 'Bizimle <span>İletişime Geç</span>',
-  contactBannerAccentText: 'İletişime Geç',
-  cartBannerText: 'Sepetim',
-  successTitle: 'Ödeme Başarılı',
-  productsSectionTitle: 'Öne Çıkan Ürünler',
-  addToCartText: 'Sepete Ekle',
-  productEmptyText: 'Ürün bulunamadı.',
-  campaignEmptyText: 'Kampanya ürünü bulunamadı.',
-  cartTitle: '🛒 Sepetim',
-  clearCartText: '🗑️ Sepeti Temizle',
-  emptyCartText: 'Sepetiniz boş',
-  checkoutText: '💳 ÖDEMEYE GİT',
-  aboutTitle: 'Hakkımızda',
-  aboutContent: '',
-  contactTitle: 'İletişim',
-  contactAddress: 'Bursa, Türkiye',
-  contactPhone: '+90 555 123 45 67',
-  contactEmail: 'sezzginakdemir@gmail.com',
-  contactNamePlaceholder: 'Adınız Soyadınız',
-  contactEmailPlaceholder: 'Email Adresiniz',
-  contactPhonePlaceholder: 'Telefon (opsiyonel)',
-  contactProductPlaceholder: 'Ürün adı (opsiyonel)',
-  contactBarcodePlaceholder: 'Ürün barkodu (opsiyonel)',
-  contactMessagePlaceholder: 'Mesajınız...',
-  contactSubmitText: 'Gönder',
-  navHomeText: 'Ana Sayfa',
-  navProductsText: 'Ürünler',
-  navCampaignText: 'Kampanyalar',
-  navAboutText: 'Hakkımızda',
-  navContactText: 'İletişim',
-  navSellerText: 'Satıcı Panelim',
-  navCartText: '🛒 Sepetim',
-  primaryColor: '#D4AF37',
-  accentColor: '#f0d77b',
-  textColor: '#eeeeee',
-  mutedColor: '#a7a09a',
-  buttonTextColor: '#000000',
-  headerBg: '#000000'
+// ── SITE SETTINGS ──
+const settingsMap = {
+  site_logo_text:'logoText', site_phone_text:'phoneText', site_footer_text:'footerText',
+  site_search_placeholder:'searchPlaceholder', site_top_strip_text:'topStripText',
+  site_banner_text:'bannerText', site_banner_accent_text:'bannerAccentText',
+  site_about_title:'aboutTitle', site_about_content:'aboutContent',
+  site_contact_title:'contactTitle', site_contact_address:'contactAddress',
+  site_contact_phone:'contactPhone', site_contact_email:'contactEmail',
+  site_nav_home_text:'navHomeText', site_nav_products_text:'navProductsText',
+  site_nav_campaign_text:'navCampaignText', site_nav_about_text:'navAboutText',
+  site_nav_contact_text:'navContactText', site_nav_seller_text:'navSellerText',
+  site_nav_cart_text:'navCartText', site_primary_color:'primaryColor',
+  site_accent_color:'accentColor', site_text_color:'textColor',
+  site_muted_color:'mutedColor', site_button_text_color:'buttonTextColor',
+  site_header_bg:'headerBg'
 };
 
-function keepLeadingEmoji(value, fallback) {
-  const text = (value || '').trim();
-  const prefix = Array.from(fallback || '')[0] || '';
-  if (!prefix || /^[A-Za-z0-9ÇĞİÖŞÜçğıöşü]/.test(prefix)) return text;
-  if (!text) return fallback;
-  return text.startsWith(prefix) ? text : (prefix + ' ' + text).replace(/\s+/g, ' ');
+function updateSwatch(name, val) {
+  const el = document.getElementById('prev-'+name);
+  if (el) el.style.background = val;
 }
 
-function loadSiteSettings(){
-  const s = Object.assign({}, DEFAULT_SITE_SETTINGS, safeParse(localStorage.getItem('site_settings'), {}));
-  const map = {
-    site_logo_text: 'logoText',
-    site_phone_text: 'phoneText',
-    site_footer_text: 'footerText',
-    site_search_placeholder: 'searchPlaceholder',
-    site_home_banner_text: 'homeBannerText',
-    site_home_banner_accent_text: 'homeBannerAccentText',
-    site_products_banner_text: 'productsBannerText',
-    site_products_banner_accent_text: 'productsBannerAccentText',
-    site_campaign_banner_text: 'campaignBannerText',
-    site_campaign_banner_accent_text: 'campaignBannerAccentText',
-    site_about_banner_text: 'aboutBannerText',
-    site_about_banner_accent_text: 'aboutBannerAccentText',
-    site_contact_banner_text: 'contactBannerText',
-    site_contact_banner_accent_text: 'contactBannerAccentText',
-    site_cart_banner_text: 'cartBannerText',
-    site_success_title: 'successTitle',
-    site_products_section_title: 'productsSectionTitle',
-    site_add_to_cart_text: 'addToCartText',
-    site_product_empty_text: 'productEmptyText',
-    site_campaign_empty_text: 'campaignEmptyText',
-    site_cart_title: 'cartTitle',
-    site_clear_cart_text: 'clearCartText',
-    site_empty_cart_text: 'emptyCartText',
-    site_checkout_text: 'checkoutText',
-    site_about_title: 'aboutTitle',
-    site_about_content: 'aboutContent',
-    site_contact_title: 'contactTitle',
-    site_contact_address: 'contactAddress',
-    site_contact_phone: 'contactPhone',
-    site_contact_email: 'contactEmail',
-    site_contact_name_placeholder: 'contactNamePlaceholder',
-    site_contact_email_placeholder: 'contactEmailPlaceholder',
-    site_contact_phone_placeholder: 'contactPhonePlaceholder',
-    site_contact_product_placeholder: 'contactProductPlaceholder',
-    site_contact_barcode_placeholder: 'contactBarcodePlaceholder',
-    site_contact_message_placeholder: 'contactMessagePlaceholder',
-    site_contact_submit_text: 'contactSubmitText',
-    site_nav_home_text: 'navHomeText',
-    site_nav_products_text: 'navProductsText',
-    site_nav_campaign_text: 'navCampaignText',
-    site_nav_about_text: 'navAboutText',
-    site_nav_contact_text: 'navContactText',
-    site_nav_seller_text: 'navSellerText',
-    site_nav_cart_text: 'navCartText',
-    site_primary_color: 'primaryColor',
-    site_accent_color: 'accentColor',
-    site_text_color: 'textColor',
-    site_muted_color: 'mutedColor',
-    site_button_text_color: 'buttonTextColor',
-    site_header_bg: 'headerBg'
-  };
-
-  Object.keys(map).forEach(id => {
-    const input = document.getElementById(id);
-    if (!input) return;
-    const value = s[map[id]];
-    if (value !== undefined && value !== null) input.value = value;
+function loadSiteSettings() {
+  const raw = localStorage.getItem('site_settings');
+  const s = raw ? JSON.parse(raw) : {};
+  Object.entries(settingsMap).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const v = s[key];
+    if (v != null) {
+      el.value = v;
+      const swatchMap = {
+        site_primary_color:'primary', site_accent_color:'accent',
+        site_text_color:'text', site_muted_color:'muted',
+        site_header_bg:'header', site_button_text_color:'btn'
+      };
+      if (swatchMap[id]) updateSwatch(swatchMap[id], v);
+    }
   });
-
-  showToast('Site ayarları yüklendi');
+  toast('Site ayarları yüklendi');
 }
 
-function saveSiteSettings(){
-  const s = Object.assign({}, DEFAULT_SITE_SETTINGS, {
-    logoText: document.getElementById('site_logo_text').value.trim(),
-    phoneText: keepLeadingEmoji(document.getElementById('site_phone_text').value, DEFAULT_SITE_SETTINGS.phoneText),
-    footerText: document.getElementById('site_footer_text').value.trim(),
-    searchPlaceholder: document.getElementById('site_search_placeholder').value.trim(),
-    homeBannerText: document.getElementById('site_home_banner_text').value.trim(),
-    homeBannerAccentText: document.getElementById('site_home_banner_accent_text').value.trim(),
-    productsBannerText: document.getElementById('site_products_banner_text').value.trim(),
-    productsBannerAccentText: document.getElementById('site_products_banner_accent_text').value.trim(),
-    campaignBannerText: document.getElementById('site_campaign_banner_text').value.trim(),
-    campaignBannerAccentText: document.getElementById('site_campaign_banner_accent_text').value.trim(),
-    aboutBannerText: document.getElementById('site_about_banner_text').value.trim(),
-    aboutBannerAccentText: document.getElementById('site_about_banner_accent_text').value.trim(),
-    contactBannerText: document.getElementById('site_contact_banner_text').value.trim(),
-    contactBannerAccentText: document.getElementById('site_contact_banner_accent_text').value.trim(),
-    cartBannerText: document.getElementById('site_cart_banner_text').value.trim(),
-    successTitle: document.getElementById('site_success_title').value.trim(),
-    productsSectionTitle: document.getElementById('site_products_section_title').value.trim(),
-    addToCartText: document.getElementById('site_add_to_cart_text').value.trim(),
-    productEmptyText: document.getElementById('site_product_empty_text').value.trim(),
-    campaignEmptyText: document.getElementById('site_campaign_empty_text').value.trim(),
-    cartTitle: keepLeadingEmoji(document.getElementById('site_cart_title').value, DEFAULT_SITE_SETTINGS.cartTitle),
-    clearCartText: keepLeadingEmoji(document.getElementById('site_clear_cart_text').value, DEFAULT_SITE_SETTINGS.clearCartText),
-    emptyCartText: document.getElementById('site_empty_cart_text').value.trim(),
-    checkoutText: keepLeadingEmoji(document.getElementById('site_checkout_text').value, DEFAULT_SITE_SETTINGS.checkoutText),
-    aboutTitle: document.getElementById('site_about_title').value.trim(),
-    aboutContent: document.getElementById('site_about_content').value.trim(),
-    contactTitle: document.getElementById('site_contact_title').value.trim(),
-    contactAddress: document.getElementById('site_contact_address').value.trim(),
-    contactPhone: document.getElementById('site_contact_phone').value.trim(),
-    contactEmail: document.getElementById('site_contact_email').value.trim(),
-    contactNamePlaceholder: document.getElementById('site_contact_name_placeholder').value.trim(),
-    contactEmailPlaceholder: document.getElementById('site_contact_email_placeholder').value.trim(),
-    contactPhonePlaceholder: document.getElementById('site_contact_phone_placeholder').value.trim(),
-    contactProductPlaceholder: document.getElementById('site_contact_product_placeholder').value.trim(),
-    contactBarcodePlaceholder: document.getElementById('site_contact_barcode_placeholder').value.trim(),
-    contactMessagePlaceholder: document.getElementById('site_contact_message_placeholder').value.trim(),
-    contactSubmitText: document.getElementById('site_contact_submit_text').value.trim(),
-    navHomeText: document.getElementById('site_nav_home_text').value.trim(),
-    navProductsText: document.getElementById('site_nav_products_text').value.trim(),
-    navCampaignText: document.getElementById('site_nav_campaign_text').value.trim(),
-    navAboutText: document.getElementById('site_nav_about_text').value.trim(),
-    navContactText: document.getElementById('site_nav_contact_text').value.trim(),
-    navSellerText: document.getElementById('site_nav_seller_text').value.trim(),
-    navCartText: keepLeadingEmoji(document.getElementById('site_nav_cart_text').value, DEFAULT_SITE_SETTINGS.navCartText),
-    primaryColor: document.getElementById('site_primary_color').value,
-    accentColor: document.getElementById('site_accent_color').value,
-    textColor: document.getElementById('site_text_color').value,
-    mutedColor: document.getElementById('site_muted_color').value,
-    buttonTextColor: document.getElementById('site_button_text_color').value,
-    headerBg: document.getElementById('site_header_bg').value
+function saveSiteSettings() {
+  const s = {};
+  Object.entries(settingsMap).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el) s[key] = el.value.trim ? el.value.trim() : el.value;
   });
   localStorage.setItem('site_settings', JSON.stringify(s));
   if (window.applySiteSettings) window.applySiteSettings();
-  loadSiteSettings();
-  showToast('Site ayarları kaydedildi');
+  toast('Site ayarları kaydedildi','success');
 }
 
-// --- MESSAGES (Seller Inbox) ---
-async function loadMessages(){
-  try{
-    const res = await fetch(API + '/api/messages');
-    const data = await res.json();
-    if(!data.success) throw new Error(data.error || 'Mesajlar alınamadı');
-    renderMessages(data.messages || []);
-  }catch(err){
-    console.error(err);
-    document.getElementById('messages-container').innerText = 'Mesajlar yüklenemedi';
+// ── MESSAGES ──
+async function loadMessages() {
+  try {
+    const r = await fetch(API+'/api/messages');
+    const d = await r.json();
+    if (!d.success) throw new Error();
+    renderMessages(d.messages||[]);
+  } catch(e) {
+    document.getElementById('messages-container').innerHTML = '<p style="color:var(--text3)">Mesajlar yüklenemedi.</p>';
   }
 }
 
-function renderMessages(messages){
+function renderMessages(msgs) {
   const el = document.getElementById('messages-container');
-  if(!messages.length){ el.innerHTML = '<p style="color:#bbb;">Henüz mesaj yok.</p>'; return; }
-  el.innerHTML = messages.map(m => `
-    <div class="seller-card" style="margin-bottom:12px;padding:12px;">
-      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+  if (!msgs.length) { el.innerHTML='<p style="color:var(--text3);padding:20px 0;">Henüz mesaj yok.</p>'; return; }
+  el.innerHTML = msgs.map(m => `
+    <div class="msg-card">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div style="flex:1;min-width:0;">
-          <div style="font-weight:700;color:#fff;">${m.name || 'Anonim'} <span style=\"font-size:12px;color:#999;margin-left:8px;\">${m.created_at}</span></div>
-          <div style="font-size:13px;color:#ccc;margin-top:6px;">${m.message.replace(/\n/g,'<br>')}</div>
-          <div style="font-size:13px;color:#aaa;margin-top:6px;">İsim: ${m.name || ''} · Email: ${m.email || ''} · Tel: ${m.phone || ''} · Ürün: ${m.product_name || ''} ${m.product_barcode ? '· Barkod: ' + m.product_barcode : ''}</div>
+          <div style="font-weight:600;font-size:14px;">${m.name||'Anonim'} <span style="font-size:11px;color:var(--text3);margin-left:8px;">${m.created_at}</span></div>
+          <div style="font-size:13px;color:var(--text2);margin-top:6px;">${(m.message||'').replace(/\n/g,'<br>')}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:6px;">${m.email||''} · ${m.phone||''} · ${m.product_name||''}</div>
         </div>
-        <div style="width:260px;flex-shrink:0;">
-          <div style="margin-bottom:8px;"><strong>Cevap:</strong></div>
-          <textarea id="reply-${m.id}" rows="4" style="width:100%;background:#0f0f0f;color:#fff;padding:8px;border-radius:8px;border:1px solid #222;">${m.reply || ''}</textarea>
-          <div style="display:flex;gap:8px;margin-top:8px;">
-            <button onclick="replyMessage(${m.id}, document.getElementById('reply-${m.id}').value)" class="save-btn-blue">Kaydet</button>
-            <button onclick="deleteMessage(${m.id})" class="save-btn-red">Sil</button>
+        <div style="min-width:240px;flex:0 0 240px;">
+          <label class="field-label">Cevap yaz</label>
+          <textarea id="reply-${m.id}" rows="4" style="font-size:12px;">${m.reply||''}</textarea>
+          <div class="btn-row" style="margin-top:8px;">
+            <button class="btn btn-outline-gold" style="width:auto;font-size:12px;padding:7px 12px;" onclick="replyMsg(${m.id})">Kaydet</button>
+            <button class="btn btn-red" onclick="deleteMsg(${m.id})">Sil</button>
           </div>
         </div>
       </div>
@@ -1810,120 +2008,34 @@ function renderMessages(messages){
   `).join('');
 }
 
-async function deleteMessage(id){
-  if(!confirm('Bu mesajı silmek istediğinize emin misiniz?')) return;
-  try{
-    const res = await fetch(API + '/api/messages/' + id, { method: 'DELETE' });
-    const data = await res.json();
-    if(!data.success) throw new Error(data.error || 'Silme başarısız');
-    showToast('Mesaj silindi');
-    await loadMessages();
-  }catch(err){
-    console.error(err);
-    showToast('Mesaj silinemedi');
-  }
-}
-
-async function replyMessage(id, reply){
-  try{
-    const res = await fetch(API + '/api/messages/' + id + '/reply', { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ reply }) });
-    const data = await res.json();
-    if(!data.success) throw new Error(data.error || 'Kayit yapılamadı');
-    showToast('Cevap kaydedildi');
-    // reload messages and also refresh front-end product replies
-    await loadMessages();
-    // tell product pages to reload messages (they will fetch on their own when next opened)
-  }catch(err){
-    console.error(err);
-    showToast('Cevap kaydedilemedi');
-  }
-}
-
-// call loadMessages after auth
-if(isAuthenticated()) loadMessages();
-
-// Initialize simple accordion behavior for seller-card sections
-function initAccordions(){
-  try{
-    document.querySelectorAll('.seller-card').forEach(card=>{
-      if(card.dataset.accordionInit) return;
-      const headerTextEl = card.querySelector('div[style*="font-size:18px"]') || card.querySelector('div[style*="font-weight:600"]') || card.firstElementChild;
-      const title = headerTextEl ? headerTextEl.innerText.trim().split('\n')[0] : 'Bölüm';
-      const header = document.createElement('div');
-      header.className = 'accordion-header';
-      header.innerText = title;
-      header.style.cursor = 'pointer';
-      header.style.padding = '12px 16px';
-      header.style.background = '#0b0b0b';
-      header.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
-      header.style.color = '#D4AF37';
-      const body = document.createElement('div');
-      body.className = 'accordion-body';
-      // move existing children into body
-      while(card.firstChild) body.appendChild(card.firstChild);
-      card.appendChild(header);
-      card.appendChild(body);
-      // default: expanded
-      body.style.transition = 'max-height 0.25s ease';
-      body.style.overflow = 'hidden';
-      body.style.maxHeight = '2000px';
-      header.addEventListener('click', ()=>{
-        if(body.style.maxHeight && body.style.maxHeight !== '0px'){
-          body.style.maxHeight = '0px';
-        } else {
-          body.style.maxHeight = '2000px';
-        }
-      });
-      card.dataset.accordionInit = '1';
+async function replyMsg(id) {
+  const reply = document.getElementById('reply-'+id).value;
+  try {
+    const r = await fetch(`${API}/api/messages/${id}/reply`, {
+      method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({reply})
     });
-  }catch(e){console.error('Accordion init failed', e);}
+    const d = await r.json();
+    if (!d.success) throw new Error();
+    toast('Cevap kaydedildi','success');
+    loadMessages();
+  } catch(e) { toast('Kaydedilemedi','error'); }
 }
 
-initAccordions = function(){
-  try{
-    const cards = document.querySelectorAll('.seller-page > .seller-card[data-accordion-title]');
-    const savedState = safeParse(localStorage.getItem('seller_panel_sections'), {});
-    cards.forEach((card, index)=>{
-      if(card.dataset.accordionInit) return;
-      const key = card.dataset.accordionTitle || 'section-' + index;
-      const title = card.dataset.accordionTitle || 'Bölüm';
-      const titleEl = Array.from(card.children).find(child => {
-        const style = child.getAttribute && (child.getAttribute('style') || '');
-        return (child.textContent || '').trim() === title || style.includes('font-size:18px') || style.includes('font-weight:600');
-      });
-      const header = document.createElement('button');
-      header.type = 'button';
-      header.className = 'accordion-toggle';
-      header.textContent = title;
-      const body = document.createElement('div');
-      body.className = 'accordion-body';
-      Array.from(card.childNodes).forEach(child => {
-        if (child === titleEl) return;
-        body.appendChild(child);
-      });
-      card.classList.add('panel-section');
-      card.appendChild(header);
-      card.appendChild(body);
-      const shouldCollapse = savedState[key] !== undefined ? savedState[key] : !(index === 0 || key === 'Site Ayarları');
-      card.classList.toggle('collapsed', Boolean(shouldCollapse));
-      header.setAttribute('aria-expanded', String(!shouldCollapse));
-      header.addEventListener('click', ()=>{
-        const isCollapsed = card.classList.toggle('collapsed');
-        header.setAttribute('aria-expanded', String(!isCollapsed));
-        savedState[key] = isCollapsed;
-        localStorage.setItem('seller_panel_sections', JSON.stringify(savedState));
-      });
-      card.dataset.accordionInit = '1';
-    });
-  }catch(e){console.error('Accordion init failed', e);}
-};
+async function deleteMsg(id) {
+  if (!confirm('Bu mesajı silmek istediğinize emin misiniz?')) return;
+  try {
+    const r = await fetch(`${API}/api/messages/${id}`, {method:'DELETE'});
+    const d = await r.json();
+    if (!d.success) throw new Error();
+    toast('Mesaj silindi');
+    loadMessages();
+  } catch(e) { toast('Silinemedi','error'); }
+}
 
-initAccordions();
-
+// ── INIT ──
+initAuth();
+updateCartCount();
 </script>
 <script src="assets/site-settings.js"></script>
-
 </body>
 </html>
-
-

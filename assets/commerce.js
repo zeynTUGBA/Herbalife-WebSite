@@ -15,12 +15,12 @@
 
   function addTopStrip(){
     if(document.querySelector('.zl-top-strip')) return;
+    const settings = window.getSiteSettings ? window.getSiteSettings() : null;
+    const text = settings && settings.topStripText
+      ? settings.topStripText
+      : 'Bugune ozel <strong>2500 TL uzeri ucretsiz kargo</strong>';
     document.body.insertBefore(el(`
-      <div class="zl-top-strip">
-        <span>Bugune ozel <strong>2500 TL uzeri ucretsiz kargo</strong></span>
-        <span>Guvenli odeme altyapisi</span>
-        <span>WhatsApp destek: 0 555 123 45 67</span>
-      </div>
+      <div class="zl-top-strip">${text}</div>
     `), document.body.firstChild);
   }
 

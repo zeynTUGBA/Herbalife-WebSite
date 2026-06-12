@@ -16,7 +16,7 @@ nav a{text-decoration:none;color:#ddd;}
 nav a:hover,nav a.active{color:#D4AF37;}
 .cart-phone{display:flex;align-items:center;gap:10px;}
 .cart-icon{position:relative;color:#D4AF37;cursor:pointer;text-decoration:none;}
-#cartCount{position:absolute;top:-8px;right:-12px;background:red;color:#fff;border-radius:50%;padding:3px 7px;font-size:12px;}
+#cartCount{position:static;top:auto;right:auto;background:none;color:#D4AF37;border-radius:0;padding:0 0 0 6px;font-size:14px;font-weight:700;}
 #cartCount.bump{transform:scale(1.4);transition:0.2s;}
 .search{display:block;margin:20px auto;padding:10px 20px;border-radius:25px;border:1px solid #444;background:#000;color:#fff;width:60%;}
 .side-menu{position:fixed;top:0;right:-300px;width:260px;height:100%;background:#111;padding:30px;transition:0.4s;z-index:1000;display:flex;flex-direction:column;gap:20px;}
@@ -39,7 +39,8 @@ nav a:hover,nav a.active{color:#D4AF37;}
 .card-img-placeholder{width:100%;height:180px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:48px;}
 .card h3{margin:10px 0 4px;font-size:15px;color:#fff;}
 .card .desc{font-size:12px;color:#888;margin-bottom:6px;}
-.price{color:#D4AF37;margin:6px 0 4px;font-weight:600;}
+.price-old{color:#bbb;margin:6px 0 0;font-size:13px;text-decoration:line-through;}
+.price{color:#D4AF37;margin:4px 0 4px;font-weight:600;}
 .card .barcode-tag{font-family:'Courier New',monospace;font-size:10px;color:#666;letter-spacing:1px;margin-bottom:6px;}
 .card .colors-row{display:flex;justify-content:center;gap:5px;margin-bottom:8px;flex-wrap:wrap;}
 .color-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);display:inline-block;}
@@ -64,7 +65,7 @@ footer{margin-top:60px;padding:20px;text-align:center;background:#080808;color:#
     <a href="satici-paneli.html">Satıcı Panelim</a>
     <div class="cart-phone">
       <a href="sepetim.html" class="cart-icon">🛒 <span id="cartCount">0</span></a>
-      <span style="color:#D4AF37;font-weight:600;">📞 0 555 123 45 67</span>
+      <span>📞 0 555 123 45 67</span>
     </div>
   </nav>
 </header>
@@ -113,13 +114,26 @@ const allProducts=safeParse('sp_products',[]);
 const pageProducts=allProducts.filter(p=>p.target==='kampanyalar'||p.target==='hepsi');
 let currentProducts = pageProducts;
 
-function getCatEmoji(cat){return{'Takı':'💍','Giyim':'👕','Elektronik':'📱','Aksesuar':'👜'}[cat]||'📦';}
+function getCatEmoji(cat){return{
+  'Kişisel Bakım':'💆',
+  'İçecekler':'🥤',
+  'Temel Beslenme':'🥗',
+  'Atıştırmalıklar':'🍪',
+  'Aktif Yaşam Ürünleri':'🏃',
+  'Takviye Edici Gıdalar':'💊',
+  'Tanıtım Ürünleri':'🎁',
+  'Kilo Alma ve Verme Setleri':'⚖️',
+  'Takı':'💍','Giyim':'👕','Elektronik':'📱','Aksesuar':'👜'
+}[cat]||'📦';}
 
 function buildCard(p,i){
   const imgHtml=p.img?`<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">`:`<div class="card-img-placeholder">${getCatEmoji(p.cat)}</div>`;
   const colorsHtml=(p.colors&&p.colors.length)?`<div class="colors-row">${p.colors.map(c=>`<span class="color-dot" style="background:${c.hex};" title="${c.name}"></span>`).join('')}</div>`:'';
   const barcodeHtml=p.barcode?`<div class="barcode-tag">🔢 ${p.barcode}</div>`:'';
-  return `<div class="card" data-index="${i}">${imgHtml}<h3>${p.name}</h3>${p.desc?`<div class="desc">${p.desc.slice(0,60)}</div>`:''}<div class="price">₺${Number(p.price).toLocaleString('tr-TR')}</div>${barcodeHtml}${colorsHtml}<button class="add-cart-btn" onclick="addToCart(${i},this)">Sepete Ekle</button></div>`;
+  const priceHtml = (p.previous_price && Number(p.previous_price) > Number(p.price))
+    ? `<div class="price-old">₺${Number(p.previous_price).toLocaleString('tr-TR')}</div><div class="price">₺${Number(p.price).toLocaleString('tr-TR')}</div>`
+    : `<div class="price">₺${Number(p.price).toLocaleString('tr-TR')}</div>`;
+  return `<div class="card" data-index="${i}">${imgHtml}<h3>${p.name}</h3>${p.cat?`<div class="category-label">${p.cat}</div>`:''}${p.desc?`<div class="desc">${p.desc.slice(0,60)}</div>`:''}${priceHtml}${barcodeHtml}${colorsHtml}<button class="add-cart-btn" onclick="addToCart(${i},this)">Sepete Ekle</button></div>`;
 }
 
 function renderProductGrid(list){

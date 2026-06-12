@@ -5,6 +5,7 @@
     phoneText: '📞 0 555 123 45 67',
     footerText: '© 2026 Herbalife',
     searchPlaceholder: 'Ürün ara...',
+    topStripText: 'Bugune ozel <strong>2500 TL uzeri ucretsiz kargo</strong>',
     bannerText: '%30 <span>Luxury İndirim</span>',
     bannerAccentText: 'Luxury İndirim',
     homeBannerText: '%30 <span>Luxury İndirim</span>',
@@ -303,6 +304,9 @@
   function applySiteSettingsToPage(settings) {
     applyNavLabels(settings);
     applyTextSelector('.logo', settings.logoText);
+    if (settings.logoText && document.title) {
+      document.title = document.title.replace(/Herbalife/gi, settings.logoText);
+    }
     const search = document.querySelector('.search');
     if (search && settings.searchPlaceholder) search.placeholder = settings.searchPlaceholder;
     const phoneLabel = document.querySelector('.cart-phone > span:last-child');
@@ -310,6 +314,8 @@
     const footer = document.querySelector('footer');
     if (footer && settings.footerText) footer.textContent = settings.footerText;
     applyBanner(settings);
+    const topStrip = document.querySelector('.zl-top-strip');
+    if (topStrip && settings.topStripText) topStrip.innerHTML = settings.topStripText;
     if (settings.headerBg) {
       const header = document.querySelector('header');
       if (header) header.style.background = settings.headerBg;
